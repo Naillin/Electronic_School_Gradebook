@@ -10,7 +10,7 @@ using Microsoft.SqlServer.Server;
 namespace DatabaseTools_MSSQL
 {
 	/// <summary>
-	/// Инструментарий работы с базой данных MS SQL.
+	/// Инструментарий для работы с базой данных MS SQL.
 	/// </summary>
 	public class DBTools
 	{
@@ -144,7 +144,7 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="table"></param>
 		/// <param name="value"></param>
-		public void executeInsert(string table, string value)
+		public void executeInsert(string table, string value) // значения(value) можно сделать как массив(?)
 		{
 			string[] values = value.Split(';');
 			string strValues = string.Empty;
@@ -171,7 +171,7 @@ namespace DatabaseTools_MSSQL
 			}
 		}
 
-		//public void executeInsert(string table, string value1, string value2)
+		//public void executeInsert(string table, string value1, string value2) // на время оставил так как метод говно и был заменен методом выше
 		//{
 		//	string [] NameColumns = ColumnsNames(table); // имена столбцов
 		//	string columns = null;
