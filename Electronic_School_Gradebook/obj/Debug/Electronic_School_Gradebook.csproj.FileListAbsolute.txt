@@ -4,7 +4,6 @@ C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_Sch
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\bin\Debug\DatabaseTools_MSSQL.dll
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\bin\Debug\DatabaseTools_MSSQL.pdb
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.csproj.AssemblyReference.cache
-C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.csproj.SuggestedBindingRedirects.cache
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.FormAuthorization.resources
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.Properties.Resources.resources
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.csproj.GenerateResource.cache
