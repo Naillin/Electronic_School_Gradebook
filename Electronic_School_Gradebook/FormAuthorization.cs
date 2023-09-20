@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
-//MySql
+//MS_Sql
 using DatabaseTools_MSSQL;
 //Excel
 using Excel1 = Microsoft.Office.Interop.Excel;
@@ -123,7 +123,7 @@ namespace Electronic_School_Gradebook
 
 			//Open the file to read from.
 			string[] DB_Info = File.ReadAllLines(path);
-			DB_Info[0] = DB_Info[0].Remove(0, 7);
+			DB_Info[0] = DB_Info[0].Remove(0, 7); //сломано удаление лишнего удаляет или нихуя не удаляет
 			DB_Info[0] = DB_Info[0].Remove(DB_Info[0].Length - 1, 1);
 			DB_Info[1] = DB_Info[1].Remove(0, 7);
 			DB_Info[1] = DB_Info[1].Remove(DB_Info[1].Length - 1, 1);
@@ -137,6 +137,7 @@ namespace Electronic_School_Gradebook
 
 		private void buttonLogin_Click(object sender, EventArgs e)
 		{
+			//сделать вход по логину и паролю
 			FormGradebook formGradebook = new FormGradebook();
 			formGradebook.Show();
 			this.Hide();

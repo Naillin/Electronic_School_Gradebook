@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//MySql
+using System.Diagnostics;
+//MS_Sql
 using DatabaseTools_MSSQL;
 //Excel
 using Excel1 = Microsoft.Office.Interop.Excel;
@@ -15,7 +16,6 @@ using System.Reflection;
 using System.IO;
 //Media
 using System.Media;
-using System.Diagnostics;
 
 namespace Electronic_School_Gradebook
 {
