@@ -29,7 +29,7 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="table"></param>
 		/// <param name="dataGridView"></param>
-		public void executeSelectDGV(string table, DataGridView dataGridView)
+		public DataSet executeSelectDGV(string table, DataGridView dataGridView)
 		{
 			string sql = $"select * from {table};";
 			DataSet ds = new DataSet();
@@ -44,6 +44,8 @@ namespace DatabaseTools_MSSQL
 
 				sqlConnection.Close();
 			}
+
+			return ds;
 		}
 
 		//метод для формирования диаграммы относительно данных из бд
