@@ -1,4 +1,0 @@
-Data Source=REDDRAGON;
-Initial Catalog=DB_Electronic_School_Gradebook;
-User Id=connection_user;
-Password=543211234555
