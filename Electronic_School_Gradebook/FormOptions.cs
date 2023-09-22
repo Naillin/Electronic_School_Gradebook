@@ -35,11 +35,11 @@ namespace Electronic_School_Gradebook
 
 			//Open the file to read from.
 			string[] DB_Info = File.ReadAllLines(path);
-			DB_Info[0] = DB_Info[0].Remove(0, 7); //сломано удаление лишнего удаляет или нихуя не удаляет
+			DB_Info[0] = DB_Info[0].Remove(0, 12);
 			DB_Info[0] = DB_Info[0].Remove(DB_Info[0].Length - 1, 1);
-			DB_Info[1] = DB_Info[1].Remove(0, 7);
+			DB_Info[1] = DB_Info[1].Remove(0, 16);
 			DB_Info[1] = DB_Info[1].Remove(DB_Info[1].Length - 1, 1);
-			DB_Info[2] = DB_Info[2].Remove(0, 9);
+			DB_Info[2] = DB_Info[2].Remove(0, 8);
 			DB_Info[2] = DB_Info[2].Remove(DB_Info[2].Length - 1, 1);
 			DB_Info[3] = DB_Info[3].Remove(0, 9);
 			DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
@@ -60,11 +60,11 @@ namespace Electronic_School_Gradebook
 			//Применение настроек в программе
 			//Open the file to read from.
 			string[] DB_Info = File.ReadAllLines(path);
-			DB_Info[0] = DB_Info[0].Remove(0, 7);
+			DB_Info[0] = DB_Info[0].Remove(0, 12);
 			DB_Info[0] = DB_Info[0].Remove(DB_Info[0].Length - 1, 1);
-			DB_Info[1] = DB_Info[1].Remove(0, 7);
+			DB_Info[1] = DB_Info[1].Remove(0, 16);
 			DB_Info[1] = DB_Info[1].Remove(DB_Info[1].Length - 1, 1);
-			DB_Info[2] = DB_Info[2].Remove(0, 9);
+			DB_Info[2] = DB_Info[2].Remove(0, 8);
 			DB_Info[2] = DB_Info[2].Remove(DB_Info[2].Length - 1, 1);
 			DB_Info[3] = DB_Info[3].Remove(0, 9);
 			DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
