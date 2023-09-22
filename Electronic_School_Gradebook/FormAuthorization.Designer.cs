@@ -42,7 +42,7 @@
 			this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.buttonLogin.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic);
 			this.buttonLogin.ForeColor = System.Drawing.Color.White;
-			this.buttonLogin.Location = new System.Drawing.Point(83, 239);
+			this.buttonLogin.Location = new System.Drawing.Point(102, 264);
 			this.buttonLogin.Name = "buttonLogin";
 			this.buttonLogin.Size = new System.Drawing.Size(208, 43);
 			this.buttonLogin.TabIndex = 1;
@@ -57,7 +57,7 @@
 			this.buttonOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.buttonOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.buttonOptions.ForeColor = System.Drawing.Color.White;
-			this.buttonOptions.Location = new System.Drawing.Point(337, 477);
+			this.buttonOptions.Location = new System.Drawing.Point(367, 574);
 			this.buttonOptions.Name = "buttonOptions";
 			this.buttonOptions.Size = new System.Drawing.Size(35, 35);
 			this.buttonOptions.TabIndex = 3;
@@ -69,7 +69,7 @@
 			this.labelTitle.AutoSize = true;
 			this.labelTitle.BackColor = System.Drawing.Color.Transparent;
 			this.labelTitle.Font = new System.Drawing.Font("Arcon", 36F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelTitle.Location = new System.Drawing.Point(58, 77);
+			this.labelTitle.Location = new System.Drawing.Point(77, 102);
 			this.labelTitle.Name = "labelTitle";
 			this.labelTitle.Size = new System.Drawing.Size(256, 58);
 			this.labelTitle.TabIndex = 4;
@@ -81,7 +81,7 @@
 			this.textBoxLogin.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textBoxLogin.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.textBoxLogin.ForeColor = System.Drawing.Color.Silver;
-			this.textBoxLogin.Location = new System.Drawing.Point(83, 167);
+			this.textBoxLogin.Location = new System.Drawing.Point(102, 192);
 			this.textBoxLogin.Multiline = true;
 			this.textBoxLogin.Name = "textBoxLogin";
 			this.textBoxLogin.Size = new System.Drawing.Size(208, 30);
@@ -98,7 +98,7 @@
 			this.textBoxPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textBoxPassword.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic);
 			this.textBoxPassword.ForeColor = System.Drawing.Color.Silver;
-			this.textBoxPassword.Location = new System.Drawing.Point(83, 203);
+			this.textBoxPassword.Location = new System.Drawing.Point(102, 228);
 			this.textBoxPassword.Multiline = true;
 			this.textBoxPassword.Name = "textBoxPassword";
 			this.textBoxPassword.Size = new System.Drawing.Size(208, 30);
@@ -116,7 +116,7 @@
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(384, 524);
+			this.ClientSize = new System.Drawing.Size(414, 621);
 			this.Controls.Add(this.textBoxPassword);
 			this.Controls.Add(this.textBoxLogin);
 			this.Controls.Add(this.labelTitle);

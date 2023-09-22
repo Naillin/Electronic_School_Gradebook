@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.SqlServer.Server;
 
+//Сделать вывод ошибок черерз try catch в окно консоли
 namespace DatabaseTools_MSSQL
 {
 	/// <summary>
@@ -110,6 +111,8 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public object [,] executeSelectTable(string sql)
 		{
+			//сделать проверку на селлект запрос
+			//if (query.TrimStart().ToUpper().StartsWith("SELECT"))
 			DataTable data = new DataTable();
 			data.Clear();
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -337,6 +340,24 @@ namespace DatabaseTools_MSSQL
 		/// <param name="where"></param>
 		/// <returns></returns>
 		public int executeDelete(string table, string where)
+		{
+			string sql = $"delete {table} where {where};";
+
+			int result = 0;
+			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			{
+				sqlConnection.Open();
+
+				SqlCommand command = new SqlCommand(@sql, sqlConnection);
+				result = command.ExecuteNonQuery();
+
+				sqlConnection.Close();
+			}
+
+			return result;
+		}
+
+		public int Search(string table, string where)
 		{
 			string sql = $"delete {table} where {where};";
 

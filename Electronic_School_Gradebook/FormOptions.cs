@@ -10,7 +10,7 @@ using System.Windows.Forms;
 //MS_Sql
 using DatabaseTools_MSSQL;
 //Excel
-using Excel1 = Microsoft.Office.Interop.Excel;
+//using Excel1 = Microsoft.Office.Interop.Excel;
 using System.Reflection;
 using System.IO;
 //Media
@@ -54,7 +54,7 @@ namespace Electronic_School_Gradebook
 		{
 			// Create a file to write to.
 			string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
-			string[] DB_InfoInput = { $"Data Source={textBox1.Text};", $"Initial Catalog={textBox2.Text};", $"User Id={textBox3.Text};", $"Password={textBox4.Text}" };
+			string[] DB_InfoInput = { $"Data Source={textBox1.Text};", $"Initial Catalog={textBox2.Text};", $"User Id={textBox3.Text};", $"Password={textBox4.Text};" };
 			File.WriteAllLines(path, DB_InfoInput);
 
 			//Применение настроек в программе
@@ -69,7 +69,7 @@ namespace Electronic_School_Gradebook
 			DB_Info[3] = DB_Info[3].Remove(0, 9);
 			DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
 
-			FormAuthorization.sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]}";
+			FormAuthorization.sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
 
 			MessageBox.Show("Настройки сохранены", "Готово!");
 		}

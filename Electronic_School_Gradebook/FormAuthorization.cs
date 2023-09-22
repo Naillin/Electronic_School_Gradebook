@@ -12,7 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
 //MS_Sql
 using DatabaseTools_MSSQL;
 //Excel
-using Excel1 = Microsoft.Office.Interop.Excel;
+//using Excel1 = Microsoft.Office.Interop.Excel;
 using System.Reflection;
 using System.IO;
 //Media
@@ -117,7 +117,7 @@ namespace Electronic_School_Gradebook
 			if (!File.Exists(path))
 			{
 				// Create a file to write to.
-				string[] createText = { "Data Source=REDDRAGON;", "Initial Catalog=DB_Electronic_School_Gradebook;", "User Id=connection_user;", "Password=543211234555" };
+				string[] createText = { "Data Source=REDDRAGON;", "Initial Catalog=DB_Electronic_School_Gradebook;", "User Id=connection_user;", "Password=543211234555;" };
 				File.WriteAllLines(path, createText);
 			}
 
@@ -132,15 +132,82 @@ namespace Electronic_School_Gradebook
 			DB_Info[3] = DB_Info[3].Remove(0, 9);
 			DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
 
-			sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]}";
+			sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
 		}
 
+		static public int ID_User;
 		private void buttonLogin_Click(object sender, EventArgs e)
 		{
-			//сделать вход по логину и паролю
-			FormGradebook formGradebook = new FormGradebook();
-			formGradebook.Show();
-			this.Hide();
+			string Login = textBoxLogin.Text;
+			string Password = textBoxPassword.Text;
+			
+			DBTools dBTools = new DBTools(sqlConnection);
+
+			if ((Login != "Login") | (Password != "Password"))
+			{
+				string sql = $"select * from Users";
+				object [,] Data = dBTools.executeSelectTable(sql);
+
+
+				bool loginOrNo = false;
+				for (int i = 0; i < Data.GetLength(0); i++)
+				{
+					if (Login == Data[i, 2].ToString())
+					{
+						if (Password == Data[i, 3].ToString())
+						{
+							loginOrNo = true;
+							ID_User = (int)Data[i, 1];
+							break;
+						}
+					}
+				}
+
+				if(loginOrNo)
+				{
+					switch (ID_User)
+					{
+						case 0:
+							//admin
+							break;
+
+						case 1:
+							FormGradebook formGradebook = new FormGradebook();
+							formGradebook.Show();
+
+							//перенести папку Res к exe и добавить звуки в нее
+							//написать коменты к всему
+
+							//SoundPlayer sndVoscl = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 14, 14) + @"\Res\sound\Voscl.wav"));
+							//sndVoscl.Play();
+
+							this.Hide();
+							break;
+
+						case 2:
+							//student
+							break;
+
+						default:
+							MessageBox.Show("Непредвиденная ошибка!", "Внимание!");
+							break;
+					}
+				}
+				else
+				{
+					//SoundPlayer sndError = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 14, 14) + @"\Res\sound\Error.wav"));
+					//sndError.Play();
+					MessageBox.Show("Неверный логин или пароль!", "Внимание!");
+					//sndError.Stop();
+
+					buttonLogin.Select();
+					textBoxLogin.ForeColor = Color.Silver;
+					textBoxLogin.Text = "Login";
+					textBoxPassword.ForeColor = Color.Silver;
+					textBoxPassword.Text = "Password";
+					textBoxPassword.PasswordChar = '\0';
+				}
+			}
 		}
 
 		private void buttonOptions_Click(object sender, EventArgs e)

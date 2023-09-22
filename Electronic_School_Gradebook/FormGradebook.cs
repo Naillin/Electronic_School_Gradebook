@@ -11,7 +11,7 @@ using System.Diagnostics;
 //MS_Sql
 using DatabaseTools_MSSQL;
 //Excel
-using Excel1 = Microsoft.Office.Interop.Excel;
+//using Excel1 = Microsoft.Office.Interop.Excel;
 using System.Reflection;
 using System.IO;
 //Media
