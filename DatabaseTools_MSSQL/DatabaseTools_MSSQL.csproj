@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleHandler.cs" />
     <Compile Include="DBFormsTools.cs" />
     <Compile Include="DBTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

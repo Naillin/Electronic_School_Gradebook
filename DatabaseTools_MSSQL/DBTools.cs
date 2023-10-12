@@ -7,7 +7,6 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.SqlServer.Server;
 
-//Сделать вывод ошибок черерз try catch в окно консоли
 namespace DatabaseTools_MSSQL
 {
 	/// <summary>
@@ -25,12 +24,10 @@ namespace DatabaseTools_MSSQL
 			connectionStringReceiver = connectionString;
 		}
 
-		//if (query.TrimStart().ToUpper().StartsWith("SELECT")) - реализовать аналогию библиотеки объеденив все функции в один метод. Возвращаемое занчение в случае ожидании данных - данные, в случае простого выполнения запроса без возращения вернуть количество затронутых строк.
-
 		/// <summary>
 		/// Выполняет любой запрос и возвращает количество затронутых строк.
 		/// </summary>
-		/// <param name="sql"></param>
+		/// <param name="sql">Запрос соотвествующий всем правилам синтаксиса SQL.</param>
 		/// <returns></returns>
 		public int executeAnySql(string sql)
 		{
@@ -51,7 +48,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Выполняет запрос и возвращает первый столбец первой строки результирующего набора, возвращаемого запросом. Дополнительные столбцы или строки не обрабатываются.
 		/// </summary>
-		/// <param name="sql"></param>
+		/// <param name="sql">Запрос соотвествующий всем правилам синтаксиса SQL.</param>
 		/// <returns></returns>
 		public object executeAnySqlScalar(string sql)
 		{
@@ -70,72 +67,112 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса SELECT с возвращением одномерного массива данных. ОШИБКА!!!! вырезать нахуй этот метод из библиотеки!
+		/// Выполнение запроса SELECT с возвращением двумерного массива данных.
 		/// </summary>
-		/// <param name="columnsORfunction"></param>
-		/// <param name="tables"></param>
-		/// <param name="conditions"></param>
+		/// <param name="sql">Запрос SELECT соотвествующий всем правилам синтаксиса SQL.</param>
 		/// <returns></returns>
-		public object [] executeSelectColumn(string columnsORfunction, string tables, string conditions)
+		public object [,] executeSelectTable(string sql)
 		{
-			string sql = $"select {columnsORfunction} from {tables} where {conditions};"; // ошибка - обязательно требуется условие иначе сломанный запрос. реализовать логический конструктор запроса.
-			string sqlRows = $"select count(*) from {tables} where {conditions};";
-			object [] result = null;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
-			{
-				sqlConnection.Open();
-			
-				SqlCommand commandRows = new SqlCommand(@sqlRows, sqlConnection);
-				result = new object[(int)commandRows.ExecuteScalar()];
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				SqlDataReader reader = command.ExecuteReader();
+			object[,] result = {{ -1 }};
 
-				int i = 0;
-				while (reader.Read())
+			if (sql.TrimStart().ToUpper().StartsWith("SELECT"))
+			{
+				DataTable data = new DataTable();
+				data.Clear();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
-					result[i] = (object)reader.GetValue(0);
-					i++;
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					SqlDataReader reader = command.ExecuteReader();
+					data.Load(reader);
+
+					sqlConnection.Close();
 				}
-				i = 0;
-				
-				sqlConnection.Close();
+
+				result = new object[data.Rows.Count, data.Columns.Count];
+
+				for (int i = 0; i < data.Rows.Count; i++)
+				{
+					for (int j = 0; j < data.Columns.Count; j++)
+					{
+						result[i, j] = data.Rows[i][j];
+					}
+				}
+				data.Clear();
+			}
+			else
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT!");
 			}
 
 			return result;
 		}
 
 		/// <summary>
-		/// Выполнение запроса SELECT с возвращением двумерного массива данных.
+		/// Выполнение запроса SELECT с возвращением таблицы хранимой в DataTable.
 		/// </summary>
 		/// <param name="sql"></param>
 		/// <returns></returns>
-		public object [,] executeSelectTable(string sql)
+		public DataTable executeSelectTableDT(string sql)
 		{
-			//сделать проверку на селлект запрос
-			//if (query.TrimStart().ToUpper().StartsWith("SELECT"))
-			DataTable data = new DataTable();
-			data.Clear();
+			DataTable result = null;
+
+			if (sql.TrimStart().ToUpper().StartsWith("SELECT"))
+			{
+				DataTable data = new DataTable();
+				data.Clear();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					SqlDataReader reader = command.ExecuteReader();
+					data.Load(reader);
+
+					sqlConnection.Close();
+				}
+
+				result = data;
+				data.Clear();
+			}
+			else
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT!");
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Возвращение базы данных хранимой в DataSet. Таблицы данных DataSet имеют связь с таблицой из базы данных с пмощью адаптера. //требуется тестирование
+		/// </summary>
+		/// <param name="sql"></param>
+		/// <returns></returns>
+		public DataSet TakeDatabase(string database)
+		{
+			string[] tableNames = TableNames(database);
+			SqlDataAdapter[] adapterMass = new SqlDataAdapter[tableNames.Length];
+			DataSet result = new DataSet();
+
+			result.Clear();
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 			{
 				sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				SqlDataReader reader = command.ExecuteReader();
-				data.Load(reader);
+				for(int i = 0; i < tableNames.Length; i++)
+				{
+					string sql = $"SELECT * FROM {tableNames[i]}";
+					adapterMass[i] = new SqlDataAdapter(@sql, sqlConnection);
+					adapterMass[i].Fill(result, tableNames[i]);
+				}
 
 				sqlConnection.Close();
 			}
-
-			object [,] result = new object[data.Rows.Count, data.Columns.Count];
-
-			for (int i = 0; i < data.Rows.Count; i++)
-			{
-				for(int j = 0; j < data.Columns.Count; j++)
-				{
-					result[i, j] = data.Rows[i][j];
-				}
-			}
-			data.Clear();
 
 			return result;
 		}
@@ -357,24 +394,6 @@ namespace DatabaseTools_MSSQL
 			return result;
 		}
 
-		public int Search(string table, string where)
-		{
-			string sql = $"delete {table} where {where};";
-
-			int result = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
-			{
-				sqlConnection.Open();
-
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteNonQuery();
-
-				sqlConnection.Close();
-			}
-
-			return result;
-		}
-
 		// вынести в отдельный класс работы с целевой таблицей
 		/// <summary>
 		/// Выполнение SQL-функции COUNT(*) без условий и возвратом количества строк.
@@ -436,19 +455,52 @@ namespace DatabaseTools_MSSQL
 			string sql = $"select top (1) * from {table};";
 
 			string [] result = null;
+			DataTable data = new DataTable();
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 			{
 				sqlConnection.Open();
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				DataSet ds = new DataSet();
-				adapter.Fill(ds);
-				result = new string[ds.Tables[0].Columns.Count];
-				for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
+				SqlCommand command = new SqlCommand(@sql, sqlConnection);
+				SqlDataReader reader = command.ExecuteReader();
+				data.Load(reader);
+				result = new string[data.Columns.Count];
+				for (int i = 0; i < data.Columns.Count; i++)
 				{
-					result[i] = ds.Tables[0].Columns[i].ColumnName;
+					result[i] = data.Columns[i].ColumnName;
 				}
-				ds.Clear();
+				data.Clear();
+
+				sqlConnection.Close();
+			}
+
+			return result;
+		}
+
+		// вынести в отдельный класс работы с целевой таблицей
+		/// <summary>
+		/// Возвращает массив имен всех таблиц базы данных.
+		/// </summary>
+		/// <param name="database"></param>
+		/// <returns></returns>
+		public string[] TableNames(string database)
+		{
+			string sql = $"SELECT TABLE_NAME FROM {database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME != 'sysdiagrams';";
+
+			string[] result = null;
+			DataTable data = new DataTable();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			{
+				sqlConnection.Open();
+
+				SqlCommand command = new SqlCommand(@sql, sqlConnection);
+				SqlDataReader reader = command.ExecuteReader();
+				data.Load(reader);
+				result = new string[data.Rows.Count];
+				for (int i = 0; i < data.Rows.Count; i++)
+				{
+					result[i] = data.Rows[i].ToString();
+				}
+				data.Clear();
 
 				sqlConnection.Close();
 			}

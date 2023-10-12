@@ -29,9 +29,34 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="table"></param>
 		/// <param name="dataGridView"></param>
-		public DataSet executeSelectDGV(string table, DataGridView dataGridView)
+		public DataSet executeSelectDGV(DataGridView dataGridView, string table)
 		{
 			string sql = $"select * from {table};";
+			DataSet ds = new DataSet();
+
+			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			{
+				sqlConnection.Open();
+
+				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+				adapter.Fill(ds, "TableFromBD");
+				dataGridView.DataSource = ds.Tables["TableFromBD"];
+
+				sqlConnection.Close();
+			}
+
+			return ds;
+		}
+
+		/// <summary>
+		/// Заполняет dataGridView всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="table"></param>
+		/// <param name="dataGridView"></param>
+		/// <param name="where"></param>
+		public DataSet executeSelectDGV(DataGridView dataGridView, string table, string where)
+		{
+			string sql = $"select * from {table} where {where};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
