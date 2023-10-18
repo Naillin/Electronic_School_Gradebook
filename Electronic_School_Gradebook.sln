@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electronic_School_Gradebook
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseTools_MSSQL", "DatabaseTools_MSSQL\DatabaseTools_MSSQL.csproj", "{24768EE5-A381-4F3A-B90F-B77BFA8F8AF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseORM_MSSQL", "DatabaseORM_MSSQL\DatabaseORM_MSSQL.csproj", "{60D1CEDD-0EA4-41E1-82E2-9129609CD18F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{24768EE5-A381-4F3A-B90F-B77BFA8F8AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24768EE5-A381-4F3A-B90F-B77BFA8F8AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24768EE5-A381-4F3A-B90F-B77BFA8F8AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60D1CEDD-0EA4-41E1-82E2-9129609CD18F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60D1CEDD-0EA4-41E1-82E2-9129609CD18F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60D1CEDD-0EA4-41E1-82E2-9129609CD18F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60D1CEDD-0EA4-41E1-82E2-9129609CD18F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

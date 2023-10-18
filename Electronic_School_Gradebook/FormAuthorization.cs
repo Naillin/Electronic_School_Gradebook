@@ -118,7 +118,7 @@ namespace Electronic_School_Gradebook
 			{
 				// Create a file to write to.
 				string[] createText = { "Data Source=REDDRAGON;", "Initial Catalog=DB_Electronic_School_Gradebook;", "User Id=connection_user;", "Password=543211234555;" };
-				File.WriteAllLines(path, createText);
+				//File.WriteAllLines(path, createText); // убрать потом, так как происходит замена конфига
 			}
 
 			//Open the file to read from.
@@ -136,6 +136,7 @@ namespace Electronic_School_Gradebook
 		}
 
 		static public int ID_User;
+		static public int Role_User;
 		private void buttonLogin_Click(object sender, EventArgs e)
 		{
 			string Login = textBoxLogin.Text;
@@ -143,11 +144,10 @@ namespace Electronic_School_Gradebook
 			
 			DBTools dBTools = new DBTools(sqlConnection);
 
-			if ((Login != "Login") | (Password != "Password"))
+			if ((Login != "Login") && (Password != "Password"))
 			{
-				string sql = $"select * from Users";
-				object [,] Data = dBTools.executeSelectTable(sql);
-
+				string sql = $"select * from Users where Login = '{Login}' and Password = '{Password}'";
+				object [,] Data = dBTools.executeSelectTable(sql); // сделать метод для поиска в бд - долбоеб у тебя уже есть этот метод(ахуенный причем)
 
 				bool loginOrNo = false;
 				for (int i = 0; i < Data.GetLength(0); i++)
@@ -157,15 +157,19 @@ namespace Electronic_School_Gradebook
 						if (Password == Data[i, 3].ToString())
 						{
 							loginOrNo = true;
-							ID_User = (int)Data[i, 1];
+							ID_User = (int)Data[i, 0];
+							Role_User = (int)Data[i, 1];
+
 							break;
 						}
 					}
 				}
 
+				// перевести 'admin', 'teach', 'student' в числа
+
 				if(loginOrNo)
 				{
-					switch (ID_User)
+					switch (Role_User)
 					{
 						case 0:
 							//admin
