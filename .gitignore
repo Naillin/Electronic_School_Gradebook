@@ -1,4 +1,10 @@
 .vs/
+Electronic_School_Gradebook/bin/
+Electronic_School_Gradebook/obj/
+DatabaseTools_MSSQL/bin/
+DatabaseTools_MSSQL/obj/
+DatabaseORM_MSSQL/bin/
+DatabaseORM_MSSQL/obj/
 
 # User-specific files
 *.suo
