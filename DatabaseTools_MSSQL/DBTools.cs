@@ -46,7 +46,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполняет запрос и возвращает первый столбец первой строки результирующего набора, возвращаемого запросом. Дополнительные столбцы или строки не обрабатываются.
+		/// Выполняет запрос и возвращает значение первого столбеца первой строки результирующего набора, возвращаемого запросом. Дополнительные столбцы или строки не обрабатываются.
 		/// </summary>
 		/// <param name="sql">Запрос соотвествующий всем правилам синтаксиса SQL.</param>
 		/// <returns></returns>
@@ -75,7 +75,7 @@ namespace DatabaseTools_MSSQL
 		{
 			object[,] result = {{ -1 }};
 
-			if (sql.TrimStart().ToUpper().StartsWith("SELECT"))
+			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
 				DataTable data = new DataTable();
 				data.Clear();
@@ -105,7 +105,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT!");
+				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT или EXECUTE!");
 			}
 
 			return result;
@@ -120,7 +120,7 @@ namespace DatabaseTools_MSSQL
 		{
 			DataTable result = null;
 
-			if (sql.TrimStart().ToUpper().StartsWith("SELECT"))
+			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
 				DataTable data = new DataTable();
 				data.Clear();
@@ -142,7 +142,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT!");
+				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT или EXECUTE!");
 			}
 
 			return result;
@@ -155,7 +155,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet takeDatabase(string database)
 		{
-			string[] tableNamesMassive = tableNames(database);
+			string[] tableNamesMassive = tableNames(database, true);
 			SqlDataAdapter[] adapterMass = new SqlDataAdapter[tableNamesMassive.Length];
 			DataSet result = new DataSet();
 
@@ -186,11 +186,11 @@ namespace DatabaseTools_MSSQL
 		{
 			string strValues = string.Empty;
 
-			string[] nameColumns = columnsNames(table); // имена столбцов
+			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
 			string columns = string.Empty;
 			for (int i = 1; i <= value.Length; i++) //бесполезная ебанина в случае этого метода, так как 1 столбец; цикл орентируется отностильено массива значений(values) потому что допускается не полный insert в таблицу
 			{
-				columns = columns + nameColumns[i] + ", ";
+				columns = columns + columnsNamesMassive[i] + ", ";
 				strValues = strValues + value[i - 1] + ", ";
 			}
 			columns = columns.Remove(columns.Length - 2);
@@ -222,11 +222,11 @@ namespace DatabaseTools_MSSQL
 			string[] values = value.Split(';');
 			string strValues = string.Empty;
 
-			string[] nameColumns = columnsNames(table); // имена столбцов
+			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
 			string columns = string.Empty;
 			for (int i = 1; i <= values.Length; i++)
 			{
-				columns = columns + nameColumns[i] + ", ";
+				columns = columns + columnsNamesMassive[i] + ", ";
 				strValues = strValues + values[i - 1] + ", ";
 			}
 			columns = columns.Remove(columns.Length - 2);
@@ -249,19 +249,19 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает массив значений для установки.</param>
-		/// <param name="where">Условие выполнения запроса.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
 		/// <returns></returns>
-		public int executeUpdate(string table, string [] value, string where)
+		public int executeUpdate(string table, string [] value, string conditions)
 		{
 			string strValues = string.Empty;
 
-			string[] nameColumns = columnsNames(table); // имена столбцов
+			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
 			for (int i = 1; i <= value.Length; i++)
 			{
-				strValues = strValues + nameColumns[i] + " = " + value[i - 1] + ", ";
+				strValues = strValues + columnsNamesMassive[i] + " = " + value[i - 1] + ", ";
 			}
 			strValues = strValues.Remove(strValues.Length - 2);
-			string sql = $"update {table} set {strValues} where ({where});";
+			string sql = $"update {table} set {strValues} {conditions};";
 
 			int result = 0;
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -287,10 +287,10 @@ namespace DatabaseTools_MSSQL
 		{
 			string strValues = string.Empty;
 
-			string[] nameColumns = columnsNames(table); // имена столбцов
+			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
 			for (int i = 1; i <= value.Length; i++)
 			{
-				strValues = strValues + nameColumns[i] + " = " + value[i - 1] + ", ";
+				strValues = strValues + columnsNamesMassive[i] + " = " + value[i - 1] + ", ";
 			}
 			strValues = strValues.Remove(strValues.Length - 2);
 			string sql = $"update {table} set {strValues};";
@@ -314,9 +314,9 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "column1=value1;column2=value2;column3=value3;".</param>
-		/// <param name="where">Условие выполнения запроса.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
 		/// <returns></returns>
-		public int executeUpdate(string table, string value, string where)
+		public int executeUpdate(string table, string value, string conditions)
 		{
 			if (value.Substring(value.Length - 1) == ";")
 			{
@@ -324,7 +324,7 @@ namespace DatabaseTools_MSSQL
 			}
 			string strValues = value.Replace(';', ',');
 
-			string sql = $"update {table} set {strValues} where ({where});";
+			string sql = $"update {table} set {strValues} {conditions};";
 
 			int result = 0;
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -374,11 +374,11 @@ namespace DatabaseTools_MSSQL
 		/// Выполнение запроса DELETE для заданной таблицы с укзанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
-		/// <param name="where">Условие выполнения запроса.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
 		/// <returns></returns>
-		public int executeDelete(string table, string where)
+		public int executeDelete(string table, string conditions)
 		{
-			string sql = $"delete {table} where {where};";
+			string sql = $"delete {table} {conditions};";
 
 			int result = 0;
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -460,11 +460,11 @@ namespace DatabaseTools_MSSQL
 		/// Выполнение SQL-функции COUNT(*) с условием и возвратом количества строк.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
-		/// <param name="where">Условие выполнения запроса.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
 		/// <returns></returns>
-		public int countRows(string table, string where)
+		public int countRows(string table, string conditions)
 		{
-			string sql = $"select count(*) from {table} where {where};";
+			string sql = $"select count(*) from {table} {conditions};";
 
 			int count = 0;
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -485,8 +485,9 @@ namespace DatabaseTools_MSSQL
 		/// Возвращает массив имен всех стлбцов таблицы.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
+		/// <param name="flag">Включение или отвключение отображения в строке родителя.</param>
 		/// <returns></returns>
-		public string [] columnsNames(string table)
+		public string [] columnsNames(string table, bool flag)
 		{
 			// запрос для имена столбцов таблицы
 			string sql = $"select top (1) * from {table};";
@@ -503,7 +504,14 @@ namespace DatabaseTools_MSSQL
 				result = new string[data.Columns.Count];
 				for (int i = 0; i < data.Columns.Count; i++)
 				{
-					result[i] = data.Columns[i].ColumnName;
+					if (flag)
+					{
+						result[i] = table + "." + data.Columns[i].ColumnName;
+					}
+					else
+					{
+						result[i] = data.Columns[i].ColumnName;
+					}
 				}
 				data.Clear();
 
@@ -518,10 +526,12 @@ namespace DatabaseTools_MSSQL
 		/// Возвращает массив имен всех таблиц базы данных.
 		/// </summary>
 		/// <param name="database">Целевая база данных.</param>
+		/// <param name="flag">Включение или отвключение отображения в строке родителя.</param>
 		/// <returns></returns>
-		public string[] tableNames(string database)
+		public string[] tableNames(string database, bool flag)
 		{
 			string sql = $"SELECT TABLE_NAME FROM {database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME != 'sysdiagrams';";
+			string strUser = current_user();
 
 			string[] result = null;
 			DataTable data = new DataTable();
@@ -535,9 +545,39 @@ namespace DatabaseTools_MSSQL
 				result = new string[data.Rows.Count];
 				for (int i = 0; i < data.Rows.Count; i++)
 				{
-					result[i] = data.Rows[i].ToString();
+					if(flag)
+					{
+						result[i] = database + "." + strUser + "." + data.Rows[i].ToString();
+					}
+					else
+					{
+						result[i] = data.Rows[i].ToString();
+					}
 				}
 				data.Clear();
+
+				sqlConnection.Close();
+			}
+
+			return result;
+		}
+
+		// вынести в отдельный класс работы с целевой таблицей
+		/// <summary>
+		/// Возвращает имя текущего пользователя базы данных.
+		/// </summary>
+		/// <returns></returns>
+		public string current_user()
+		{
+			string sql = $"SELECT (CURRENT_USER);";
+
+			string result = string.Empty;
+			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			{
+				sqlConnection.Open();
+
+				SqlCommand command = new SqlCommand(@sql, sqlConnection);
+				result = command.ExecuteScalar().ToString();
 
 				sqlConnection.Close();
 			}

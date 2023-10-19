@@ -28,3 +28,4 @@ C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\b\Electronic_S
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.csproj.ResolveComReference.cache
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.FormOptions.resources
 C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.FormGradebook.resources
+C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.FormChoice.resources

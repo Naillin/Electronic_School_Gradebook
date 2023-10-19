@@ -25,12 +25,17 @@ namespace Electronic_School_Gradebook
 		{
 			InitializeComponent();
 
+			//настройка формы
 			this.DoubleBuffered = true;
 			this.StartPosition = FormStartPosition.CenterScreen;
 
 			//границы размеров
 			this.MaximumSize = new Size(10000, 10000);
 			this.MinimumSize = new Size(1200, 500);
+
+			//запуск формы выбора класс и работы
+			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook); //передача ссылки на объект dgv
+			formChoice.ShowDialog();
 		}
 
 		//авто размер

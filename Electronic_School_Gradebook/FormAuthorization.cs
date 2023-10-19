@@ -27,12 +27,16 @@ namespace Electronic_School_Gradebook
 			InitializeComponent();
 
 			//настройка формы
-			textBoxLogin.MaxLength = 30;
-			textBoxPassword.MaxLength = 30;
-			textBoxPassword.PasswordChar = '\0';
-			buttonLogin.Select();
 			this.DoubleBuffered = true;
 			this.StartPosition = FormStartPosition.CenterScreen;
+
+			this.MaximumSize = new Size(this.Width, this.Height);
+			this.MinimumSize = new Size(this.Width, this.Height);
+
+			textBoxLogin.MaxLength = 20;
+			textBoxPassword.MaxLength = 20;
+			textBoxPassword.PasswordChar = '\0';
+			buttonLogin.Select();
 		}
 
 		private void FormAuthorization_Click(object sender, EventArgs e)
@@ -109,16 +113,16 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		static public string sqlConnection = @"Data Source=REDDRAGON;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
+		static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
 		private void FormAuthorization_Load(object sender, EventArgs e)
 		{
 			string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
 			// This text is added only once to the file.
-			if (!File.Exists(path))
+			if (!File.Exists(path)) //если не существует файла
 			{
 				// Create a file to write to.
-				string[] createText = { "Data Source=REDDRAGON;", "Initial Catalog=DB_Electronic_School_Gradebook;", "User Id=connection_user;", "Password=543211234555;" };
-				//File.WriteAllLines(path, createText); // убрать потом, так как происходит замена конфига
+				string[] createText = { "Data Source=192.168.1.46;", "Initial Catalog=DB_Electronic_School_Gradebook;", "User Id=connection_user;", "Password=543211234555;" };
+				File.WriteAllLines(path, createText);
 			}
 
 			//Open the file to read from.
@@ -135,8 +139,9 @@ namespace Electronic_School_Gradebook
 			sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
 		}
 
-		static public int ID_User;
-		static public int Role_User;
+		static public int ID_User; //глобальная переменная id пользователя
+		static public string Role_User; //глобальная переменная роль пользователя
+		//выполнение входа
 		private void buttonLogin_Click(object sender, EventArgs e)
 		{
 			string Login = textBoxLogin.Text;
@@ -146,36 +151,40 @@ namespace Electronic_School_Gradebook
 
 			if ((Login != "Login") && (Password != "Password"))
 			{
-				string sql = $"select * from Users where Login = '{Login}' and Password = '{Password}'";
-				object [,] Data = dBTools.executeSelectTable(sql); // сделать метод для поиска в бд - долбоеб у тебя уже есть этот метод(ахуенный причем)
+				string sql = $"select * from Users where Login_User = '{Login}' and Password_User = '{Password}';";
+				object [,] data = dBTools.executeSelectTable(sql); // сделать метод для поиска в бд - долбоеб у тебя уже есть этот метод(ахуенный причем)
 
 				bool loginOrNo = false;
-				for (int i = 0; i < Data.GetLength(0); i++)
+				try
 				{
-					if (Login == Data[i, 2].ToString())
+					if (Login == data[0, 2].ToString())
 					{
-						if (Password == Data[i, 3].ToString())
+						if (Password == data[0, 3].ToString())
 						{
 							loginOrNo = true;
-							ID_User = (int)Data[i, 0];
-							Role_User = (int)Data[i, 1];
+							ID_User = (int)data[0, 0];
+							Role_User = data[0, 1].ToString();
 
-							break;
+							//очистка текстбоксов
+							textBoxLogin.Text = string.Empty;
+							textBoxPassword.Text = string.Empty;
 						}
 					}
 				}
+				catch
+				{
 
-				// перевести 'admin', 'teach', 'student' в числа
+				}
 
 				if(loginOrNo)
 				{
 					switch (Role_User)
 					{
-						case 0:
+						case "Admin":
 							//admin
 							break;
 
-						case 1:
+						case "Teacher":
 							FormGradebook formGradebook = new FormGradebook();
 							formGradebook.Show();
 
@@ -188,7 +197,7 @@ namespace Electronic_School_Gradebook
 							this.Hide();
 							break;
 
-						case 2:
+						case "Student":
 							//student
 							break;
 

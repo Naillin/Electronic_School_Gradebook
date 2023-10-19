@@ -24,8 +24,12 @@ namespace Electronic_School_Gradebook
 		{
 			InitializeComponent();
 
+			//настройка формы
 			this.DoubleBuffered = true;
 			this.StartPosition = FormStartPosition.CenterScreen;
+
+			this.MaximumSize = new Size(this.Width, this.Height);
+			this.MinimumSize = new Size(this.Width, this.Height);
 		}
 
 		//заполнение textBoxs
@@ -44,17 +48,17 @@ namespace Electronic_School_Gradebook
 			DB_Info[3] = DB_Info[3].Remove(0, 9);
 			DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
 
-			textBox1.Text = DB_Info[0];
-			textBox2.Text = DB_Info[1];
-			textBox3.Text = DB_Info[2];
-			textBox4.Text = DB_Info[3];
+			textBoxDataSource.Text = DB_Info[0];
+			textBoxInitialCatalog.Text = DB_Info[1];
+			textBoxUserId.Text = DB_Info[2];
+			textBoxPassword.Text = DB_Info[3];
 		}
 
 		private void buttonApply_Click(object sender, EventArgs e)
 		{
 			// Create a file to write to.
 			string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
-			string[] DB_InfoInput = { $"Data Source={textBox1.Text};", $"Initial Catalog={textBox2.Text};", $"User Id={textBox3.Text};", $"Password={textBox4.Text};" };
+			string[] DB_InfoInput = { $"Data Source={textBoxDataSource.Text};", $"Initial Catalog={textBoxInitialCatalog.Text};", $"User Id={textBoxUserId.Text};", $"Password={textBoxPassword.Text};" };
 			File.WriteAllLines(path, DB_InfoInput);
 
 			//Применение настроек в программе

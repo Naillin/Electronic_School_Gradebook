@@ -58,6 +58,12 @@
     <Compile Include="FormAuthorization.Designer.cs">
       <DependentUpon>FormAuthorization.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormChoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChoice.Designer.cs">
+      <DependentUpon>FormChoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormGradebook.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +80,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAuthorization.resx">
       <DependentUpon>FormAuthorization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChoice.resx">
+      <DependentUpon>FormChoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormGradebook.resx">
       <DependentUpon>FormGradebook.cs</DependentUpon>
