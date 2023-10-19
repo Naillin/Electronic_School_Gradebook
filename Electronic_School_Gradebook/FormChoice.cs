@@ -37,6 +37,8 @@ namespace Electronic_School_Gradebook
 		//если выбрали класс
 		private void listBoxClasses_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			dataGridViewTasks.Rows.Clear();
+
 			//костыль блокировщик от ложного срабатывания активности из за заполнения первого listbox
 			ListBox lb = (ListBox)sender;
 			if (!lb.Focused)

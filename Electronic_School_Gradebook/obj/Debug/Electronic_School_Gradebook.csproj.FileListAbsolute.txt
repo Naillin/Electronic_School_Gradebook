@@ -48,3 +48,4 @@ C:\Users\Саб\OneDrive\Рабочий стол\PROJECT DB\Electronic_School_Gr
 C:\Users\Саб\OneDrive\Рабочий стол\PROJECT DB\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.csproj.CopyComplete
 C:\Users\Саб\OneDrive\Рабочий стол\PROJECT DB\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.exe
 C:\Users\Саб\OneDrive\Рабочий стол\PROJECT DB\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.pdb
+C:\Users\kamil\YandexDisk\Files\uchob\UGNTU\2kurs\2sem\BD\kursach\Electronic_School_Gradebook\Electronic_School_Gradebook\obj\Debug\Electronic_School_Gradebook.FormAdminPanel.resources
