@@ -181,7 +181,9 @@ namespace Electronic_School_Gradebook
 					switch (Role_User)
 					{
 						case "Admin":
-							//admin
+							FormAdminPanel formAdminPanel = new FormAdminPanel();
+							formAdminPanel.Show();
+							this.Hide();
 							break;
 
 						case "Teacher":
