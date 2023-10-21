@@ -33,10 +33,30 @@ namespace Electronic_School_Gradebook
             TreeNode[] treeClasses = new TreeNode[data.GetLength(0)];
             for(int i = 0; i < treeClasses.Length; i++)
             {
-                treeClasses[i] = new TreeNode(data[i, 1].ToString());
+                object[,] dataStudents = dBTools.executeSelectTable($"select * from Students where ID_Class = {data[i, 0]}");
+                TreeNode[] treeStudents = new TreeNode[dataStudents.GetLength(0)];
+                for(int j = 0; j < treeStudents.Length; j++)
+                {
+                    treeStudents[j] = new TreeNode(dataStudents[j, 1].ToString());
+                }
+
+                object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = { data[i, 0]}");
+                TreeNode[] treeTeachers = new TreeNode[dataTeachers.GetLength(0)];
+                for (int k = 0; k < treeTeachers.Length; k++)
+                {
+                    treeTeachers[k] = new TreeNode(dataTeachers[k, 1].ToString());
+                }
+
+                treeClasses[i] = new TreeNode(data[i, 1].ToString(),treeTeachers);
+
 
                 treeViewMainCommunications.Nodes.Add(treeClasses[i]);
+
             }
+            treeViewMainCommunications.SelectedImageIndex = 0;
+
+
+
         }
     }
 }
