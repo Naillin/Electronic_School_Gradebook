@@ -40,10 +40,7 @@ namespace Electronic_School_Gradebook
                 object[,] dataStudents = dBTools.executeSelectTable($"select * from Students where ID_Class = {data[i, 0]}");
                 object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {data[i, 0]}");
 
-                int sum = dataStudents.GetLength(0) + dataTeachers.GetLength(0);
-
-                TreeNode[] treeStudentsTeach = new TreeNode[sum];
-
+                TreeNode[] treeStudentsTeach = new TreeNode[dataStudents.GetLength(0) + dataTeachers.GetLength(0)];
 
                 for (int j = 0; j < dataStudents.GetLength(0); j++)
                 {
@@ -51,17 +48,13 @@ namespace Electronic_School_Gradebook
                 }
 
 
-                for (int k = dataStudents.GetLength(0), z = 0; k < dataTeachers.GetLength(0); z++, k++)
+                for (int k = dataStudents.GetLength(0), z = 0; k < treeStudentsTeach.Length; z++, k++)
                 {
                      treeStudentsTeach[k] = new TreeNode(dataTeachers[z, 1].ToString());
-
                 }
 
                 treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudentsTeach);
-
-
                 treeViewMainCommunications.Nodes.Add(treeClasses[i]);
-
             }
             treeViewMainCommunications.SelectedImageIndex = 0;
 
