@@ -31,23 +31,33 @@ namespace Electronic_School_Gradebook
             object[,] data = dBTools.executeSelectTable($"select * from Classes;");
 
             TreeNode[] treeClasses = new TreeNode[data.GetLength(0)];
-            for(int i = 0; i < treeClasses.Length; i++)
+
+            //CheckBox checkBoxStudents = new CheckBox();
+            //CheckBox checkBoxTeachers = new CheckBox();
+
+            for (int i = 0; i < treeClasses.Length; i++)
             {
                 object[,] dataStudents = dBTools.executeSelectTable($"select * from Students where ID_Class = {data[i, 0]}");
-                TreeNode[] treeStudents = new TreeNode[dataStudents.GetLength(0)];
-                for(int j = 0; j < treeStudents.Length; j++)
+                object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {data[i, 0]}");
+
+                int sum = dataStudents.GetLength(0) + dataTeachers.GetLength(0);
+
+                TreeNode[] treeStudentsTeach = new TreeNode[sum];
+
+
+                for (int j = 0; j < dataStudents.GetLength(0); j++)
                 {
-                    treeStudents[j] = new TreeNode(dataStudents[j, 1].ToString());
+                    treeStudentsTeach[j] = new TreeNode(dataStudents[j, 1].ToString());
                 }
 
-                object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = { data[i, 0]}");
-                TreeNode[] treeTeachers = new TreeNode[dataTeachers.GetLength(0)];
-                for (int k = 0; k < treeTeachers.Length; k++)
+
+                for (int k = dataStudents.GetLength(0), z = 0; k < dataTeachers.GetLength(0); z++, k++)
                 {
-                    treeTeachers[k] = new TreeNode(dataTeachers[k, 1].ToString());
+                     treeStudentsTeach[k] = new TreeNode(dataTeachers[z, 1].ToString());
+
                 }
 
-                treeClasses[i] = new TreeNode(data[i, 1].ToString(),treeTeachers);
+                treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudentsTeach);
 
 
                 treeViewMainCommunications.Nodes.Add(treeClasses[i]);
