@@ -531,7 +531,7 @@ namespace DatabaseTools_MSSQL
 		public string[] tableNames(string database, bool flag)
 		{
 			string sql = $"SELECT TABLE_NAME FROM {database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME != 'sysdiagrams';";
-			string strUser = current_user();
+			string strUser = currentUser();
 
 			string[] result = null;
 			DataTable data = new DataTable();
@@ -567,7 +567,7 @@ namespace DatabaseTools_MSSQL
 		/// Возвращает имя текущего пользователя базы данных.
 		/// </summary>
 		/// <returns></returns>
-		public string current_user()
+		public string currentUser()
 		{
 			string sql = $"SELECT (CURRENT_USER);";
 

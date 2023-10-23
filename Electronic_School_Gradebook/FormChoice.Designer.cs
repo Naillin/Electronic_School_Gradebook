@@ -78,6 +78,8 @@
 			// dataGridViewTasks
 			// 
 			this.dataGridViewTasks.AllowUserToAddRows = false;
+			this.dataGridViewTasks.AllowUserToDeleteRows = false;
+			this.dataGridViewTasks.AllowUserToResizeRows = false;
 			this.dataGridViewTasks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewTasks.BackgroundColor = System.Drawing.Color.White;
 			this.dataGridViewTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;

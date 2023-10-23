@@ -19,6 +19,13 @@ using System.Media;
 
 namespace Electronic_School_Gradebook
 {
+	//структура для хранения связи строк dgv с элементами бд
+	public struct StudentRowConnect
+	{
+		public int id;
+		public int rowIndex_dgvStudents;
+	}
+
 	public partial class FormGradebook : Form
 	{
 		public FormGradebook()
@@ -32,11 +39,9 @@ namespace Electronic_School_Gradebook
 			//границы размеров
 			this.MaximumSize = new Size(10000, 10000);
 			this.MinimumSize = new Size(1200, 500);
-
-			//запуск формы выбора класс и работы
-			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook); //передача ссылки на объект dgv
-			formChoice.ShowDialog();
 		}
+
+		public StudentRowConnect[] studentRowConnects;
 
 		//авто размер
 		private void FormGradebook_SizeChanged(object sender, EventArgs e)
@@ -55,7 +60,12 @@ namespace Electronic_School_Gradebook
 
 		private void FormGradebook_Load(object sender, EventArgs e)
 		{
+			//запуск формы выбора класс и работы
+			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook); //передача ссылки на объект dgv
+			formChoice.ShowDialog();
+
 			//заполнение dgv отностильно вошедшего учителя
+
 		}
 	}
 }

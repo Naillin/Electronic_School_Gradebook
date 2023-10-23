@@ -23,6 +23,31 @@ namespace Electronic_School_Gradebook
         public FormAdminPanel()
         {
             InitializeComponent();
+
+			//настройка формы
+			this.DoubleBuffered = true;
+			this.StartPosition = FormStartPosition.CenterScreen;
+
+			//границы размеров
+			this.MaximumSize = new Size(this.Width, this.Height);
+			this.MinimumSize = new Size(this.Width, this.Height);
+		}
+
+        //структура для хранения связи узлов с элементами бд
+        struct NodeConnect
+        {
+            public enum Types
+            {
+                TEACHER = 0,
+                STUDENT = 1,
+                CLASS = 2,
+                SUBJECT = 3,
+                PARENT = 4
+            }
+
+            public TreeNode node;
+            public int id;
+            public Types types;
         }
 
         private void FormAdminPanel_Load(object sender, EventArgs e)
@@ -56,10 +81,8 @@ namespace Electronic_School_Gradebook
                 treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudentsTeach);
                 treeViewMainCommunications.Nodes.Add(treeClasses[i]);
             }
+
             treeViewMainCommunications.SelectedImageIndex = 0;
-
-
-
         }
     }
 }

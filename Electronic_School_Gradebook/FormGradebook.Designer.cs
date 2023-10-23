@@ -34,10 +34,14 @@
 			// 
 			// dataGridViewGradebook
 			// 
+			this.dataGridViewGradebook.AllowUserToAddRows = false;
+			this.dataGridViewGradebook.AllowUserToDeleteRows = false;
+			this.dataGridViewGradebook.AllowUserToResizeRows = false;
+			this.dataGridViewGradebook.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewGradebook.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewGradebook.Location = new System.Drawing.Point(367, 252);
+			this.dataGridViewGradebook.Location = new System.Drawing.Point(12, 76);
 			this.dataGridViewGradebook.Name = "dataGridViewGradebook";
-			this.dataGridViewGradebook.Size = new System.Drawing.Size(745, 300);
+			this.dataGridViewGradebook.Size = new System.Drawing.Size(1360, 673);
 			this.dataGridViewGradebook.TabIndex = 0;
 			// 
 			// FormGradebook
