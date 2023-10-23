@@ -33,11 +33,11 @@
 			this.labelClasses = new System.Windows.Forms.Label();
 			this.labelTasks = new System.Windows.Forms.Label();
 			this.dataGridViewTasks = new System.Windows.Forms.DataGridView();
+			this.buttonAccept = new System.Windows.Forms.Button();
 			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.buttonAccept = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -93,29 +93,6 @@
 			this.dataGridViewTasks.Size = new System.Drawing.Size(503, 349);
 			this.dataGridViewTasks.TabIndex = 4;
 			// 
-			// Column1
-			// 
-			this.Column1.FillWeight = 45.68528F;
-			this.Column1.HeaderText = "Вкл";
-			this.Column1.Name = "Column1";
-			// 
-			// Column2
-			// 
-			this.Column2.FillWeight = 127.1574F;
-			this.Column2.HeaderText = "Задача";
-			this.Column2.Name = "Column2";
-			// 
-			// Column3
-			// 
-			this.Column3.FillWeight = 127.1574F;
-			this.Column3.HeaderText = "Дата создания";
-			this.Column3.Name = "Column3";
-			// 
-			// Column4
-			// 
-			this.Column4.HeaderText = "Тип";
-			this.Column4.Name = "Column4";
-			// 
 			// buttonAccept
 			// 
 			this.buttonAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(241)))), ((int)(((byte)(187)))));
@@ -130,6 +107,32 @@
 			this.buttonAccept.Text = "Accept";
 			this.buttonAccept.UseVisualStyleBackColor = false;
 			this.buttonAccept.Click += new System.EventHandler(this.buttonAccept_Click);
+			// 
+			// Column1
+			// 
+			this.Column1.FillWeight = 45.68528F;
+			this.Column1.HeaderText = "Вкл";
+			this.Column1.Name = "Column1";
+			// 
+			// Column2
+			// 
+			this.Column2.FillWeight = 127.1574F;
+			this.Column2.HeaderText = "Задача";
+			this.Column2.Name = "Column2";
+			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column3
+			// 
+			this.Column3.FillWeight = 127.1574F;
+			this.Column3.HeaderText = "Дата создания";
+			this.Column3.Name = "Column3";
+			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column4
+			// 
+			this.Column4.HeaderText = "Тип";
+			this.Column4.Name = "Column4";
+			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// FormChoice
 			// 
@@ -147,6 +150,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "FormChoice";
 			this.Text = "FormChoice";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormChoice_FormClosing);
 			this.Load += new System.EventHandler(this.FormChoice_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).EndInit();
 			this.ResumeLayout(false);
@@ -160,10 +164,10 @@
 		private System.Windows.Forms.Label labelClasses;
 		private System.Windows.Forms.Label labelTasks;
 		private System.Windows.Forms.DataGridView dataGridViewTasks;
+		private System.Windows.Forms.Button buttonAccept;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-		private System.Windows.Forms.Button buttonAccept;
 	}
 }

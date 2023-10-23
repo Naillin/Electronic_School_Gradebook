@@ -65,13 +65,13 @@ namespace Electronic_School_Gradebook
                 object[,] dataStudents = dBTools.executeSelectTable($"select * from Students where ID_Class = {data[i, 0]}");
                 object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {data[i, 0]}");
 
+                //switch case для checkbox
                 TreeNode[] treeStudentsTeach = new TreeNode[dataStudents.GetLength(0) + dataTeachers.GetLength(0)];
 
                 for (int j = 0; j < dataStudents.GetLength(0); j++)
                 {
                     treeStudentsTeach[j] = new TreeNode(dataStudents[j, 1].ToString());
                 }
-
 
                 for (int k = dataStudents.GetLength(0), z = 0; k < treeStudentsTeach.Length; z++, k++)
                 {
@@ -84,5 +84,19 @@ namespace Electronic_School_Gradebook
 
             treeViewMainCommunications.SelectedImageIndex = 0;
         }
-    }
+
+        //переключили студентов
+		private void checkBoxStudents_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		//переключили учителей
+		private void checkBoxTeachers_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+        //-----------------------------------------------------------------------------------
+	}
 }

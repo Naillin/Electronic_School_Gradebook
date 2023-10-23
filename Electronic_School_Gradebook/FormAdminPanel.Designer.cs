@@ -49,7 +49,7 @@
 			this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(674, 396);
+			this.tabControl1.Size = new System.Drawing.Size(1106, 714);
 			this.tabControl1.TabIndex = 0;
 			// 
 			// tabPage1
@@ -61,7 +61,7 @@
 			this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-			this.tabPage1.Size = new System.Drawing.Size(666, 370);
+			this.tabPage1.Size = new System.Drawing.Size(1098, 688);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -99,7 +99,7 @@
 			this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-			this.tabPage2.Size = new System.Drawing.Size(666, 370);
+			this.tabPage2.Size = new System.Drawing.Size(1098, 688);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -115,6 +115,7 @@
 			this.checkBoxStudents.TabIndex = 1;
 			this.checkBoxStudents.Text = "Students";
 			this.checkBoxStudents.UseVisualStyleBackColor = true;
+			this.checkBoxStudents.CheckedChanged += new System.EventHandler(this.checkBoxStudents_CheckedChanged);
 			// 
 			// checkBoxTeachers
 			// 
@@ -127,12 +128,13 @@
 			this.checkBoxTeachers.TabIndex = 2;
 			this.checkBoxTeachers.Text = "Teachers";
 			this.checkBoxTeachers.UseVisualStyleBackColor = true;
+			this.checkBoxTeachers.CheckedChanged += new System.EventHandler(this.checkBoxTeachers_CheckedChanged);
 			// 
 			// FormAdminPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(689, 441);
+			this.ClientSize = new System.Drawing.Size(1126, 762);
 			this.Controls.Add(this.checkBoxTeachers);
 			this.Controls.Add(this.checkBoxStudents);
 			this.Controls.Add(this.tabControl1);
