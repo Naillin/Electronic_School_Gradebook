@@ -51,6 +51,8 @@ namespace Electronic_School_Gradebook
 
 		public TaskRowConnect[] rowConnects;
 		public StudentRowConnect[] studentRowConnects;
+		static public int ID_Class;
+		static public int ID_Subject;
 
 		//авто размер
 		private void FormGradebook_SizeChanged(object sender, EventArgs e)
@@ -65,24 +67,37 @@ namespace Electronic_School_Gradebook
 		{
 			//запуск формы выбора класс и работы
 			formGradebook = new FormGradebook();
-			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref labelClass, ref formGradebook); //передача ссылки на объект dgv
+			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref formGradebook); //передача ссылки на объект dgv
 			formChoice.ShowDialog();
 
-			//хз лол
-
+			//заполнение labelClass
+			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			labelClass.Text = "Selected class: " + dBTools.executeAnySqlScalar($"select Name_Class from Classes where ID_Class = {ID_Class}");
+			labelSubject.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Class}");
 		}
 
 		//форма настройка плана
 		private void plansToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			DialogResult dialogResult = MessageBox.Show("This leads to clearing the fields of the gradebook!", "Attention!!!", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				dataGridViewGradebook.Columns.Clear();
 
+				FormEducationalPlanReadactor formEducationalPlanReadactor = new FormEducationalPlanReadactor();
+				formEducationalPlanReadactor.ShowDialog();
+			}
+			else if (dialogResult == DialogResult.No)
+			{
+				//do something else
+			}
 		}
 
 		//открытие формы задачек
 		private void changeTasksToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			//запуск формы выбора класс и работы
-			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref labelClass, ref formGradebook); //передача ссылки на объект dgv
+			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref formGradebook); //передача ссылки на объект dgv
 			formChoice.ShowDialog();
 		}
 

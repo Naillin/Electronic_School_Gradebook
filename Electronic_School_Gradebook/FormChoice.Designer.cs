@@ -29,29 +29,19 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormChoice));
-			this.listBoxClasses = new System.Windows.Forms.ListBox();
 			this.labelClasses = new System.Windows.Forms.Label();
 			this.labelTasks = new System.Windows.Forms.Label();
 			this.dataGridViewTasks = new System.Windows.Forms.DataGridView();
-			this.buttonAccept = new System.Windows.Forms.Button();
 			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.buttonAccept = new System.Windows.Forms.Button();
+			this.listBoxClasses = new System.Windows.Forms.ListBox();
+			this.listBoxSubjects = new System.Windows.Forms.ListBox();
+			this.labelSubjects = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// listBoxClasses
-			// 
-			this.listBoxClasses.BackColor = System.Drawing.Color.White;
-			this.listBoxClasses.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.listBoxClasses.FormattingEnabled = true;
-			this.listBoxClasses.ItemHeight = 23;
-			this.listBoxClasses.Location = new System.Drawing.Point(12, 77);
-			this.listBoxClasses.Name = "listBoxClasses";
-			this.listBoxClasses.Size = new System.Drawing.Size(503, 349);
-			this.listBoxClasses.TabIndex = 0;
-			this.listBoxClasses.SelectedIndexChanged += new System.EventHandler(this.listBoxClasses_SelectedIndexChanged);
 			// 
 			// labelClasses
 			// 
@@ -93,21 +83,6 @@
 			this.dataGridViewTasks.Size = new System.Drawing.Size(503, 349);
 			this.dataGridViewTasks.TabIndex = 4;
 			// 
-			// buttonAccept
-			// 
-			this.buttonAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(241)))), ((int)(((byte)(187)))));
-			this.buttonAccept.FlatAppearance.BorderSize = 0;
-			this.buttonAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAccept.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic);
-			this.buttonAccept.ForeColor = System.Drawing.Color.Transparent;
-			this.buttonAccept.Location = new System.Drawing.Point(12, 432);
-			this.buttonAccept.Name = "buttonAccept";
-			this.buttonAccept.Size = new System.Drawing.Size(1016, 43);
-			this.buttonAccept.TabIndex = 5;
-			this.buttonAccept.Text = "Accept";
-			this.buttonAccept.UseVisualStyleBackColor = false;
-			this.buttonAccept.Click += new System.EventHandler(this.buttonAccept_Click);
-			// 
 			// Column1
 			// 
 			this.Column1.FillWeight = 45.68528F;
@@ -134,6 +109,56 @@
 			this.Column4.Name = "Column4";
 			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
+			// buttonAccept
+			// 
+			this.buttonAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(241)))), ((int)(((byte)(187)))));
+			this.buttonAccept.FlatAppearance.BorderSize = 0;
+			this.buttonAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonAccept.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic);
+			this.buttonAccept.ForeColor = System.Drawing.Color.Transparent;
+			this.buttonAccept.Location = new System.Drawing.Point(12, 432);
+			this.buttonAccept.Name = "buttonAccept";
+			this.buttonAccept.Size = new System.Drawing.Size(1016, 43);
+			this.buttonAccept.TabIndex = 5;
+			this.buttonAccept.Text = "Accept";
+			this.buttonAccept.UseVisualStyleBackColor = false;
+			this.buttonAccept.Click += new System.EventHandler(this.buttonAccept_Click);
+			// 
+			// listBoxClasses
+			// 
+			this.listBoxClasses.BackColor = System.Drawing.Color.White;
+			this.listBoxClasses.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.listBoxClasses.FormattingEnabled = true;
+			this.listBoxClasses.ItemHeight = 23;
+			this.listBoxClasses.Location = new System.Drawing.Point(12, 77);
+			this.listBoxClasses.Name = "listBoxClasses";
+			this.listBoxClasses.Size = new System.Drawing.Size(247, 349);
+			this.listBoxClasses.TabIndex = 0;
+			this.listBoxClasses.SelectedIndexChanged += new System.EventHandler(this.listBoxClasses_SelectedIndexChanged);
+			// 
+			// listBoxSubjects
+			// 
+			this.listBoxSubjects.BackColor = System.Drawing.Color.White;
+			this.listBoxSubjects.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.listBoxSubjects.FormattingEnabled = true;
+			this.listBoxSubjects.ItemHeight = 23;
+			this.listBoxSubjects.Location = new System.Drawing.Point(265, 77);
+			this.listBoxSubjects.Name = "listBoxSubjects";
+			this.listBoxSubjects.Size = new System.Drawing.Size(247, 349);
+			this.listBoxSubjects.TabIndex = 6;
+			this.listBoxSubjects.SelectedIndexChanged += new System.EventHandler(this.listBoxSubjects_SelectedIndexChanged);
+			// 
+			// labelSubjects
+			// 
+			this.labelSubjects.AutoSize = true;
+			this.labelSubjects.BackColor = System.Drawing.Color.Transparent;
+			this.labelSubjects.Font = new System.Drawing.Font("Arcon", 36F, System.Drawing.FontStyle.Italic);
+			this.labelSubjects.Location = new System.Drawing.Point(265, 16);
+			this.labelSubjects.Name = "labelSubjects";
+			this.labelSubjects.Size = new System.Drawing.Size(197, 58);
+			this.labelSubjects.TabIndex = 7;
+			this.labelSubjects.Text = "Subjects";
+			// 
 			// FormChoice
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -142,6 +167,8 @@
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1048, 487);
+			this.Controls.Add(this.labelSubjects);
+			this.Controls.Add(this.listBoxSubjects);
 			this.Controls.Add(this.buttonAccept);
 			this.Controls.Add(this.dataGridViewTasks);
 			this.Controls.Add(this.labelTasks);
@@ -159,8 +186,6 @@
 		}
 
 		#endregion
-
-		private System.Windows.Forms.ListBox listBoxClasses;
 		private System.Windows.Forms.Label labelClasses;
 		private System.Windows.Forms.Label labelTasks;
 		private System.Windows.Forms.DataGridView dataGridViewTasks;
@@ -169,5 +194,8 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+		private System.Windows.Forms.ListBox listBoxClasses;
+		private System.Windows.Forms.ListBox listBoxSubjects;
+		private System.Windows.Forms.Label labelSubjects;
 	}
 }
