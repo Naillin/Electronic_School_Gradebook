@@ -36,11 +36,12 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStripGradebook = new System.Windows.Forms.MenuStrip();
 			this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gradebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.changeTasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.plansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.labelSubject = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGradebook)).BeginInit();
 			this.menuStripGradebook.SuspendLayout();
 			this.SuspendLayout();
@@ -86,12 +87,13 @@
 			// 
 			this.menuStripGradebook.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuStripGradebook.BackgroundImage")));
 			this.menuStripGradebook.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.menuStripGradebook.Font = new System.Drawing.Font("Arcon", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.menuStripGradebook.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.systemToolStripMenuItem,
             this.gradebookToolStripMenuItem});
 			this.menuStripGradebook.Location = new System.Drawing.Point(0, 0);
 			this.menuStripGradebook.Name = "menuStripGradebook";
-			this.menuStripGradebook.Size = new System.Drawing.Size(1384, 24);
+			this.menuStripGradebook.Size = new System.Drawing.Size(1384, 26);
 			this.menuStripGradebook.TabIndex = 6;
 			this.menuStripGradebook.Text = "menuStrip1";
 			// 
@@ -101,8 +103,22 @@
             this.logoutToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-			this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+			this.systemToolStripMenuItem.Size = new System.Drawing.Size(65, 22);
 			this.systemToolStripMenuItem.Text = "System";
+			// 
+			// logoutToolStripMenuItem
+			// 
+			this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+			this.logoutToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.logoutToolStripMenuItem.Text = "Logout";
+			this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
 			// gradebookToolStripMenuItem
 			// 
@@ -110,36 +126,33 @@
             this.changeTasksToolStripMenuItem,
             this.plansToolStripMenuItem});
 			this.gradebookToolStripMenuItem.Name = "gradebookToolStripMenuItem";
-			this.gradebookToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+			this.gradebookToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
 			this.gradebookToolStripMenuItem.Text = "Gradebook";
 			// 
 			// changeTasksToolStripMenuItem
 			// 
 			this.changeTasksToolStripMenuItem.Name = "changeTasksToolStripMenuItem";
-			this.changeTasksToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.changeTasksToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
 			this.changeTasksToolStripMenuItem.Text = "Change tasks";
 			this.changeTasksToolStripMenuItem.Click += new System.EventHandler(this.changeTasksToolStripMenuItem_Click);
 			// 
 			// plansToolStripMenuItem
 			// 
 			this.plansToolStripMenuItem.Name = "plansToolStripMenuItem";
-			this.plansToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.plansToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
 			this.plansToolStripMenuItem.Text = "Educational plans";
 			this.plansToolStripMenuItem.Click += new System.EventHandler(this.plansToolStripMenuItem_Click);
 			// 
-			// logoutToolStripMenuItem
+			// labelSubject
 			// 
-			this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-			this.logoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.logoutToolStripMenuItem.Text = "Logout";
-			this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
-			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.exitToolStripMenuItem.Text = "Exit";
-			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			this.labelSubject.AutoSize = true;
+			this.labelSubject.BackColor = System.Drawing.Color.Transparent;
+			this.labelSubject.Font = new System.Drawing.Font("Arcon", 36F, System.Drawing.FontStyle.Italic);
+			this.labelSubject.Location = new System.Drawing.Point(495, 25);
+			this.labelSubject.Name = "labelSubject";
+			this.labelSubject.Size = new System.Drawing.Size(177, 58);
+			this.labelSubject.TabIndex = 7;
+			this.labelSubject.Text = "Subject";
 			// 
 			// FormGradebook
 			// 
@@ -149,6 +162,7 @@
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1384, 761);
+			this.Controls.Add(this.labelSubject);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStripGradebook);
 			this.Controls.Add(this.labelClass);
@@ -180,5 +194,6 @@
 		private System.Windows.Forms.ToolStripMenuItem plansToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.Label labelSubject;
 	}
 }

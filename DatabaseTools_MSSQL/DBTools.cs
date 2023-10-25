@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.SqlServer.Server;
+using System.Data.SqlTypes;
+using System.Security.Policy;
 
 namespace DatabaseTools_MSSQL
 {
@@ -66,6 +68,8 @@ namespace DatabaseTools_MSSQL
 			return result;
 		}
 
+		//сделать методы для выполнения процедур функций(прием значений)
+
 		/// <summary>
 		/// Выполнение запроса SELECT с возвращением двумерного массива данных.
 		/// </summary>
@@ -105,7 +109,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT или EXECUTE!");
+				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Учитывайте что запрос должен начинаться с оператора SELECT или EXECUTE!");
 			}
 
 			return result;
@@ -118,31 +122,27 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataTable executeSelectTableDT(string sql)
 		{
-			DataTable result = null;
+			DataTable result = new DataTable();
 
 			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
-				DataTable data = new DataTable();
-				data.Clear();
+				result.Clear();
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
 
 					SqlCommand command = new SqlCommand(@sql, sqlConnection);
 					SqlDataReader reader = command.ExecuteReader();
-					data.Load(reader);
+					result.Load(reader);
 
 					sqlConnection.Close();
 				}
-
-				result = data;
-				data.Clear();
 			}
 			else
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Запрос должен начинаться с оператора SELECT или EXECUTE!");
+				consoleHandler.ConsoleWriteText("Внимание! Ошибка составления запроса! Учитывайте что запрос должен начинаться с оператора SELECT или EXECUTE!");
 			}
 
 			return result;
@@ -184,17 +184,9 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает массив значений.</param>
 		public void executeInsert(string table, string[] value)
 		{
-			string strValues = string.Empty;
-
 			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
-			string columns = string.Empty;
-			for (int i = 1; i <= value.Length; i++) //бесполезная ебанина в случае этого метода, так как 1 столбец; цикл орентируется отностильено массива значений(values) потому что допускается не полный insert в таблицу
-			{
-				columns = columns + columnsNamesMassive[i] + ", ";
-				strValues = strValues + value[i - 1] + ", ";
-			}
-			columns = columns.Remove(columns.Length - 2);
-			strValues = strValues.Remove(strValues.Length - 2);
+			string columns = string.Join(", ", columnsNamesMassive);
+			string strValues = string.Join(", ", value);
 			string sql = $"insert into {table} ({columns}) values ({strValues});";
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -481,6 +473,26 @@ namespace DatabaseTools_MSSQL
 		}
 
 		// вынести в отдельный класс работы с целевой таблицей
+		public struct ColumnsNames
+		{
+			public enum BDKeys
+			{
+				NONE = 0, PK = 1, FK = 2
+			}
+
+			public string Name;
+			public string LongName;
+			public BDKeys Key;
+			public string FKFiled;
+
+			public ColumnsNames(string name = null, string longName = null, BDKeys key = BDKeys.NONE, string fkFiled = null)
+			{
+				this.Name = name;
+				this.LongName = longName;
+				this.Key = key;
+				this.FKFiled = fkFiled;
+			}
+		}
 		/// <summary>
 		/// Возвращает массив имен всех стлбцов таблицы.
 		/// </summary>
