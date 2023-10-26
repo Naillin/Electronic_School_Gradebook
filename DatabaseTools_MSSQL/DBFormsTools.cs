@@ -25,7 +25,13 @@ namespace DatabaseTools_MSSQL
 			connectionStringReceiver = connectionString;
 		}
 
-		//коменты
+		/// <summary>
+		/// Заполняет DataGridView всеми данными указанных полей таблицы.
+		/// </summary>
+		/// <param name="dataGridView">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="fields">Массив хранящий поля таблицы.</param>
+		/// <returns></returns>
 		public DataTable FillDGV(ref DataGridView dataGridView, string table, string[] fields)
 		{
 			string columns = string.Join(", ", fields);
@@ -39,7 +45,14 @@ namespace DatabaseTools_MSSQL
 			return dt;
 		}
 
-		//коменты
+		/// <summary>
+		/// Заполняет DataGridView всеми данными указанных полей таблицы.
+		/// </summary>
+		/// <param name="dataGridView">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="fields">Массив хранящий поля таблицы.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <returns></returns>
 		public DataTable FillDGV(ref DataGridView dataGridView, string table, string[] fields, string conditions)
 		{
 			string columns = string.Join(", ", fields);
@@ -136,6 +149,14 @@ namespace DatabaseTools_MSSQL
 			return ds;
 		}
 
+		/// <summary>
+		/// Заполняет ListBox всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="listBox">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
+		/// <param name="selectValue">Задает выбор элемента.</param>
+		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -195,6 +216,15 @@ namespace DatabaseTools_MSSQL
 			return ds;
 		}
 
+		/// <summary>
+		/// Заполняет ListBox всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="listBox">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="selectValue">Задает выбор элемента.</param>
+		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -253,6 +283,14 @@ namespace DatabaseTools_MSSQL
 			return ds;
 		}
 
+		/// <summary>
+		/// Заполняет ComboBox всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
+		/// <param name="selectValue">Задает выбор элемента.</param>
+		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -312,6 +350,15 @@ namespace DatabaseTools_MSSQL
 			return ds;
 		}
 
+		/// <summary>
+		/// Заполняет ComboBox всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="selectValue">Задает выбор элемента.</param>
+		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, string conditions, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -338,7 +385,13 @@ namespace DatabaseTools_MSSQL
 			return ds;
 		}
 
-		//test
+		/// <summary>
+		/// Заполняет ComboBoxCell всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
+		/// <returns></returns>
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -365,7 +418,14 @@ namespace DatabaseTools_MSSQL
 			return ds;
 		}
 
-		//test2
+		/// <summary>
+		/// Заполняет ComboBoxCell всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <returns></returns>
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column, string conditions)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);

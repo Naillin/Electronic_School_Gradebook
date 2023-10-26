@@ -235,7 +235,10 @@ namespace Electronic_School_Gradebook
 					}
 				}
 
-				dataGridViewGradebookReciver.Rows[rowIndex].Cells[columnIndex].Value = dataGradebook[z, 1];
+				if(columnIndex > 0)
+				{
+					dataGridViewGradebookReciver.Rows[rowIndex].Cells[columnIndex].Value = dataGradebook[z, 1];
+				}
 			}
 
 			this.Close();
