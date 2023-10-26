@@ -47,6 +47,12 @@ namespace Electronic_School_Gradebook
 			//границы размеров
 			this.MaximumSize = new Size(10000, 10000);
 			this.MinimumSize = new Size(1200, 500);
+
+			//настройка dgvGradebook
+			dataGridViewGradebook.MultiSelect = false;
+			dataGridViewGradebook.SelectionMode = DataGridViewSelectionMode.CellSelect;
+			dataGridViewGradebook.AllowUserToAddRows = false;
+			dataGridViewGradebook.AllowUserToDeleteRows = false;
 		}
 
 		public TaskRowConnect[] rowConnects;
@@ -76,10 +82,62 @@ namespace Electronic_School_Gradebook
 			labelSubject.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Class}");
 		}
 
+		//запоминание координат ячейки
+		int selectRow = 0;
+		int selectColumn = 0;
+		bool flagInsert = false;
+		string oldRecord = string.Empty;
+		private void dataGridViewGradebook_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			selectRow = dataGridViewGradebook.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewGradebook.SelectedCells[0].ColumnIndex;
+			oldRecord = dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString();
+
+			if (oldRecord == "")
+			{
+				flagInsert = true;
+			}
+			else
+			{
+				flagInsert = false;
+			}
+		}
+
+		private void dataGridViewGradebook_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+
+			//insert
+			if (flagInsert)
+			{
+				DateTime today = DateTime.Today;
+				string dateFormatBD = today.ToString("yyyy-MM-dd HH:mm:ss");
+
+				object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {FormGradebook.ID_Subject};");
+
+				string[] values = { dateFormatBD, dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString(), studentRowConnects[selectRow].id.ToString(), ID_TeachToSubj.ToString() };
+
+				dBTools.executeInsert("Gradebook", values);
+			}
+			else
+			{
+				string newRecord = dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString();
+				//delete
+				if (newRecord == "")
+				{
+
+				}
+				else //update
+				{
+
+				}
+			}
+		}
+
 		//форма настройка плана
 		private void plansToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			DialogResult dialogResult = MessageBox.Show("This leads to clearing the fields of the gradebook!", "Attention!!!", MessageBoxButtons.YesNo);
+			DialogResult dialogResult = MessageBox.Show("This leads to clearing the fields of the gradebook!", "Attention!", MessageBoxButtons.YesNo);
 			if (dialogResult == DialogResult.Yes)
 			{
 				dataGridViewGradebook.Columns.Clear();

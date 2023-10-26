@@ -58,6 +58,8 @@
 			this.dataGridViewGradebook.Name = "dataGridViewGradebook";
 			this.dataGridViewGradebook.Size = new System.Drawing.Size(1360, 630);
 			this.dataGridViewGradebook.TabIndex = 0;
+			this.dataGridViewGradebook.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewGradebook_CellBeginEdit);
+			this.dataGridViewGradebook.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGradebook_CellEndEdit);
 			// 
 			// labelClass
 			// 

@@ -185,7 +185,13 @@ namespace DatabaseTools_MSSQL
 		public void executeInsert(string table, string[] value)
 		{
 			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
-			string columns = string.Join(", ", columnsNamesMassive);
+			string columns = string.Empty;
+			for (int i = 1; i < columnsNamesMassive.Length; i++)
+			{
+				columns = columns + columnsNamesMassive[i] + ", ";
+			}
+			columns = columns.Remove(columns.Length - 2);
+
 			string strValues = string.Join(", ", value);
 			string sql = $"insert into {table} ({columns}) values ({strValues});";
 
@@ -207,22 +213,20 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "value1;value2;value3;".</param>
 		public void executeInsert(string table, string value)
 		{
+			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
+			string columns = string.Empty;
+			for (int i = 1; i < columnsNamesMassive.Length; i++)
+			{
+				columns = columns + columnsNamesMassive[i] + ", ";
+			}
+			columns = columns.Remove(columns.Length - 2);
+
 			if (value.Substring(value.Length - 1) == ";")
 			{
 				value = value.Remove(value.Length - 1);
 			}
-			string[] values = value.Split(';');
-			string strValues = string.Empty;
+			string strValues = value.Replace(';', ',');
 
-			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
-			string columns = string.Empty;
-			for (int i = 1; i <= values.Length; i++)
-			{
-				columns = columns + columnsNamesMassive[i] + ", ";
-				strValues = strValues + values[i - 1] + ", ";
-			}
-			columns = columns.Remove(columns.Length - 2);
-			strValues = strValues.Remove(strValues.Length - 2);
 			string sql = $"insert into {table} ({columns}) values ({strValues});";
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))

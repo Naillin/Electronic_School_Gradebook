@@ -46,10 +46,11 @@ namespace Electronic_School_Gradebook
 			dBFormsTools.FillListBox(ref listBoxClasses, "Classes", "Name_Class", $"join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
 
 			//если открыли повторно
-			if (formGradebookReciver.rowConnects != null)
+			if (formGradebookReciver.rowConnects != null && formGradebookReciver.rowConnects.Length != 0)
 			{
 				DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
 				int value = (int)dBTools.executeAnySqlScalar($"select Classes.ID_class from Classes join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join TeacherPlan on TeacherPlan.ID_TeachToClass = TeachToClass.ID_TeachToClass where TeacherPlan.ID_Work = {formGradebookReciver.rowConnects[0].id.ToString()} group by Classes.ID_class;");
+				dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
 				listBoxClasses.SelectedValue = FormGradebook.ID_Class;
 				listBoxSubjects.SelectedValue = FormGradebook.ID_Subject;
 
@@ -105,6 +106,7 @@ namespace Electronic_School_Gradebook
 
 			FormGradebook.ID_Class = (int)listBoxClasses.SelectedValue;
 			dataGridViewTasks.Rows.Clear();
+			buttonAccept.Enabled = false;
 		}
 		//если выбрали предмет
 		private void listBoxSubjects_SelectedIndexChanged(object sender, EventArgs e)
@@ -180,11 +182,11 @@ namespace Electronic_School_Gradebook
 					//columnTask.HeaderText = ColumnText;
 
 					dataGridViewGradebookReciver.Columns.Add("Column" + ColumnText, ColumnText);
-					formGradebookReciver.rowConnects[i].columnIndex_dgvGradebook = i;
+					formGradebookReciver.rowConnects[i].columnIndex_dgvGradebook = i + 1;
 				}
 				else
 				{
-					formGradebookReciver.rowConnects[i].columnIndex_dgvGradebook = -1;
+					formGradebookReciver.rowConnects[i].columnIndex_dgvGradebook = -1; //есть очень тяжело уловимый баг (выход за пределы массива). происходит когда что то поменяешь в плане и начнешь редачить отображение.
 				}
 			}
 			
@@ -207,8 +209,35 @@ namespace Electronic_School_Gradebook
 					dataGridViewGradebookReciver.Rows[i].DefaultCellStyle.BackColor = Color.LimeGreen;
 				}
 			}
-
 			dataGridViewGradebookReciver.Columns[0].Width = 150;
+
+			//заполение dgvGradebook оценками
+			object[,] dataGradebook = dBTools.executeSelectTable($"select Gradebook.ID_Writing, Gradebook.Mark, Gradebook.ID_Student, TeacherPlan.ID_Work from Gradebook join TeacherPlan on TeacherPlan.ID_Work = Gradebook.ID_Work join TeachToSubj on TeachToSubj.ID_TeachToSubj = Gradebook.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
+			for (int z = 0; z < dataGradebook.GetLength(0); z++)
+			{
+				int rowIndex = 0;
+				for(int i = 0; i < formGradebookReciver.studentRowConnects.Length; i++)
+				{
+					if (formGradebookReciver.studentRowConnects[i].id == (int)dataGradebook[i, 2])
+					{
+						rowIndex = formGradebookReciver.studentRowConnects[i].rowIndex_dgvStudents;
+						break;
+					}
+				}
+
+				int columnIndex = 0;
+				for (int i = 0; i < formGradebookReciver.rowConnects.Length; i++)
+				{
+					if ((formGradebookReciver.rowConnects[i].id == (int)dataGradebook[z, 3]) && (formGradebookReciver.rowConnects[i].columnIndex_dgvGradebook != -1))
+					{
+						columnIndex = formGradebookReciver.rowConnects[i].columnIndex_dgvGradebook;
+						break;
+					}
+				}
+
+				dataGridViewGradebookReciver.Rows[rowIndex].Cells[columnIndex].Value = dataGradebook[z, 1];
+			}
+
 			this.Close();
 		}
 

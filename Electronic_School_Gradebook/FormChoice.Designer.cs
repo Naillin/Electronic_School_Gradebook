@@ -28,18 +28,21 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormChoice));
 			this.labelClasses = new System.Windows.Forms.Label();
 			this.labelTasks = new System.Windows.Forms.Label();
 			this.dataGridViewTasks = new System.Windows.Forms.DataGridView();
-			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.buttonAccept = new System.Windows.Forms.Button();
 			this.listBoxClasses = new System.Windows.Forms.ListBox();
 			this.listBoxSubjects = new System.Windows.Forms.ListBox();
 			this.labelSubjects = new System.Windows.Forms.Label();
+			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -72,42 +75,40 @@
 			this.dataGridViewTasks.AllowUserToResizeRows = false;
 			this.dataGridViewTasks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewTasks.BackgroundColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Arcon", 11.25F, System.Drawing.FontStyle.Bold);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridViewTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridViewTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewTasks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3,
             this.Column4});
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Arcon", 11.25F, System.Drawing.FontStyle.Bold);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridViewTasks.DefaultCellStyle = dataGridViewCellStyle2;
 			this.dataGridViewTasks.Location = new System.Drawing.Point(525, 77);
 			this.dataGridViewTasks.Name = "dataGridViewTasks";
-			this.dataGridViewTasks.Size = new System.Drawing.Size(503, 349);
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Arcon", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridViewTasks.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			this.dataGridViewTasks.Size = new System.Drawing.Size(640, 349);
 			this.dataGridViewTasks.TabIndex = 4;
-			// 
-			// Column1
-			// 
-			this.Column1.FillWeight = 45.68528F;
-			this.Column1.HeaderText = "Вкл";
-			this.Column1.Name = "Column1";
-			// 
-			// Column2
-			// 
-			this.Column2.FillWeight = 127.1574F;
-			this.Column2.HeaderText = "Задача";
-			this.Column2.Name = "Column2";
-			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// Column3
-			// 
-			this.Column3.FillWeight = 127.1574F;
-			this.Column3.HeaderText = "Дата создания";
-			this.Column3.Name = "Column3";
-			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// Column4
-			// 
-			this.Column4.HeaderText = "Тип";
-			this.Column4.Name = "Column4";
-			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// buttonAccept
 			// 
@@ -118,7 +119,7 @@
 			this.buttonAccept.ForeColor = System.Drawing.Color.Transparent;
 			this.buttonAccept.Location = new System.Drawing.Point(12, 432);
 			this.buttonAccept.Name = "buttonAccept";
-			this.buttonAccept.Size = new System.Drawing.Size(1016, 43);
+			this.buttonAccept.Size = new System.Drawing.Size(1153, 43);
 			this.buttonAccept.TabIndex = 5;
 			this.buttonAccept.Text = "Accept";
 			this.buttonAccept.UseVisualStyleBackColor = false;
@@ -126,7 +127,7 @@
 			// 
 			// listBoxClasses
 			// 
-			this.listBoxClasses.BackColor = System.Drawing.Color.White;
+			this.listBoxClasses.BackColor = System.Drawing.Color.AliceBlue;
 			this.listBoxClasses.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.listBoxClasses.FormattingEnabled = true;
 			this.listBoxClasses.ItemHeight = 23;
@@ -138,7 +139,7 @@
 			// 
 			// listBoxSubjects
 			// 
-			this.listBoxSubjects.BackColor = System.Drawing.Color.White;
+			this.listBoxSubjects.BackColor = System.Drawing.Color.Linen;
 			this.listBoxSubjects.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.listBoxSubjects.FormattingEnabled = true;
 			this.listBoxSubjects.ItemHeight = 23;
@@ -159,6 +160,33 @@
 			this.labelSubjects.TabIndex = 7;
 			this.labelSubjects.Text = "Subjects";
 			// 
+			// Column1
+			// 
+			this.Column1.FillWeight = 49.97757F;
+			this.Column1.HeaderText = "Вкл";
+			this.Column1.Name = "Column1";
+			// 
+			// Column2
+			// 
+			this.Column2.FillWeight = 139.1043F;
+			this.Column2.HeaderText = "Задача";
+			this.Column2.Name = "Column2";
+			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column3
+			// 
+			this.Column3.FillWeight = 101.5229F;
+			this.Column3.HeaderText = "Дата создания";
+			this.Column3.Name = "Column3";
+			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column4
+			// 
+			this.Column4.FillWeight = 109.3954F;
+			this.Column4.HeaderText = "Тип";
+			this.Column4.Name = "Column4";
+			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
 			// FormChoice
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,7 +194,7 @@
 			this.BackColor = System.Drawing.Color.White;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(1048, 487);
+			this.ClientSize = new System.Drawing.Size(1177, 494);
 			this.Controls.Add(this.labelSubjects);
 			this.Controls.Add(this.listBoxSubjects);
 			this.Controls.Add(this.buttonAccept);
@@ -190,12 +218,12 @@
 		private System.Windows.Forms.Label labelTasks;
 		private System.Windows.Forms.DataGridView dataGridViewTasks;
 		private System.Windows.Forms.Button buttonAccept;
+		private System.Windows.Forms.ListBox listBoxClasses;
+		private System.Windows.Forms.ListBox listBoxSubjects;
+		private System.Windows.Forms.Label labelSubjects;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-		private System.Windows.Forms.ListBox listBoxClasses;
-		private System.Windows.Forms.ListBox listBoxSubjects;
-		private System.Windows.Forms.Label labelSubjects;
 	}
 }
