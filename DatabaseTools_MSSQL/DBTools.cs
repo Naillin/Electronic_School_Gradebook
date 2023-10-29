@@ -443,7 +443,7 @@ namespace DatabaseTools_MSSQL
 				sqlConnection.Open();
 
 				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				count = command.ExecuteNonQuery();
+				count = (int)command.ExecuteScalar();
 
 				sqlConnection.Close();
 			}
@@ -468,7 +468,7 @@ namespace DatabaseTools_MSSQL
 				sqlConnection.Open();
 
 				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				count = command.ExecuteNonQuery();
+				count = (int)command.ExecuteScalar();
 
 				sqlConnection.Close();
 			}

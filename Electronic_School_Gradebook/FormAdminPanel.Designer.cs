@@ -30,7 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewInformation = new System.Windows.Forms.DataGridView();
             this.treeViewObjectCommunications = new System.Windows.Forms.TreeView();
             this.treeViewMainCommunications = new System.Windows.Forms.TreeView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -38,7 +38,7 @@
             this.checkBoxTeachers = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInformation)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -54,7 +54,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dataGridView1);
+            this.tabPage1.Controls.Add(this.dataGridViewInformation);
             this.tabPage1.Controls.Add(this.treeViewObjectCommunications);
             this.tabPage1.Controls.Add(this.treeViewMainCommunications);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
@@ -66,16 +66,17 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridViewInformation
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(247, 198);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(637, 257);
-            this.dataGridView1.TabIndex = 2;
+            this.dataGridViewInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewInformation.Location = new System.Drawing.Point(247, 198);
+            this.dataGridViewInformation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridViewInformation.Name = "dataGridViewInformation";
+            this.dataGridViewInformation.RowHeadersWidth = 51;
+            this.dataGridViewInformation.RowTemplate.Height = 24;
+            this.dataGridViewInformation.Size = new System.Drawing.Size(637, 257);
+            this.dataGridViewInformation.TabIndex = 2;
+            this.dataGridViewInformation.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewInformation_CellBeginEdit);
             // 
             // treeViewObjectCommunications
             // 
@@ -145,7 +146,7 @@
             this.Load += new System.EventHandler(this.FormAdminPanel_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInformation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,7 +159,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TreeView treeViewObjectCommunications;
         private System.Windows.Forms.TreeView treeViewMainCommunications;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewInformation;
         private System.Windows.Forms.CheckBox checkBoxStudents;
         private System.Windows.Forms.CheckBox checkBoxTeachers;
     }

@@ -54,6 +54,7 @@ namespace Electronic_School_Gradebook
 		private void FormAdminPanel_Load(object sender, EventArgs e)
 		{
             treeViewMainCommunications.Nodes.Clear();
+            
 
             DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
             object[,] data = dBTools.executeSelectTable($"select ID_Class, Name_Class from Classes;");
@@ -77,16 +78,16 @@ namespace Electronic_School_Gradebook
 
                     TreeNode[] treeStudentsTeach = new TreeNode[dataStudents.GetLength(0) + dataTeachers.GetLength(0)];
 
-                    for (int j = 0; j < dataStudents.GetLength(0); j++)
+                    for (int j = 0, l = nodeConnects.Length-1; j < dataStudents.GetLength(0);l--, j++)
                     {
                         treeStudentsTeach[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString());
-                        nodeConnects[j].node = treeStudentsTeach[j];
-                        nodeConnects[j].id = (int)dataStudents[j, 0];
-                        nodeConnects[j].type = NodeConnect.Types.STUDENT;
+                        nodeConnects[l].node = treeStudentsTeach[j];
+                        nodeConnects[l].id = (int)dataStudents[j, 0];
+                        nodeConnects[l].type = NodeConnect.Types.STUDENT;
 
                     }
 
-                    for (int k = dataStudents.GetLength(0), z = 0; k < treeStudentsTeach.Length; z++, k++)
+                    for (int k = dataStudents.GetLength(0), l=nodeConnects.Length-dataStudents.GetLength(0)-1, z = 0; k < treeStudentsTeach.Length; z++, k++,l--)
                     {
                         treeStudentsTeach[k] = new TreeNode((dataTeachers[z, 2] + " " + dataTeachers[z, 1]).ToString());
                         nodeConnects[k].node = treeStudentsTeach[k];
@@ -95,10 +96,11 @@ namespace Electronic_School_Gradebook
 
                     }
 
-                    treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudentsTeach);
+                    treeClasses[i] = new TreeNode(data[i, 1].ToString(),treeStudentsTeach);
                     nodeConnects[i].node = treeClasses[i];
                     nodeConnects[i].id = (int)data[i, 0];
                     nodeConnects[i].type = NodeConnect.Types.CLASS;
+                    
 
                     treeViewMainCommunications.Nodes.Add(treeClasses[i]);
                 }
@@ -116,12 +118,12 @@ namespace Electronic_School_Gradebook
 
                     TreeNode[] treeStudents = new TreeNode[dataStudents.GetLength(0)];
 
-                    for (int j = 0; j < dataStudents.GetLength(0); j++)
+                    for (int j = 0, l = nodeConnects.Length - 1; j < dataStudents.GetLength(0); l--, j++)
                     {
                         treeStudents[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString());
-                        nodeConnects[j].node = treeStudents[j];
-                        nodeConnects[j].id = (int)dataStudents[j, 0];
-                        nodeConnects[j].type = NodeConnect.Types.STUDENT;
+                        nodeConnects[l].node = treeStudents[j];
+                        nodeConnects[l].id = (int)dataStudents[j, 0];
+                        nodeConnects[l].type = NodeConnect.Types.STUDENT;
                     }
 
                     treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudents);
@@ -131,9 +133,11 @@ namespace Electronic_School_Gradebook
                     treeViewMainCommunications.Nodes.Add(treeClasses[i]);
                 }
 
+
             }
             else if (checkBoxTeachers.Checked)
             {
+                treeViewMainCommunications.Nodes.Clear();
                 object countClasses = dBTools.executeAnySqlScalar("select count(ID_Class) from Classes;");
                 object countTeachers = dBTools.executeAnySqlScalar("select count(ID_Teacher) from Teachers;");
 
@@ -146,18 +150,20 @@ namespace Electronic_School_Gradebook
 
                     TreeNode[] treeTeach = new TreeNode[dataTeachers.GetLength(0)];
 
-                    for (int j = 0; j < dataTeachers.GetLength(0); j++)
-                    {
-                        treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString());
-                        nodeConnects[j].node = treeTeach[j];
-                        nodeConnects[j].id = (int)dataTeachers[j, 0];
-                        nodeConnects[j].type = NodeConnect.Types.TEACHER;
-                    }
-
-                    treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeTeach);
+                    treeClasses[i] = new TreeNode(data[i, 1].ToString() /*treeTeach*/);
                     nodeConnects[i].node = treeClasses[i];
                     nodeConnects[i].id = (int)data[i, 0];
                     nodeConnects[i].type = NodeConnect.Types.CLASS;
+
+                    for (int j = 0, l = nodeConnects.Length-1; j < dataTeachers.GetLength(0); l--, j++)
+                    {
+                        treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString());
+                        nodeConnects[l].node = treeTeach[j];
+                        nodeConnects[l].id = (int)dataTeachers[j, 0];
+                        nodeConnects[l].type = NodeConnect.Types.TEACHER;
+                        treeClasses[i].Nodes.Add(treeTeach[j]);
+                    }
+                    
                     treeViewMainCommunications.Nodes.Add(treeClasses[i]);
                 }
             }
@@ -183,8 +189,9 @@ namespace Electronic_School_Gradebook
 		//переключили студентов
 		private void checkBoxStudents_CheckedChanged(object sender, EventArgs e)
 		{
-			FormAdminPanel_Load(sender, e);
-		}
+            FormAdminPanel_Load(sender, e);
+           
+        }
 
 		//переключили учителей
 		private void checkBoxTeachers_CheckedChanged(object sender, EventArgs e)
@@ -202,7 +209,7 @@ namespace Electronic_School_Gradebook
 
 			for (int i = 0; i < nodeConnects.Length; i++)
             {
-                if (nodeConnects[i].node == treeViewMainCommunications.SelectedNode)
+                if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
                 {
 					BDid = nodeConnects[i].id;
 					tableType = nodeConnects[i].type;
@@ -220,32 +227,38 @@ namespace Electronic_School_Gradebook
 
 					TreeNode[] treeStudentsTeach = new TreeNode[dataStudents.GetLength(0)+dataTeachers.GetLength(0)];
 
-					for (int j = 0; j < dataStudents.GetLength(0); j++)
-					{
-						treeStudentsTeach[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString());
-						treeViewObjectCommunications.Nodes.Add(treeStudentsTeach[j]);
-					}
-
-                    for (int k = dataStudents.GetLength(0), z = 0; k < treeStudentsTeach.Length; z++, k++)
+                    if (treeViewMainCommunications.SelectedNode != null)
                     {
-                        treeStudentsTeach[k] = new TreeNode((dataTeachers[z, 2] + " " + dataTeachers[z, 1]).ToString());
-                        treeViewObjectCommunications.Nodes.Add(treeStudentsTeach[k]);
+                        for (int j = 0; j < dataStudents.GetLength(0); j++)
+                        {
+                            treeStudentsTeach[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString());
+                            treeViewObjectCommunications.Nodes.Add(treeStudentsTeach[j]);
+
+                        }
+
+                        for (int k = dataStudents.GetLength(0), z = 0; k < treeStudentsTeach.Length; z++, k++)
+                        {
+                            treeStudentsTeach[k] = new TreeNode((dataTeachers[z, 2] + " " + dataTeachers[z, 1]).ToString());
+                            treeViewObjectCommunications.Nodes.Add(treeStudentsTeach[k]);
+
+                        }
 
                     }
-
                     break;
 
 				case NodeConnect.Types.STUDENT:
 					object[,] dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Name_Parent, A.Surname_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {BDid}");
 					TreeNode[] treeParent = new TreeNode[dataParent.GetLength(0)];
 
-					for (int j = 0; j < treeParent.Length; j++)
-					{
-						treeParent[j] = new TreeNode((dataParent[j, 2] + " " + dataParent[j, 1]).ToString());
+                    if (treeViewMainCommunications.SelectedNode != null)
+                    {
+                        for (int j = 0; j < treeParent.Length; j++)
+                        {
+                            treeParent[j] = new TreeNode((dataParent[j, 2] + " " + dataParent[j, 1]).ToString());
 
-						treeViewObjectCommunications.Nodes.Add(treeParent[j]);
-					}
-
+                            treeViewObjectCommunications.Nodes.Add(treeParent[j]);
+                        }
+                    }   
 					break;
 
 				case NodeConnect.Types.TEACHER:
@@ -266,10 +279,16 @@ namespace Electronic_School_Gradebook
 					}
 
 					break;
+                    default: break;
 
             }
 			
 
+        }
+
+        private void dataGridViewInformation_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            
         }
 
         //-----------------------------------------------------------------------------------
