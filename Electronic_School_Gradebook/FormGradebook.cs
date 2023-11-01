@@ -93,7 +93,7 @@ namespace Electronic_School_Gradebook
 			toolStripStatusLabelUser.Text = TextInfo;
 			toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[0].Cells[0].Value.ToString();
 			toolStripStatusLabelCountTasks.Text = "Количество задач: " + rowConnects.Length.ToString();
-		}
+        }
 
 		//запоминание координат ячейки
 		int selectRow = 0;
@@ -137,8 +137,11 @@ namespace Electronic_School_Gradebook
 			//insert
 			if (flagInsert)
 			{
-				string[] values = { "'" + dateFormatBD + "'", dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString(), studentRowConnects[selectRow].id.ToString(), ID_TeachToSubj.ToString(), ID_Work.ToString() };
-				dBTools.executeInsert("Gradebook", values);
+				if (dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value != null)
+				{
+                    string[] values = { "'" + dateFormatBD + "'", dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString(), studentRowConnects[selectRow].id.ToString(), ID_TeachToSubj.ToString(), ID_Work.ToString() };
+                    dBTools.executeInsert("Gradebook", values);
+                }
 			}
 			else
 			{
@@ -227,7 +230,15 @@ namespace Electronic_School_Gradebook
 		private void dataGridViewGradebook_MouseClick(object sender, MouseEventArgs e)
 		{
 			//заполнение toolStripStatusLabelCountStudens
-			toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString();
+			try
+			{
+				// Есть ошибка, если оставить пустое поле (возвращает null)
+                toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString();
+            }
+			catch
+			{
+
+			}
 		}
 
 		//клик по тултипу в туллах

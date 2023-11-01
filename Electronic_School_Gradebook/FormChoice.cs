@@ -169,9 +169,10 @@ namespace Electronic_School_Gradebook
 			dataGridViewGradebookReciver.Columns.Add("ColumnFIO", "Name");
 			dataGridViewGradebookReciver.Columns[0].Width = 50; //хз почему не робит здесь 
 			dataGridViewGradebookReciver.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+			dataGridViewGradebookReciver.Columns[0].ReadOnly = true;
 
-			//заполение dgvGradebook задачами
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+            //заполение dgvGradebook задачами
+            DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
 			for (int i = 0; i < dataGridViewTasks.RowCount; i++)
 			{
 				bool ddd = (bool)dataGridViewTasks.Rows[i].Cells[0].Value;
@@ -214,9 +215,10 @@ namespace Electronic_School_Gradebook
 			}
 			dataGridViewGradebookReciver.Columns[0].Width = 150;
 			dataGridViewGradebookReciver.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dataGridViewGradebookReciver.Columns[0].ReadOnly = true;
 
-			//заполение dgvGradebook оценками (нужна тестировка)
-			object[,] dataGradebook = dBTools.executeSelectTable($"select Gradebook.ID_Writing, Gradebook.Mark, Gradebook.ID_Student, TeacherPlan.ID_Work from Gradebook join TeacherPlan on TeacherPlan.ID_Work = Gradebook.ID_Work join TeachToSubj on TeachToSubj.ID_TeachToSubj = Gradebook.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
+            //заполение dgvGradebook оценками (нужна тестировка)
+            object[,] dataGradebook = dBTools.executeSelectTable($"select Gradebook.ID_Writing, Gradebook.Mark, Gradebook.ID_Student, TeacherPlan.ID_Work from Gradebook join TeacherPlan on TeacherPlan.ID_Work = Gradebook.ID_Work join TeachToSubj on TeachToSubj.ID_TeachToSubj = Gradebook.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
 			for (int z = 0; z < dataGradebook.GetLength(0); z++)
 			{
 				int rowIndex = 0;
