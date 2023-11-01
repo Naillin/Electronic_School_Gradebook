@@ -113,8 +113,8 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-		//static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
+		//static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
 		private void FormAuthorization_Load(object sender, EventArgs e)
 		{
 		//	string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
@@ -188,14 +188,11 @@ namespace Electronic_School_Gradebook
 							break;
 
 						case "Teacher":
+							SoundPlayer sndVoscl = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 41, 41) + @"\Res\sound\Voscl.wav"));
+							sndVoscl.Play();
+
 							FormGradebook formGradebook = new FormGradebook();
 							formGradebook.Show();
-
-							//перенести папку Res к exe и добавить звуки в нее
-							//написать коменты к всему
-
-							//SoundPlayer sndVoscl = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 14, 14) + @"\Res\sound\Voscl.wav"));
-							//sndVoscl.Play();
 
 							this.Hide();
 							break;
@@ -211,10 +208,10 @@ namespace Electronic_School_Gradebook
 				}
 				else
 				{
-					//SoundPlayer sndError = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 14, 14) + @"\Res\sound\Error.wav"));
-					//sndError.Play();
+					SoundPlayer sndError = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 41, 41) + @"\Res\sound\Error.wav"));
+					sndError.Play();
 					MessageBox.Show("Неверный логин или пароль!", "Внимание!");
-					//sndError.Stop();
+					sndError.Stop();
 
 					buttonLogin.Select();
 					textBoxLogin.ForeColor = Color.Silver;

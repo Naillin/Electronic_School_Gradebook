@@ -32,8 +32,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGradebook));
 			this.dataGridViewGradebook = new System.Windows.Forms.DataGridView();
 			this.labelClass = new System.Windows.Forms.Label();
-			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.notifyIconInfoUser = new System.Windows.Forms.NotifyIcon(this.components);
+			this.statusStripStatus = new System.Windows.Forms.StatusStrip();
 			this.menuStripGradebook = new System.Windows.Forms.MenuStrip();
 			this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +42,11 @@
 			this.changeTasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.plansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelSubject = new System.Windows.Forms.Label();
+			this.toolStripStatusLabelUser = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabelCountStudens = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabelCountTasks = new System.Windows.Forms.ToolStripStatusLabel();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGradebook)).BeginInit();
+			this.statusStripStatus.SuspendLayout();
 			this.menuStripGradebook.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -60,6 +64,9 @@
 			this.dataGridViewGradebook.TabIndex = 0;
 			this.dataGridViewGradebook.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewGradebook_CellBeginEdit);
 			this.dataGridViewGradebook.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGradebook_CellEndEdit);
+			this.dataGridViewGradebook.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewGradebook_EditingControlShowing);
+			this.dataGridViewGradebook.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridViewGradebook_KeyPress);
+			this.dataGridViewGradebook.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewGradebook_MouseClick);
 			// 
 			// labelClass
 			// 
@@ -72,18 +79,27 @@
 			this.labelClass.TabIndex = 4;
 			this.labelClass.Text = "Class";
 			// 
-			// notifyIcon1
+			// notifyIconInfoUser
 			// 
-			this.notifyIcon1.Text = "notifyIcon1";
-			this.notifyIcon1.Visible = true;
+			this.notifyIconInfoUser.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+			this.notifyIconInfoUser.BalloonTipText = "Empty";
+			this.notifyIconInfoUser.BalloonTipTitle = "Журнал активен.";
+			this.notifyIconInfoUser.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconInfoUser.Icon")));
+			this.notifyIconInfoUser.Text = "Empty";
+			this.notifyIconInfoUser.Visible = true;
+			this.notifyIconInfoUser.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
 			// 
-			// statusStrip1
+			// statusStripStatus
 			// 
-			this.statusStrip1.Location = new System.Drawing.Point(0, 739);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1384, 22);
-			this.statusStrip1.TabIndex = 5;
-			this.statusStrip1.Text = "statusStrip1";
+			this.statusStripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelUser,
+            this.toolStripStatusLabelCountStudens,
+            this.toolStripStatusLabelCountTasks});
+			this.statusStripStatus.Location = new System.Drawing.Point(0, 739);
+			this.statusStripStatus.Name = "statusStripStatus";
+			this.statusStripStatus.Size = new System.Drawing.Size(1384, 22);
+			this.statusStripStatus.TabIndex = 5;
+			this.statusStripStatus.Text = "statusStripStatus";
 			// 
 			// menuStripGradebook
 			// 
@@ -156,6 +172,31 @@
 			this.labelSubject.TabIndex = 7;
 			this.labelSubject.Text = "Subject";
 			// 
+			// toolStripStatusLabelUser
+			// 
+			this.toolStripStatusLabelUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.toolStripStatusLabelUser.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStatusLabelUser.Image")));
+			this.toolStripStatusLabelUser.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.toolStripStatusLabelUser.Name = "toolStripStatusLabelUser";
+			this.toolStripStatusLabelUser.Size = new System.Drawing.Size(151, 17);
+			this.toolStripStatusLabelUser.Text = "toolStripStatusLabelUser";
+			// 
+			// toolStripStatusLabelCountStudens
+			// 
+			this.toolStripStatusLabelCountStudens.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStatusLabelCountStudens.Image")));
+			this.toolStripStatusLabelCountStudens.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.toolStripStatusLabelCountStudens.Name = "toolStripStatusLabelCountStudens";
+			this.toolStripStatusLabelCountStudens.Size = new System.Drawing.Size(203, 17);
+			this.toolStripStatusLabelCountStudens.Text = "toolStripStatusLabelCountStudens";
+			// 
+			// toolStripStatusLabelCountTasks
+			// 
+			this.toolStripStatusLabelCountTasks.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStatusLabelCountTasks.Image")));
+			this.toolStripStatusLabelCountTasks.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.toolStripStatusLabelCountTasks.Name = "toolStripStatusLabelCountTasks";
+			this.toolStripStatusLabelCountTasks.Size = new System.Drawing.Size(188, 17);
+			this.toolStripStatusLabelCountTasks.Text = "toolStripStatusLabelCountTasks";
+			// 
 			// FormGradebook
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,10 +206,11 @@
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1384, 761);
 			this.Controls.Add(this.labelSubject);
-			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.statusStripStatus);
 			this.Controls.Add(this.menuStripGradebook);
 			this.Controls.Add(this.labelClass);
 			this.Controls.Add(this.dataGridViewGradebook);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStripGradebook;
 			this.Name = "FormGradebook";
 			this.Text = "Gradebook";
@@ -176,6 +218,8 @@
 			this.Load += new System.EventHandler(this.FormGradebook_Load);
 			this.SizeChanged += new System.EventHandler(this.FormGradebook_SizeChanged);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGradebook)).EndInit();
+			this.statusStripStatus.ResumeLayout(false);
+			this.statusStripStatus.PerformLayout();
 			this.menuStripGradebook.ResumeLayout(false);
 			this.menuStripGradebook.PerformLayout();
 			this.ResumeLayout(false);
@@ -187,8 +231,7 @@
 
 		private System.Windows.Forms.DataGridView dataGridViewGradebook;
 		private System.Windows.Forms.Label labelClass;
-		private System.Windows.Forms.NotifyIcon notifyIcon1;
-		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.StatusStrip statusStripStatus;
 		private System.Windows.Forms.MenuStrip menuStripGradebook;
 		private System.Windows.Forms.ToolStripMenuItem systemToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem gradebookToolStripMenuItem;
@@ -197,5 +240,9 @@
 		private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.Label labelSubject;
+		private System.Windows.Forms.NotifyIcon notifyIconInfoUser;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelUser;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCountStudens;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCountTasks;
 	}
 }

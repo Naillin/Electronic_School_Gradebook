@@ -35,14 +35,15 @@
 			this.labelClasses = new System.Windows.Forms.Label();
 			this.labelTasks = new System.Windows.Forms.Label();
 			this.dataGridViewTasks = new System.Windows.Forms.DataGridView();
-			this.buttonAccept = new System.Windows.Forms.Button();
-			this.listBoxClasses = new System.Windows.Forms.ListBox();
-			this.listBoxSubjects = new System.Windows.Forms.ListBox();
-			this.labelSubjects = new System.Windows.Forms.Label();
 			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.buttonAccept = new System.Windows.Forms.Button();
+			this.listBoxClasses = new System.Windows.Forms.ListBox();
+			this.listBoxSubjects = new System.Windows.Forms.ListBox();
+			this.labelSubjects = new System.Windows.Forms.Label();
+			this.buttonSelectAll = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -110,6 +111,33 @@
 			this.dataGridViewTasks.Size = new System.Drawing.Size(640, 349);
 			this.dataGridViewTasks.TabIndex = 4;
 			// 
+			// Column1
+			// 
+			this.Column1.FillWeight = 49.97757F;
+			this.Column1.HeaderText = "Вкл";
+			this.Column1.Name = "Column1";
+			// 
+			// Column2
+			// 
+			this.Column2.FillWeight = 139.1043F;
+			this.Column2.HeaderText = "Задача";
+			this.Column2.Name = "Column2";
+			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column3
+			// 
+			this.Column3.FillWeight = 101.5229F;
+			this.Column3.HeaderText = "Дата создания";
+			this.Column3.Name = "Column3";
+			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column4
+			// 
+			this.Column4.FillWeight = 109.3954F;
+			this.Column4.HeaderText = "Тип";
+			this.Column4.Name = "Column4";
+			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
 			// buttonAccept
 			// 
 			this.buttonAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(241)))), ((int)(((byte)(187)))));
@@ -160,32 +188,21 @@
 			this.labelSubjects.TabIndex = 7;
 			this.labelSubjects.Text = "Subjects";
 			// 
-			// Column1
+			// buttonSelectAll
 			// 
-			this.Column1.FillWeight = 49.97757F;
-			this.Column1.HeaderText = "Вкл";
-			this.Column1.Name = "Column1";
-			// 
-			// Column2
-			// 
-			this.Column2.FillWeight = 139.1043F;
-			this.Column2.HeaderText = "Задача";
-			this.Column2.Name = "Column2";
-			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// Column3
-			// 
-			this.Column3.FillWeight = 101.5229F;
-			this.Column3.HeaderText = "Дата создания";
-			this.Column3.Name = "Column3";
-			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// Column4
-			// 
-			this.Column4.FillWeight = 109.3954F;
-			this.Column4.HeaderText = "Тип";
-			this.Column4.Name = "Column4";
-			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.buttonSelectAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(241)))), ((int)(((byte)(187)))));
+			this.buttonSelectAll.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonSelectAll.BackgroundImage")));
+			this.buttonSelectAll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonSelectAll.FlatAppearance.BorderSize = 0;
+			this.buttonSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonSelectAll.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic);
+			this.buttonSelectAll.ForeColor = System.Drawing.Color.Transparent;
+			this.buttonSelectAll.Location = new System.Drawing.Point(536, 81);
+			this.buttonSelectAll.Name = "buttonSelectAll";
+			this.buttonSelectAll.Size = new System.Drawing.Size(20, 20);
+			this.buttonSelectAll.TabIndex = 8;
+			this.buttonSelectAll.UseVisualStyleBackColor = false;
+			this.buttonSelectAll.Click += new System.EventHandler(this.buttonSelectAll_Click);
 			// 
 			// FormChoice
 			// 
@@ -195,6 +212,7 @@
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1177, 494);
+			this.Controls.Add(this.buttonSelectAll);
 			this.Controls.Add(this.labelSubjects);
 			this.Controls.Add(this.listBoxSubjects);
 			this.Controls.Add(this.buttonAccept);
@@ -225,5 +243,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+		private System.Windows.Forms.Button buttonSelectAll;
 	}
 }

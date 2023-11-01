@@ -108,6 +108,7 @@ namespace Electronic_School_Gradebook
 			DataGridViewComboBoxColumn comboBox = new DataGridViewComboBoxColumn();
 			dBFormsTools.FillComboBox(ref comboBox, "Tasks", "Name_Task");
 			dataGridViewTasks.Columns.Add(comboBox);
+			dataGridViewTasks.Columns[2].HeaderText = "Тип задачи";
 			for (int i = 0; i < dataTasks.GetLength(0); i++)
 			{
 				dataGridViewTasks.Rows[i].Cells[2].Value = (int)dataTasks[i, 5];

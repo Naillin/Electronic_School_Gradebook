@@ -184,11 +184,11 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает массив значений.</param>
 		public void executeInsert(string table, string[] value)
 		{
-			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
+			ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
 			string columns = string.Empty;
 			for (int i = 1; i < columnsNamesMassive.Length; i++)
 			{
-				columns = columns + columnsNamesMassive[i] + ", ";
+				columns = columns + columnsNamesMassive[i].Name + ", ";
 			}
 			columns = columns.Remove(columns.Length - 2);
 
@@ -213,11 +213,11 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "value1;value2;value3;".</param>
 		public void executeInsert(string table, string value)
 		{
-			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
+			ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
 			string columns = string.Empty;
 			for (int i = 1; i < columnsNamesMassive.Length; i++)
 			{
-				columns = columns + columnsNamesMassive[i] + ", ";
+				columns = columns + columnsNamesMassive[i].Name + ", ";
 			}
 			columns = columns.Remove(columns.Length - 2);
 
@@ -251,10 +251,10 @@ namespace DatabaseTools_MSSQL
 		{
 			string strValues = string.Empty;
 
-			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
+			ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
 			for (int i = 1; i <= value.Length; i++)
 			{
-				strValues = strValues + columnsNamesMassive[i] + " = " + value[i - 1] + ", ";
+				strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
 			}
 			strValues = strValues.Remove(strValues.Length - 2);
 			string sql = $"update {table} set {strValues} {conditions};";
@@ -283,10 +283,10 @@ namespace DatabaseTools_MSSQL
 		{
 			string strValues = string.Empty;
 
-			string[] columnsNamesMassive = columnsNames(table, false); // имена столбцов
+			ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
 			for (int i = 1; i <= value.Length; i++)
 			{
-				strValues = strValues + columnsNamesMassive[i] + " = " + value[i - 1] + ", ";
+				strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
 			}
 			strValues = strValues.Remove(strValues.Length - 2);
 			string sql = $"update {table} set {strValues};";
@@ -477,8 +477,14 @@ namespace DatabaseTools_MSSQL
 		}
 
 		// вынести в отдельный класс работы с целевой таблицей
+		/// <summary>
+		/// Структура хранения информации о полях таблицы.
+		/// </summary>
 		public struct ColumnsNames
 		{
+			/// <summary>
+			/// Типы ключей базы данных.
+			/// </summary>
 			public enum BDKeys
 			{
 				NONE = 0, PK = 1, FK = 2
@@ -487,28 +493,37 @@ namespace DatabaseTools_MSSQL
 			public string Name;
 			public string LongName;
 			public BDKeys Key;
-			public string FKFiled;
+			public string FkParent;
 
-			public ColumnsNames(string name = null, string longName = null, BDKeys key = BDKeys.NONE, string fkFiled = null)
+			/// <summary>
+			/// Структура хранения информации о полях таблицы.
+			/// </summary>
+			/// <param name="name">Имя таблицы.</param>
+			/// <param name="longName">Полное имя таблицы.</param>
+			/// <param name="key">Тип ключа.</param>
+			/// <param name="fkParent">Родительская таблица.</param>
+			public ColumnsNames(string name = null, string longName = null, BDKeys key = BDKeys.NONE, string fkParent = null)
 			{
 				this.Name = name;
 				this.LongName = longName;
 				this.Key = key;
-				this.FKFiled = fkFiled;
+				this.FkParent = fkParent;
 			}
 		}
 		/// <summary>
-		/// Возвращает массив имен всех стлбцов таблицы.
+		/// Возвращает массив информации о всех стлбцах таблицы.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="flag">Включение или отвключение отображения в строке родителя.</param>
 		/// <returns></returns>
-		public string [] columnsNames(string table, bool flag)
+		public ColumnsNames[] columnsNames(string table)
 		{
 			// запрос для имена столбцов таблицы
 			string sql = $"select top (1) * from {table};";
+			string sql1 = $"SELECT COL_NAME(fc.parent_object_id, fc.parent_column_id) AS 'Поле', OBJECT_NAME (f.referenced_object_id) AS 'Связанная таблица' FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE OBJECT_NAME(f.parent_object_id) = '{table}';";
+			object[,] foreignKeys = executeSelectTable(@sql1);
 
-			string [] result = null;
+			ColumnsNames[] result = null; 
 			DataTable data = new DataTable();
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 			{
@@ -517,16 +532,23 @@ namespace DatabaseTools_MSSQL
 				SqlCommand command = new SqlCommand(@sql, sqlConnection);
 				SqlDataReader reader = command.ExecuteReader();
 				data.Load(reader);
-				result = new string[data.Columns.Count];
+				result = new ColumnsNames[data.Columns.Count];
 				for (int i = 0; i < data.Columns.Count; i++)
 				{
-					if (flag)
+					result[i].Name = data.Columns[i].ColumnName;
+					result[i].LongName = table + "." + data.Columns[i].ColumnName;
+					if (i == 0)
 					{
-						result[i] = table + "." + data.Columns[i].ColumnName;
+						result[i].Key = ColumnsNames.BDKeys.PK;
 					}
-					else
+
+					for (int j = 0; j < foreignKeys.GetLength(0); j++)
 					{
-						result[i] = data.Columns[i].ColumnName;
+						if (data.Columns[i].ColumnName == foreignKeys[j, 0].ToString())
+						{
+							result[i].Key = ColumnsNames.BDKeys.FK;
+							result[i].FkParent = foreignKeys[j, 1].ToString();
+						}
 					}
 				}
 				data.Clear();

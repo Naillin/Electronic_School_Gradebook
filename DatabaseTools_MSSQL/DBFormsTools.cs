@@ -127,10 +127,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillListBox(ref ListBox listBox, string table, string column)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, false); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -140,7 +138,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassiveClean[0];
+				listBox.ValueMember = columnsNamesMassive[0].Name;
 				listBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -160,10 +158,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, false); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -173,7 +169,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassiveClean[0];
+				listBox.ValueMember = columnsNamesMassive[0].Name;
 				listBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -194,10 +190,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, true); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table} {conditions};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -207,7 +201,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassiveClean[0];
+				listBox.ValueMember = columnsNamesMassive[0].Name;
 				listBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -228,10 +222,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, true); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table} {conditions};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -241,7 +233,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassiveClean[0];
+				listBox.ValueMember = columnsNamesMassive[0].Name;
 				listBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -261,10 +253,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, false); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -274,7 +264,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassiveClean[0];
+				comboBox.ValueMember = columnsNamesMassive[0].Name;
 				comboBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -294,10 +284,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, false); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -307,7 +295,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassiveClean[0];
+				comboBox.ValueMember = columnsNamesMassive[0].Name;
 				comboBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -328,10 +316,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, string conditions)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, true); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table} {conditions};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -341,7 +327,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassiveClean[0];
+				comboBox.ValueMember = columnsNamesMassive[0].Name;
 				comboBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -362,10 +348,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, string conditions, int selectValue)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, true); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table} {conditions};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -375,7 +359,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassiveClean[0];
+				comboBox.ValueMember = columnsNamesMassive[0].Name;
 				comboBox.DisplayMember = column;
 
 				sqlConnection.Close();
@@ -395,10 +379,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, true); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -408,7 +390,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassiveClean[0];
+				comboBox.ValueMember = columnsNamesMassive[0].Name;
 				comboBox.DisplayMember = column;
 				comboBox.Name = "ComboBoxColumn";
 
@@ -429,10 +411,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column, string conditions)
 		{
 			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string[] columnsNamesMassive = dBTools.columnsNames(table, true); // имена столбцов
-			string[] columnsNamesMassiveClean = dBTools.columnsNames(table, false); // создании второго массива с чистыми именами столбцов из за того что запрос имеет неоднозначные поля приходится указывать ссылки на таблицы в запросе
-																					// из за этого возникет исключение при указании listBox.ValueMember так как он получает не чистый указатель на поле таблицы, а с родтелем
-			string sql = $"select {columnsNamesMassive[0]}, {column} from {table} {conditions};";
+			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 			DataSet ds = new DataSet();
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -442,7 +422,7 @@ namespace DatabaseTools_MSSQL
 				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
 				adapter.Fill(ds, "TableFromBD");
 				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassiveClean[0];
+				comboBox.ValueMember = columnsNamesMassive[0].Name;
 				comboBox.DisplayMember = column;
 				comboBox.Name = "ComboBoxColumn";
 
