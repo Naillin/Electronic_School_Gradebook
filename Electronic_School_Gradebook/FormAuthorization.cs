@@ -113,9 +113,9 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		//static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
 		//static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
-		static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		//static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
         private void FormAuthorization_Load(object sender, EventArgs e)
 		{
 		//	string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
