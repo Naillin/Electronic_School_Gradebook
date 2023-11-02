@@ -48,7 +48,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPageConnections);
             this.tabControl1.Controls.Add(this.tabPageAtoms);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Font = new System.Drawing.Font("Arcon", 16.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl1.Location = new System.Drawing.Point(12, 14);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
@@ -64,12 +64,12 @@
             this.tabPageConnections.Controls.Add(this.label1);
             this.tabPageConnections.Controls.Add(this.dataGridViewInformation);
             this.tabPageConnections.Controls.Add(this.treeViewMainCommunications);
-            this.tabPageConnections.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabPageConnections.Location = new System.Drawing.Point(4, 39);
+            this.tabPageConnections.Font = new System.Drawing.Font("Arcon", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabPageConnections.Location = new System.Drawing.Point(4, 41);
             this.tabPageConnections.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPageConnections.Name = "tabPageConnections";
             this.tabPageConnections.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPageConnections.Size = new System.Drawing.Size(1467, 868);
+            this.tabPageConnections.Size = new System.Drawing.Size(1467, 866);
             this.tabPageConnections.TabIndex = 0;
             this.tabPageConnections.Text = "Connections";
             this.tabPageConnections.UseVisualStyleBackColor = true;
@@ -78,10 +78,11 @@
             // 
             this.groupBox1.Controls.Add(this.checkBoxStudents);
             this.groupBox1.Controls.Add(this.checkBoxTeachers);
+            this.groupBox1.Font = new System.Drawing.Font("Arcon", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(7, 6);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(383, 82);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
@@ -90,11 +91,11 @@
             // checkBoxStudents
             // 
             this.checkBoxStudents.AutoSize = true;
-            this.checkBoxStudents.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxStudents.Font = new System.Drawing.Font("Arcon", 13.8F, System.Drawing.FontStyle.Italic);
             this.checkBoxStudents.Location = new System.Drawing.Point(19, 31);
             this.checkBoxStudents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxStudents.Name = "checkBoxStudents";
-            this.checkBoxStudents.Size = new System.Drawing.Size(129, 33);
+            this.checkBoxStudents.Size = new System.Drawing.Size(117, 32);
             this.checkBoxStudents.TabIndex = 1;
             this.checkBoxStudents.Text = "Students";
             this.checkBoxStudents.UseVisualStyleBackColor = true;
@@ -103,11 +104,11 @@
             // checkBoxTeachers
             // 
             this.checkBoxTeachers.AutoSize = true;
-            this.checkBoxTeachers.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxTeachers.Font = new System.Drawing.Font("Arcon", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxTeachers.Location = new System.Drawing.Point(213, 31);
             this.checkBoxTeachers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxTeachers.Name = "checkBoxTeachers";
-            this.checkBoxTeachers.Size = new System.Drawing.Size(137, 33);
+            this.checkBoxTeachers.Size = new System.Drawing.Size(123, 32);
             this.checkBoxTeachers.TabIndex = 2;
             this.checkBoxTeachers.Text = "Teachers";
             this.checkBoxTeachers.UseVisualStyleBackColor = true;
@@ -119,12 +120,13 @@
             this.label1.Location = new System.Drawing.Point(391, 841);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 25);
+            this.label1.Size = new System.Drawing.Size(56, 24);
             this.label1.TabIndex = 3;
             this.label1.Text = "label1";
             // 
             // dataGridViewInformation
             // 
+            this.dataGridViewInformation.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInformation.Location = new System.Drawing.Point(396, 95);
             this.dataGridViewInformation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -133,7 +135,6 @@
             this.dataGridViewInformation.RowTemplate.Height = 24;
             this.dataGridViewInformation.Size = new System.Drawing.Size(1054, 746);
             this.dataGridViewInformation.TabIndex = 2;
-            this.dataGridViewInformation.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewInformation_CellBeginEdit);
             // 
             // treeViewMainCommunications
             // 
