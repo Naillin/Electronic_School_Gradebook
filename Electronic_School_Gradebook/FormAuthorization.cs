@@ -113,8 +113,8 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-		//static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
+		//static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
 		//static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
         private void FormAuthorization_Load(object sender, EventArgs e)
 		{
@@ -180,21 +180,23 @@ namespace Electronic_School_Gradebook
 
 				if(loginOrNo)
 				{
+					SoundPlayer sndVoscl = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 41, 41) + @"\Res\sound\Voscl.wav"));
+
 					switch (Role_User)
 					{
 						case "Admin":
+							sndVoscl.Play();
+
 							FormAdminPanel formAdminPanel = new FormAdminPanel();
 							formAdminPanel.Show();
 							this.Hide();
 							break;
 
 						case "Teacher":
-							SoundPlayer sndVoscl = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 41, 41) + @"\Res\sound\Voscl.wav"));
 							sndVoscl.Play();
 
 							FormGradebook formGradebook = new FormGradebook();
 							formGradebook.Show();
-
 							this.Hide();
 							break;
 

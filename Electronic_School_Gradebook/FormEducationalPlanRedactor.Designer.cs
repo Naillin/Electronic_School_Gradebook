@@ -1,6 +1,6 @@
 ﻿namespace Electronic_School_Gradebook
 {
-	partial class FormEducationalPlanReadactor
+	partial class FormEducationalPlanRedactor
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -31,7 +31,7 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEducationalPlanReadactor));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEducationalPlanRedactor));
 			this.listBoxClasses = new System.Windows.Forms.ListBox();
 			this.dataGridViewTasks = new System.Windows.Forms.DataGridView();
 			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -164,7 +164,7 @@
 			this.labelSelectedWork.TabIndex = 10;
 			this.labelSelectedWork.Text = "Selected work: ";
 			// 
-			// FormEducationalPlanReadactor
+			// FormEducationalPlanRedactor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -179,9 +179,9 @@
 			this.Controls.Add(this.dataGridViewTasks);
 			this.Controls.Add(this.listBoxClasses);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "FormEducationalPlanReadactor";
-			this.Text = "Educational Plan Readactor";
-			this.Load += new System.EventHandler(this.FormEducationalPlanReadactor_Load);
+			this.Name = "FormEducationalPlanRedactor";
+			this.Text = "Educational Plan Redactor";
+			this.Load += new System.EventHandler(this.FormEducationalPlanRedactor_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

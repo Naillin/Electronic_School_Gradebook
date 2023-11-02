@@ -205,7 +205,7 @@ namespace Electronic_School_Gradebook
 			{
 				dataGridViewGradebook.Columns.Clear();
 
-				FormEducationalPlanReadactor formEducationalPlanReadactor = new FormEducationalPlanReadactor();
+				FormEducationalPlanRedactor formEducationalPlanReadactor = new FormEducationalPlanRedactor();
 				formEducationalPlanReadactor.ShowDialog();
 			}
 			else if (dialogResult == DialogResult.No)
@@ -230,15 +230,7 @@ namespace Electronic_School_Gradebook
 		private void dataGridViewGradebook_MouseClick(object sender, MouseEventArgs e)
 		{
 			//заполнение toolStripStatusLabelCountStudens
-			try
-			{
-				// Есть ошибка, если оставить пустое поле (возвращает null)
-                toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString();
-            }
-			catch
-			{
-
-			}
+			toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[selectRow].Cells[0].Value.ToString();
 		}
 
 		//клик по тултипу в туллах

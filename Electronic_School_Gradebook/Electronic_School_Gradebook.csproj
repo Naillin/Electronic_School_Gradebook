@@ -70,11 +70,11 @@
     <Compile Include="FormChoice.Designer.cs">
       <DependentUpon>FormChoice.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEducationalPlanReadactor.cs">
+    <Compile Include="FormEducationalPlanRedactor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEducationalPlanReadactor.Designer.cs">
-      <DependentUpon>FormEducationalPlanReadactor.cs</DependentUpon>
+    <Compile Include="FormEducationalPlanRedactor.Designer.cs">
+      <DependentUpon>FormEducationalPlanRedactor.cs</DependentUpon>
     </Compile>
     <Compile Include="FormGradebook.cs">
       <SubType>Form</SubType>
@@ -99,8 +99,8 @@
     <EmbeddedResource Include="FormChoice.resx">
       <DependentUpon>FormChoice.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEducationalPlanReadactor.resx">
-      <DependentUpon>FormEducationalPlanReadactor.cs</DependentUpon>
+    <EmbeddedResource Include="FormEducationalPlanRedactor.resx">
+      <DependentUpon>FormEducationalPlanRedactor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormGradebook.resx">
       <DependentUpon>FormGradebook.cs</DependentUpon>

@@ -12,9 +12,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Electronic_School_Gradebook
 {
-	public partial class FormEducationalPlanReadactor : Form
+	public partial class FormEducationalPlanRedactor : Form
 	{
-		public FormEducationalPlanReadactor()
+		public FormEducationalPlanRedactor()
 		{
 			InitializeComponent();
 
@@ -36,11 +36,10 @@ namespace Electronic_School_Gradebook
 			buttonDelete.Enabled = false;
 		}
 
-		private void FormEducationalPlanReadactor_Load(object sender, EventArgs e)
+		private void FormEducationalPlanRedactor_Load(object sender, EventArgs e)
 		{
 			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
 			dBFormsTools.FillListBox(ref listBoxClasses, "Classes", "Name_Class", $"join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
-			
 		}
 
 		private void listBoxClasses_SelectedIndexChanged(object sender, EventArgs e)
@@ -201,23 +200,31 @@ namespace Electronic_School_Gradebook
 		}
 
 		//удалить строчку
-		private void buttonDelete_Click(object sender, EventArgs e)
+		private void buttonDelete_Click(object sender, EventArgs e) //невозможно удалить задачу, если с ней связанна оценка. решение - сделать триггер на удаление записи из gradebook
 		{
-			//удаолить из бд и перезагрущзить dgv
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+			labelSelectedWork.Text = "Selected work: " + dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString();
 
-			dBTools.executeDelete("TeacherPlan", $"where ID_Work = {dataTasks[selectRow, 0].ToString()}");
+			DialogResult dialogResult = MessageBox.Show("Deleting a record of a learning task will result in the deletion of grades corresponding to this task!", "Attention!", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				//удаолить из бд и перезагрущзить dgv
+				DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+				object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 
-			FillDataGridViewTasks(sender, e);
+				dBTools.executeDelete("TeacherPlan", $"where ID_Work = {dataTasks[selectRow, 0].ToString()}");
+
+				FillDataGridViewTasks(sender, e);
+			}
+			else if (dialogResult == DialogResult.No)
+			{
+				//do something else
+			}
 
 			//настройка
 			if (dataGridViewTasks.RowCount <= 0)
 			{
 				buttonDelete.Enabled = false;
 			}
-
-			labelSelectedWork.Text = "Selected work: " + dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString();
 		}
 	}
 }
