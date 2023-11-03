@@ -1,15 +1,22 @@
-﻿using DatabaseTools_MSSQL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Common;
 using System.Drawing;
 using System.Linq;
-using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+//MS_Sql
+using DatabaseTools_MSSQL;
+//Excel
+//using Excel1 = Microsoft.Office.Interop.Excel;
+using System.Reflection;
+using System.IO;
+//Media
+using System.Media;
+using System.Globalization;
 
 namespace Electronic_School_Gradebook
 {

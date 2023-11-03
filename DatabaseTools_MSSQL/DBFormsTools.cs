@@ -28,7 +28,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет DataGridView всеми данными указанных полей таблицы.
 		/// </summary>
-		/// <param name="dataGridView">Ссылка на объект формы.</param>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="fields">Массив хранящий поля таблицы.</param>
 		/// <returns></returns>
@@ -48,7 +48,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет DataGridView всеми данными указанных полей таблицы.
 		/// </summary>
-		/// <param name="dataGridView">Ссылка на объект формы.</param>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="fields">Массив хранящий поля таблицы.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
@@ -69,7 +69,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет DataGridView всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="dataGridView">Ссылка на объект формы.</param>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		public DataSet FillDGV(ref DataGridView dataGridView, string table)
 		{
@@ -94,7 +94,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет DataGridView всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="dataGridView">Ссылка на объект формы.</param>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
 		public DataSet FillDGV(ref DataGridView dataGridView, string table, string conditions)
@@ -120,7 +120,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ListBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="listBox">Ссылка на объект формы.</param>
+		/// <param name="listBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <returns></returns>
@@ -150,7 +150,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ListBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="listBox">Ссылка на объект формы.</param>
+		/// <param name="listBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <param name="selectValue">Задает выбор элемента.</param>
@@ -182,7 +182,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ListBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="listBox">Ссылка на объект формы.</param>
+		/// <param name="listBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
@@ -213,7 +213,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ListBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="listBox">Ссылка на объект формы.</param>
+		/// <param name="listBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
@@ -246,7 +246,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ComboBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <returns></returns>
@@ -276,7 +276,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ComboBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <param name="selectValue">Задает выбор элемента.</param>
@@ -308,7 +308,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ComboBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
@@ -339,7 +339,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ComboBox всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
@@ -372,7 +372,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ComboBoxCell всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <returns></returns>
@@ -403,7 +403,7 @@ namespace DatabaseTools_MSSQL
 		/// <summary>
 		/// Заполняет ComboBoxCell всеми данными указанной таблицы.
 		/// </summary>
-		/// <param name="comboBox">Ссылка на объект формы.</param>
+		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>

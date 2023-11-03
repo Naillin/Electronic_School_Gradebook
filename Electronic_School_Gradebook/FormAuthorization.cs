@@ -113,8 +113,8 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-		//static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
+		//static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
 		//static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
         private void FormAuthorization_Load(object sender, EventArgs e)
 		{
@@ -153,7 +153,7 @@ namespace Electronic_School_Gradebook
 
 			if ((Login != "Login") && (Password != "Password"))
 			{
-				string sql = $"select * from Users where Login_User = '{Login}' and Password_User = '{Password}';";
+				string sql = $"select * from Users where Login_User = '{Login}' and Password_User = '{Password}' and LifeStatus = 1;";
 				object [,] data = dBTools.executeSelectTable(sql); // сделать метод для поиска в бд - долбоеб у тебя уже есть этот метод(ахуенный причем)
 
 				bool loginOrNo = false;
@@ -201,7 +201,11 @@ namespace Electronic_School_Gradebook
 							break;
 
 						case "Student":
-							//student
+							sndVoscl.Play();
+
+							FormStudent formStudent = new FormStudent();
+							formStudent.Show();
+							this.Hide();
 							break;
 
 						default:

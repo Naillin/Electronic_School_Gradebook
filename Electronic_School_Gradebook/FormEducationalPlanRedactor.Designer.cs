@@ -64,7 +64,7 @@
 			this.dataGridViewTasks.BackgroundColor = System.Drawing.Color.White;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Arcon", 11.25F, System.Drawing.FontStyle.Bold);
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -76,7 +76,7 @@
             this.Column2});
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
 			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -92,7 +92,7 @@
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.dataGridViewTasks.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-			this.dataGridViewTasks.Size = new System.Drawing.Size(466, 340);
+			this.dataGridViewTasks.Size = new System.Drawing.Size(557, 340);
 			this.dataGridViewTasks.TabIndex = 5;
 			this.dataGridViewTasks.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTasks_CellBeginEdit);
 			this.dataGridViewTasks.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTasks_CellEndEdit);
@@ -145,7 +145,7 @@
 			this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.buttonDelete.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic);
 			this.buttonDelete.ForeColor = System.Drawing.Color.Transparent;
-			this.buttonDelete.Location = new System.Drawing.Point(563, 393);
+			this.buttonDelete.Location = new System.Drawing.Point(654, 393);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(225, 37);
 			this.buttonDelete.TabIndex = 9;
@@ -171,7 +171,7 @@
 			this.BackColor = System.Drawing.Color.White;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(891, 450);
 			this.Controls.Add(this.labelSelectedWork);
 			this.Controls.Add(this.buttonDelete);
 			this.Controls.Add(this.buttonAdd);

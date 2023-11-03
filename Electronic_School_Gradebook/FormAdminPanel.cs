@@ -15,6 +15,7 @@ using System.Reflection;
 using System.IO;
 //Media
 using System.Media;
+using System.Diagnostics;
 
 namespace Electronic_School_Gradebook
 {
@@ -24,6 +25,7 @@ namespace Electronic_School_Gradebook
 		{
 			InitializeComponent();
 
+			///-----------------------------------------СРЕДА ОБЩЕГО КОДА|НАЧАЛО-----------------------------------------
 			//настройка формы
 			this.DoubleBuffered = true;
 			this.StartPosition = FormStartPosition.CenterScreen;
@@ -31,8 +33,17 @@ namespace Electronic_School_Gradebook
 			//границы размеров
 			this.MaximumSize = new Size(this.Width, this.Height);
 			this.MinimumSize = new Size(this.Width, this.Height);
+
+			//заполнение notifyIconInfoUser
+			notifyIconInfoUser.Text = "Active user as admin";
+			notifyIconInfoUser.BalloonTipText = "Welcome!";
+			notifyIconInfoUser.MouseClick += notifyIconInfoUser_MouseClick;
+			notifyIconInfoUser.ShowBalloonTip(12);
+			///-----------------------------------------СРЕДА ОБЩЕГО КОДА|КОНЕЦ-----------------------------------------
 		}
 
+
+		///-----------------------------------------ГАЗИЗОВА САБИНА|НАЧАЛО-----------------------------------------
 		//структура для хранения связи узлов с элементами бд
 		struct NodeConnect
 		{
@@ -234,7 +245,7 @@ namespace Electronic_School_Gradebook
 		}
 
 		//переключили студентов
-		private void checkBoxStudents_CheckedChanged(object sender, EventArgs e)
+		private void checkBoxStudents_CheckedChanged(object sender, EventArgs e) //может поменять эти чекбоксы на радио батоны? они взамиоисключают друг друга
 		{
 			FormAdminPanel_Load(sender, e);
 		}
@@ -263,12 +274,14 @@ namespace Electronic_School_Gradebook
 
 			label1.Text = treeViewMainCommunications.SelectedNode.Text + "|" + g++.ToString();
 
+			//уберите ненужные коменты. зачем лейблы тебе?
 			//switch case (по типу таблицы)
 			switch (tableType)
 			{
 				case NodeConnect.Types.CLASS:
 					label1.Text = label1.Text + "Выбрали класс"; //исправьте массив(nodeConnects), что бы идиально точно заполнялся после запускайте и тестите черерз лейбл. пусть пишет какой вы выбрали тип элемента. если работает то начинайте раскоментировать код и тестить уже его.
 
+					//зачем делать массив для первой группы если выбрали вторую, или наобророт?
                     object[,] dataStudents = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = {BDid}");
 					object[,] dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where not ID_Class = {BDid}");
 					object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid}");
@@ -418,9 +431,6 @@ namespace Electronic_School_Gradebook
 						dataGridViewInformation.Rows.Clear();
 						dataGridViewInformation.Columns.Clear();
 					}
-
-
-
 					break;
 
 				case NodeConnect.Types.STUDENT:
@@ -487,8 +497,6 @@ namespace Electronic_School_Gradebook
 						dataGridViewInformation.Rows.Add(false, dataParentAll[i, 1], dataParentAll[i, 2], dataParentAll[i, 3], dataParentAll[i, 4], dataParentAll[i, 5], dataParentAll[i, 6]);
 
 					}
-
-
 					break;
 
 				case NodeConnect.Types.TEACHER:
@@ -551,16 +559,43 @@ namespace Electronic_School_Gradebook
                         }
 						
 					}
-
 					break;
+
 				default:
 					break;
 
 			}
+		}
+		///-----------------------------------------ГАЗИЗОВА САБИНА|КОНЕЦ-----------------------------------------
 
+		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|НАЧАЛО-----------------------------------------
+		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
 
+		///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|НАЧАЛО-----------------------------------------
+		//клик по тултипу в туллах
+		private void notifyIconInfoUser_MouseClick(object sender, MouseEventArgs e)
+		{
+			this.WindowState = FormWindowState.Normal;
 		}
 
-		//-----------------------------------------------------------------------------------
+		//перезапуск для открытия окна входа
+		private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("Electronic_School_Gradebook.exe");
+			Environment.Exit(0);
+		}
+
+		//exit
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Environment.Exit(0);
+		}
+
+		//exit
+		private void FormAdminPanel_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			Environment.Exit(0);
+		}
+		///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
 	}
 }

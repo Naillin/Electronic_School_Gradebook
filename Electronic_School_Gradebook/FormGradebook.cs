@@ -83,16 +83,16 @@ namespace Electronic_School_Gradebook
 			labelSubject.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Class}");
 
 			//заполнение notifyIconInfoUser
-			string TextInfo = "Вошедший пользователь: " + dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString();
-			notifyIconInfoUser.Text = TextInfo;
-			notifyIconInfoUser.BalloonTipText = TextInfo;
-			notifyIconInfoUser.MouseClick += notifyIcon1_MouseClick;
+			string UserInfo = dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString();
+			notifyIconInfoUser.Text = "Active user: " + UserInfo;
+			notifyIconInfoUser.BalloonTipText = "Welcome " + UserInfo + "!";
+			notifyIconInfoUser.MouseClick += notifyIconInfoUser_MouseClick;
 			notifyIconInfoUser.ShowBalloonTip(12);
 
 			//заполнение toolStripStatus
-			toolStripStatusLabelUser.Text = TextInfo;
-			toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[0].Cells[0].Value.ToString();
-			toolStripStatusLabelCountTasks.Text = "Количество задач: " + rowConnects.Length.ToString();
+			toolStripStatusLabelUser.Text = "Active user: " + UserInfo;
+			toolStripStatusLabelCountStudens.Text = "Count students: " + studentRowConnects.Length.ToString() + " | Select student: " + dataGridViewGradebook.Rows[0].Cells[0].Value.ToString();
+			toolStripStatusLabelCountTasks.Text = "Count tasks: " + rowConnects.Length.ToString();
         }
 
 		//запоминание координат ячейки
@@ -222,7 +222,7 @@ namespace Electronic_School_Gradebook
 			formChoice.ShowDialog();
 
 			//заполнение toolStripStatus
-			toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[0].Cells[0].Value.ToString();
+			toolStripStatusLabelCountStudens.Text = "Count students: " + studentRowConnects.Length.ToString() + " | Select student: " + dataGridViewGradebook.Rows[0].Cells[0].Value.ToString();
 			toolStripStatusLabelCountTasks.Text = "Количество задач:" + rowConnects.Length.ToString();
 		}
 
@@ -230,11 +230,18 @@ namespace Electronic_School_Gradebook
 		private void dataGridViewGradebook_MouseClick(object sender, MouseEventArgs e)
 		{
 			//заполнение toolStripStatusLabelCountStudens
-			toolStripStatusLabelCountStudens.Text = "Количество учеников: " + studentRowConnects.Length.ToString() + " | Выбранный ученик: " + dataGridViewGradebook.Rows[selectRow].Cells[0].Value.ToString();
+			if(dataGridViewGradebook.RowCount > 0)
+			{
+				toolStripStatusLabelCountStudens.Text = "Count students: " + studentRowConnects.Length.ToString() + " | Select student: " + dataGridViewGradebook.Rows[selectRow].Cells[0].Value.ToString();
+			}
+			else
+			{
+				toolStripStatusLabelCountStudens.Text = "Count students: " + studentRowConnects.Length.ToString() + " | Select student: None";
+			}
 		}
 
 		//клик по тултипу в туллах
-		private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+		private void notifyIconInfoUser_MouseClick(object sender, MouseEventArgs e)
 		{
 			this.WindowState = FormWindowState.Normal;
 		}
