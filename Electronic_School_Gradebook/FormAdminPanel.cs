@@ -40,6 +40,10 @@ namespace Electronic_School_Gradebook
 			notifyIconInfoUser.MouseClick += notifyIconInfoUser_MouseClick;
 			notifyIconInfoUser.ShowBalloonTip(12);
 			///-----------------------------------------СРЕДА ОБЩЕГО КОДА|КОНЕЦ-----------------------------------------
+			///-----------------------------------------ГАЗИЗОВА САБИНА|НАЧАЛО-----------------------------------------
+			textBoxSearch.Enabled = false;
+			checkBoxOnlyRelated.Enabled = false;
+			///-----------------------------------------ГАЗИЗОВА САБИНА|КОНЕЦ-----------------------------------------
 		}
 
 
@@ -79,75 +83,7 @@ namespace Electronic_School_Gradebook
 
 			TreeNode[] treeClasses = new TreeNode[data.GetLength(0)];
 
-
-			if (checkBoxStudents.Checked && checkBoxTeachers.Checked)
-			{
-				int countClasses = dBTools.countRows("Classes");
-				int countStudents = dBTools.countRows("Students", "join Users on Users.ID_User = Students.ID_User where Users.LifeStatus = 1");
-				int countTeachers = dBTools.countRows("Teachers", "join Users on Users.ID_User = Teachers.ID_User where Users.LifeStatus = 1");
-				int countParent = dBTools.countRows("Parents");
-				int countSubj = dBTools.countRows("Subjects");
-
-				nodeConnects = new NodeConnect[countClasses + countStudents + countTeachers + countParent+ countSubj];
-
-				for (int i = 0, l = nodeConnects.Length - 1; i < treeClasses.Length;l=l-4, i++)
-				{
-					object[,] dataStudents = dBTools.executeSelectTable($"select ID_Student, Name_Student, Surname_Student from Students where ID_Class = {data[i, 0]}");
-					object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {data[i, 0]}");
-
-
-					TreeNode[] treeStudentsTeach = new TreeNode[dataStudents.GetLength(0) + dataTeachers.GetLength(0)];
-
-					for (int j = 0 ; j < dataStudents.GetLength(0); j++)
-					{
-						object[,] dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Name_Parent, A.Surname_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {dataStudents[j,0]}");
-						TreeNode[] treeParent = new TreeNode[dataParent.GetLength(0)];
-
-						for(int k = 0 ; k < dataParent.GetLength(0); k++)
-                        {
-                            treeParent[k] = new TreeNode((dataParent[k,2] + " " +  dataParent[k,1]).ToString());
-							nodeConnects[l-2].node = treeParent[k];
-							nodeConnects[l-2].id = (int)dataParent[k, 0];
-							nodeConnects[l-2].type = NodeConnect.Types.PARENT;
-						}
-
-						treeStudentsTeach[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString(), treeParent);
-						nodeConnects[l].node = treeStudentsTeach[j];
-						nodeConnects[l].id = (int)dataStudents[j, 0];
-						nodeConnects[l].type = NodeConnect.Types.STUDENT;
-
-					}
-
-					for (int k = dataStudents.GetLength(0), z = 0; k < treeStudentsTeach.Length; z++, k++)
-					{
-						object[,] dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {dataTeachers[z, 0]} AND D.ID_Class = {data[i, 0]}");
-						TreeNode[] treeSubj = new TreeNode[dataSubj.GetLength(0)];
-
-						for (int j = 0; j < dataSubj.GetLength(0); j++)
-                        {
-							treeSubj[j] = new TreeNode((dataSubj[j, 1]).ToString());
-							nodeConnects[l - 3].node = treeSubj[j];
-							nodeConnects[l - 3].id = (int)dataSubj[j, 0];
-							nodeConnects[l - 3].type = NodeConnect.Types.SUBJECT;
-						}
-						treeStudentsTeach[k] = new TreeNode((dataTeachers[z, 2] + " " + dataTeachers[z, 1]).ToString(), treeSubj);
-						nodeConnects[l-1].node = treeStudentsTeach[k];
-						nodeConnects[l-1].id = (int)dataTeachers[z, 0];
-						nodeConnects[l-1].type = NodeConnect.Types.TEACHER;
-
-					}
-
-					treeClasses[i] = new TreeNode(data[i, 1].ToString(),treeStudentsTeach);
-					nodeConnects[i].node = treeClasses[i];
-					nodeConnects[i].id = (int)data[i, 0];
-					nodeConnects[i].type = NodeConnect.Types.CLASS;
-					
-
-					treeViewMainCommunications.Nodes.Add(treeClasses[i]);
-				}
-
-			}
-			else if (checkBoxStudents.Checked)
+			if (radioButtonStudents.Checked)
 			{
 				int countClasses = dBTools.countRows("Classes");
 				int countStudents = dBTools.countRows("Students", "join Users on Users.ID_User = Students.ID_User where Users.LifeStatus = 1");
@@ -189,7 +125,7 @@ namespace Electronic_School_Gradebook
 
 
 			}
-			else if (checkBoxTeachers.Checked)
+			else
 			{
 				int countClasses = dBTools.countRows("Classes");
 				int countTeachers = dBTools.countRows("Teachers", "join Users on Users.ID_User = Teachers.ID_User where Users.LifeStatus = 1");
@@ -227,73 +163,74 @@ namespace Electronic_School_Gradebook
 					treeViewMainCommunications.Nodes.Add(treeClasses[i]);
 				}
 			}
-			else
-			{
-				
-				nodeConnects = new NodeConnect[data.GetLength(0)];
-				for (int i = 0; i < treeClasses.Length; i++)
-				{
-					treeClasses[i] = new TreeNode(data[i, 1].ToString());
-					nodeConnects[i].node = treeClasses[i];
-					nodeConnects[i].id = (int)data[i, 0];
-					nodeConnects[i].type = NodeConnect.Types.CLASS;
-
-					treeViewMainCommunications.Nodes.Add(treeClasses[i]);
-				}
-			}
 
 		}
 
 		//переключили студентов
-		private void checkBoxStudents_CheckedChanged(object sender, EventArgs e) //может поменять эти чекбоксы на радио батоны? они взамиоисключают друг друга
+		private void radioButtonStudents_CheckedChanged(object sender, EventArgs e)
 		{
+			textBoxSearch.Text = string.Empty;
+			textBoxSearch.Enabled = false;
+			checkBoxOnlyRelated.Checked = false;
+			checkBoxOnlyRelated.Enabled = false;
+			
+			dataGridViewInformation.Rows.Clear();
+			dataGridViewInformation.Columns.Clear();
 			FormAdminPanel_Load(sender, e);
 		}
 
-		//переключили учителей
-		private void checkBoxTeachers_CheckedChanged(object sender, EventArgs e)
+		private void radioButtonTeachers_CheckedChanged(object sender, EventArgs e)
 		{
+			textBoxSearch.Text = string.Empty;
+			textBoxSearch.Enabled = false;
+			checkBoxOnlyRelated.Checked = false;
+			checkBoxOnlyRelated.Enabled = false;
+
+			dataGridViewInformation.Rows.Clear();
+			dataGridViewInformation.Columns.Clear();
 			FormAdminPanel_Load(sender, e);
 		}
 
-		int BDid = 0;
-		NodeConnect.Types tableType;
-		int g = 0;
-		private void treeViewMainCommunications_AfterSelect(object sender, TreeViewEventArgs e)
-		{
+		
+		
+		private void dataGridViewInformationFill()
+        {
+			NodeConnect.Types tableType = NodeConnect.Types.NONE;
+			int BDid = 0;
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
 
 			for (int i = 0; i < nodeConnects.Length; i++)
 			{
-				if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node) 
+				if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
 				{
 					BDid = nodeConnects[i].id;
 					tableType = nodeConnects[i].type;
+
 				}
 			}
 
-			label1.Text = treeViewMainCommunications.SelectedNode.Text + "|" + g++.ToString();
+			
+
+			dataGridViewInformation.Rows.Clear();
+			dataGridViewInformation.Columns.Clear();
+			DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+			dataGridViewCheckBoxColumn.HeaderText = "On";
+			dataGridViewCheckBoxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+			dataGridViewCheckBoxColumn.Width = 70;
+			dataGridViewInformation.Columns.Add(dataGridViewCheckBoxColumn);
 
 			//уберите ненужные коменты. зачем лейблы тебе?
 			//switch case (по типу таблицы)
 			switch (tableType)
 			{
 				case NodeConnect.Types.CLASS:
-					label1.Text = label1.Text + "Выбрали класс"; //исправьте массив(nodeConnects), что бы идиально точно заполнялся после запускайте и тестите черерз лейбл. пусть пишет какой вы выбрали тип элемента. если работает то начинайте раскоментировать код и тестить уже его.
 
-					//зачем делать массив для первой группы если выбрали вторую, или наобророт?
-                    object[,] dataStudents = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = {BDid}");
-					object[,] dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where not ID_Class = {BDid}");
-					object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid}");
-					object[,] dataTeachersAll = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where not C.ID_Class = {BDid}");
-					if (checkBoxStudents.Checked)
-                    {
-						dataGridViewInformation.Rows.Clear();
-						dataGridViewInformation.Columns.Clear();
-						DataGridViewCheckBoxColumn dataGridViewCheckBoxColumnStud = new DataGridViewCheckBoxColumn();
-						dataGridViewCheckBoxColumnStud.HeaderText = "On";
-						dataGridViewCheckBoxColumnStud.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewCheckBoxColumnStud.Width = 70;
+					if (radioButtonStudents.Checked)
+					{
+
+						object[,] dataStudents = null;
+						object[,] dataStudentsAll = null;
+
 
 						DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudSurname = new DataGridViewTextBoxColumn();
 						dataGridViewTextBoxColumnStudSurname.HeaderText = "Surname";
@@ -325,7 +262,7 @@ namespace Electronic_School_Gradebook
 						dataGridViewTextBoxColumnStudEmail.SortMode = DataGridViewColumnSortMode.NotSortable;
 						dataGridViewTextBoxColumnStudEmail.ReadOnly = true;
 
-						dataGridViewInformation.Columns.Add(dataGridViewCheckBoxColumnStud);
+
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudSurname);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudName);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudThirdName);
@@ -333,30 +270,44 @@ namespace Electronic_School_Gradebook
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudAddress);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudEmail);
 
-						dataGridViewCheckBoxColumnStud.Width = 70;
+						dataGridViewCheckBoxColumn.Width = 70;
 
-						for (int i = 0; i<dataStudents.GetLength(0); i++)
-                        {
-                            dataGridViewInformation.Rows.Add(true,dataStudents[i,1], dataStudents[i, 2], dataStudents[i, 3], dataStudents[i, 4], dataStudents[i, 5], dataStudents[i, 6]);
-						}
-						for (int i = dataStudents.GetLength(0)-1; i < dataStudentsAll.GetLength(0); i++)
+						if (textBoxSearch.Text == "")
 						{
-							dataGridViewInformation.Rows.Add(false, dataStudentsAll[i, 1], dataStudentsAll[i, 2], dataStudentsAll[i, 3], dataStudentsAll[i, 4], dataStudentsAll[i, 5], dataStudentsAll[i, 6]);
-							
+							dataStudents = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = {BDid}");
+							dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = null");
 						}
+						else
+						{
+							dataStudents = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = {BDid} and Surname_Student like '{textBoxSearch.Text}%'");
+							dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = null and Surname_Student like '{textBoxSearch.Text}%'");
+						}
+						if (checkBoxOnlyRelated.Checked)
+						{
+							for (int i = 0; i < dataStudents.GetLength(0); i++)
+							{
+								dataGridViewInformation.Rows.Add(true, dataStudents[i, 1], dataStudents[i, 2], dataStudents[i, 3], dataStudents[i, 4], dataStudents[i, 5], dataStudents[i, 6]);
+							}
+						}
+						else
+						{
+							for (int i = 0; i < dataStudents.GetLength(0); i++)
+							{
+								dataGridViewInformation.Rows.Add(true, dataStudents[i, 1], dataStudents[i, 2], dataStudents[i, 3], dataStudents[i, 4], dataStudents[i, 5], dataStudents[i, 6]);
+							}
+							for (int i = 0; i < dataStudentsAll.GetLength(0); i++)
+							{
+								dataGridViewInformation.Rows.Add(false, dataStudentsAll[i, 1], dataStudentsAll[i, 2], dataStudentsAll[i, 3], dataStudentsAll[i, 4], dataStudentsAll[i, 5], dataStudentsAll[i, 6]);
 
-						//dataGridViewInformation.Rows[0].Cells[0].Value = true;
+							}
+						}
 					}
-					if (checkBoxTeachers.Checked)
+					if (radioButtonTeachers.Checked)
 					{
-						dataGridViewInformation.Rows.Clear();
-						dataGridViewInformation.Columns.Clear();
-                        DataGridViewCheckBoxColumn dataGridViewCheckBoxColumnTeach = new DataGridViewCheckBoxColumn();
-                        dataGridViewCheckBoxColumnTeach.HeaderText = "On";
-                        dataGridViewCheckBoxColumnTeach.SortMode = DataGridViewColumnSortMode.NotSortable;
-                        dataGridViewCheckBoxColumnTeach.Width = 70;
+						object[,] dataTeachers = null;
+						object[,] dataTeachersAll = null;
 
-                        DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachSurname = new DataGridViewTextBoxColumn();
+						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachSurname = new DataGridViewTextBoxColumn();
 						dataGridViewTextBoxColumnTeachSurname.HeaderText = "Surname";
 						dataGridViewTextBoxColumnTeachSurname.SortMode = DataGridViewColumnSortMode.NotSortable;
 						dataGridViewTextBoxColumnTeachSurname.ReadOnly = true;
@@ -391,7 +342,6 @@ namespace Electronic_School_Gradebook
 						dataGridViewTextBoxColumnTeachType.SortMode = DataGridViewColumnSortMode.NotSortable;
 						dataGridViewTextBoxColumnTeachType.ReadOnly = true;
 
-						dataGridViewInformation.Columns.Add(dataGridViewCheckBoxColumnTeach);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachSurname);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachName);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachThirdName);
@@ -400,49 +350,62 @@ namespace Electronic_School_Gradebook
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachEmail);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachType);
 
-						dataGridViewCheckBoxColumnTeach.Width = 70;
+						dataGridViewCheckBoxColumn.Width = 70;
 
-						for (int i = 0; i < dataTeachers.GetLength(0); i++)
+						if (textBoxSearch.Text == "")
 						{
-							if ((bool)dataTeachers[i, 7] == false)
+							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid}");
+							dataTeachersAll = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where not C.ID_Class = {BDid}");
+						}
+						else
+						{
+							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
+							dataTeachersAll = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where not C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
+						}
+						if (checkBoxOnlyRelated.Checked)
+						{
+							for (int i = 0; i < dataTeachers.GetLength(0); i++)
 							{
-								dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель младшей школы");
-							}
-                            else
-                            {
-								dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель старшей школы");
+								if ((bool)dataTeachers[i, 7] == false)
+								{
+									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель младшей школы");
+								}
+								else
+								{
+									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель старшей школы");
+								}
 							}
 						}
-						for (int i = dataTeachers.GetLength(0) - 1; i < dataTeachersAll.GetLength(0); i++)
+						else
 						{
-							if ((bool)dataTeachersAll[i, 7] == false)
+							for (int i = 0; i < dataTeachers.GetLength(0); i++)
 							{
-								dataGridViewInformation.Rows.Add(false, dataTeachersAll[i, 1], dataTeachersAll[i, 2], dataTeachersAll[i, 3], dataTeachersAll[i, 4], dataTeachersAll[i, 5], dataTeachersAll[i, 6], "преподаватель малдшей школы");
+								if ((bool)dataTeachers[i, 7] == false)
+								{
+									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель младшей школы");
+								}
+								else
+								{
+									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель старшей школы");
+								}
 							}
-                            else
-                            {
-								dataGridViewInformation.Rows.Add(false, dataTeachersAll[i, 1], dataTeachersAll[i, 2], dataTeachersAll[i, 3], dataTeachersAll[i, 4], dataTeachersAll[i, 5], dataTeachersAll[i, 6], "преподаватель старшей школы");
+							for (int i = 0; i < dataTeachersAll.GetLength(0); i++)
+							{
+								if ((bool)dataTeachersAll[i, 7] == false)
+								{
+									dataGridViewInformation.Rows.Add(false, dataTeachersAll[i, 1], dataTeachersAll[i, 2], dataTeachersAll[i, 3], dataTeachersAll[i, 4], dataTeachersAll[i, 5], dataTeachersAll[i, 6], "преподаватель малдшей школы");
+								}
+								else
+								{
+									dataGridViewInformation.Rows.Add(false, dataTeachersAll[i, 1], dataTeachersAll[i, 2], dataTeachersAll[i, 3], dataTeachersAll[i, 4], dataTeachersAll[i, 5], dataTeachersAll[i, 6], "преподаватель старшей школы");
+								}
 							}
 						}
+					}
 
-					}
-					if(checkBoxStudents.Checked && checkBoxTeachers.Checked)
-                    {
-						dataGridViewInformation.Rows.Clear();
-						dataGridViewInformation.Columns.Clear();
-					}
 					break;
 
 				case NodeConnect.Types.STUDENT:
-					label1.Text = label1.Text + "Выбрали ученика";
-
-					dataGridViewInformation.Rows.Clear();
-					dataGridViewInformation.Columns.Clear();
-
-					DataGridViewCheckBoxColumn dataGridViewCheckBoxColumnPar = new DataGridViewCheckBoxColumn();
-					dataGridViewCheckBoxColumnPar.HeaderText = "On";
-					dataGridViewCheckBoxColumnPar.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewCheckBoxColumnPar.Width = 70;
 
 					DataGridViewTextBoxColumn dataGridViewTextBoxColumnParSurname = new DataGridViewTextBoxColumn();
 					dataGridViewTextBoxColumnParSurname.HeaderText = "Surname";
@@ -474,7 +437,6 @@ namespace Electronic_School_Gradebook
 					dataGridViewTextBoxColumnParEmail.SortMode = DataGridViewColumnSortMode.NotSortable;
 					dataGridViewTextBoxColumnParEmail.ReadOnly = true;
 
-					dataGridViewInformation.Columns.Add(dataGridViewCheckBoxColumnPar);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParSurname);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParName);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParThirdName);
@@ -482,32 +444,48 @@ namespace Electronic_School_Gradebook
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParAddress);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParEmail);
 
-					dataGridViewCheckBoxColumnPar.Width = 70;
+					dataGridViewCheckBoxColumn.Width = 70;
 
-					object[,] dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent,A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent  from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {BDid}");
-					object[,] dataParentAll = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where NOT C.ID_Student = {BDid}");
-
-					for (int i = 0; i < dataParent.GetLength(0); i++)
+					object[,] dataParent = null;
+					object[,] dataParentAll = null;
+					if (textBoxSearch.Text == "")
                     {
-						dataGridViewInformation.Rows.Add(true, dataParent[i, 1], dataParent[i, 2], dataParent[i, 3], dataParent[i, 4], dataParent[i, 5], dataParent[i, 6]);
-						
-                    }
-					for (int i = dataParent.GetLength(0)-1; i < dataParentAll.GetLength(0); i++)
-					{
-						dataGridViewInformation.Rows.Add(false, dataParentAll[i, 1], dataParentAll[i, 2], dataParentAll[i, 3], dataParentAll[i, 4], dataParentAll[i, 5], dataParentAll[i, 6]);
+						dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent,A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent  from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {BDid}");
+						dataParentAll = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where NOT C.ID_Student = {BDid}");
 
+						
+					}
+                    else
+                    {
+						dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent,A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent  from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {BDid} and A.Surname_Parent LIKE '{textBoxSearch.Text}%'");
+						dataParentAll = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where NOT C.ID_Student = {BDid} and A.Surname_Parent LIKE '{textBoxSearch.Text}%'");
+
+						
+					}
+					if (checkBoxOnlyRelated.Checked)
+					{
+						for (int i = 0; i < dataParent.GetLength(0); i++)
+						{
+							dataGridViewInformation.Rows.Add(true, dataParent[i, 1], dataParent[i, 2], dataParent[i, 3], dataParent[i, 4], dataParent[i, 5], dataParent[i, 6]);
+						}
+					}
+					else
+					{
+						for (int i = 0; i < dataParent.GetLength(0); i++)
+						{
+							dataGridViewInformation.Rows.Add(true, dataParent[i, 1], dataParent[i, 2], dataParent[i, 3], dataParent[i, 4], dataParent[i, 5], dataParent[i, 6]);
+
+						}
+						for (int i = 0; i < dataParentAll.GetLength(0); i++)
+						{
+							dataGridViewInformation.Rows.Add(false, dataParentAll[i, 1], dataParentAll[i, 2], dataParentAll[i, 3], dataParentAll[i, 4], dataParentAll[i, 5], dataParentAll[i, 6]);
+
+						}
 					}
 					break;
 
 				case NodeConnect.Types.TEACHER:
-					label1.Text = label1.Text + "Выбрали учителя";
-					dataGridViewInformation.Rows.Clear();
-					dataGridViewInformation.Columns.Clear();
-
-					DataGridViewCheckBoxColumn dataGridViewCheckBoxColumnSubj = new DataGridViewCheckBoxColumn();
-					dataGridViewCheckBoxColumnSubj.HeaderText = "On";
-					dataGridViewCheckBoxColumnSubj.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewCheckBoxColumnSubj.Width = 70;
+					object[,] data = dBTools.executeSelectTable($"select ID_Class, Name_Class from Classes;");
 
 					DataGridViewTextBoxColumn dataGridViewTextBoxColumnSubjName = new DataGridViewTextBoxColumn();
 					dataGridViewTextBoxColumnSubjName.HeaderText = "Name";
@@ -519,52 +497,104 @@ namespace Electronic_School_Gradebook
 					dataGridViewTextBoxColumnSubjType.SortMode = DataGridViewColumnSortMode.NotSortable;
 					dataGridViewTextBoxColumnSubjType.ReadOnly = true;
 
-					dataGridViewInformation.Columns.Add(dataGridViewCheckBoxColumnSubj);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjName);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjType);
 
-					dataGridViewCheckBoxColumnSubj.Width = 70;
+					dataGridViewCheckBoxColumn.Width = 70;
 
-					object[,] data = dBTools.executeSelectTable($"select ID_Class, Name_Class from Classes;");
-					
-					for (int i = 0; i < data.GetLength(0); i++)
+					object[,] dataSubj = null;
+					object[,] dataSubjAll = null;
+
+					if (textBoxSearch.Text == "")
 					{
-						object[,] dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject,A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {BDid} AND D.ID_Class = {data[i, 0]}");
-						object[,] dataSubjAll = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE not C.ID_Teacher = {BDid}");
-						if (dataSubj.GetLength(0) != 0)
+						for (int i = 0; i < data.GetLength(0); i++)
 						{
-							for (int j = 0; j < dataSubj.GetLength(0); j++)
-							{
-								if ((bool)dataSubj[j, 2] == false)
-								{
-									dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "младшая школа");
-								}
-                                else if((bool)dataSubj[j, 2] == true)
-                                {
-									dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "старшая школа");
-								}
-							}
-                            for (int j = dataSubj.GetLength(0)-1; j < dataSubjAll.GetLength(0); j++)
-                            {
-                                if ((bool)dataSubjAll[j, 2] == false)
-                                {
-                                    dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "младшая школа");
-                                }
-                                else if ((bool)dataSubjAll[j, 2] == true)
-                                {
-                                    dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "старшая школа");
-                                }
+							dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject,A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {BDid} AND D.ID_Class = {data[i, 0]}");
+							dataSubjAll = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE not C.ID_Teacher = {BDid}");
+							if (dataSubj.GetLength(0) != 0) break;
+							
+						}
 
-                            }
-                        }
-						
 					}
+					else
+					{
+						for (int i = 0; i < data.GetLength(0); i++)
+						{
+							dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject,A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {BDid} AND D.ID_Class = {data[i, 0]} and A.Name_Subject like '{textBoxSearch.Text}%'");
+							dataSubjAll = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE not C.ID_Teacher = {BDid} and A.Name_Subject like '{textBoxSearch.Text}%'");
+							if (dataSubj.GetLength(0) != 0) break;
+						}
+					}
+
+					if (checkBoxOnlyRelated.Checked)
+					{
+						for (int j = 0; j < dataSubj.GetLength(0); j++)
+						{
+							if ((bool)dataSubj[j, 2] == false)
+							{
+								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "младшая школа");
+							}
+							else if ((bool)dataSubj[j, 2] == true)
+							{
+								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "старшая школа");
+							}
+						}
+
+					}
+					else
+					{
+						for (int j = 0; j < dataSubj.GetLength(0); j++)
+						{
+							if ((bool)dataSubj[j, 2] == false)
+							{
+								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "младшая школа");
+							}
+							else if ((bool)dataSubj[j, 2] == true)
+							{
+								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "старшая школа");
+							}
+						}
+						for (int j = 0; j < dataSubjAll.GetLength(0); j++)
+						{
+							if ((bool)dataSubjAll[j, 2] == false)
+							{
+								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "младшая школа");
+							}
+							else if ((bool)dataSubjAll[j, 2] == true)
+							{
+								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "старшая школа");
+							}
+
+						}
+
+					}
+
+
+					break;
+				case NodeConnect.Types.SUBJECT:
+					break;
+
+				case NodeConnect.Types.PARENT:
 					break;
 
 				default:
 					break;
 
 			}
+		}
+		private void treeViewMainCommunications_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			textBoxSearch.Enabled = true;
+			checkBoxOnlyRelated.Enabled = true;
+			dataGridViewInformationFill();
+		}
+		private void checkBoxOnlyRelated_CheckedChanged(object sender, EventArgs e)
+		{
+			dataGridViewInformationFill();
+		}
+		private void textBoxSearch_TextChanged(object sender, EventArgs e)
+		{
+			dataGridViewInformationFill();
 		}
 		///-----------------------------------------ГАЗИЗОВА САБИНА|КОНЕЦ-----------------------------------------
 
@@ -596,6 +626,7 @@ namespace Electronic_School_Gradebook
 		{
 			Environment.Exit(0);
 		}
-		///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
-	}
+
+        ///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
+    }
 }
