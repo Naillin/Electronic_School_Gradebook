@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAdminPanel));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageConnections = new System.Windows.Forms.TabPage();
             this.groupBoxSearch = new System.Windows.Forms.GroupBox();
@@ -180,16 +181,21 @@
             this.dataGridViewInformation.AllowUserToDeleteRows = false;
             this.dataGridViewInformation.AllowUserToResizeRows = false;
             this.dataGridViewInformation.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewInformation.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewInformation.BackgroundColor = System.Drawing.Color.LavenderBlush;
             this.dataGridViewInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInformation.Location = new System.Drawing.Point(396, 95);
             this.dataGridViewInformation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridViewInformation.MultiSelect = false;
             this.dataGridViewInformation.Name = "dataGridViewInformation";
             this.dataGridViewInformation.RowHeadersWidth = 51;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewInformation.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewInformation.RowTemplate.Height = 24;
             this.dataGridViewInformation.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridViewInformation.Size = new System.Drawing.Size(1053, 746);
             this.dataGridViewInformation.TabIndex = 2;
+            this.dataGridViewInformation.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewInformation_CellEndEdit);
             // 
             // treeViewMainCommunications
             // 

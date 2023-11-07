@@ -72,6 +72,13 @@ namespace Electronic_School_Gradebook
 				this.type = type;
 			}
 		}
+		public struct InfRowConnect
+		{
+			public int id;
+			public int rowIndex_dgvInf;
+		}
+
+		InfRowConnect[] rowConnectDgvInf;
 
 		NodeConnect[] nodeConnects; 
 		private void FormAdminPanel_Load(object sender, EventArgs e)
@@ -143,10 +150,10 @@ namespace Electronic_School_Gradebook
 						object[,] dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {dataTeachers[j,0]} AND D.ID_Class = {data[i, 0]}");
 						TreeNode[] treeSubj = new TreeNode[dataSubj.GetLength(0)];
 						for(int k = 0; k < dataSubj.GetLength(0); k++)
-                        {
+						{
 							treeSubj[k] = new TreeNode((dataSubj[k, 1]).ToString());
 							nodeConnects[l-1].node = treeSubj[k];
-							nodeConnects[l-1].id = (int)dataSubj[j, 0];
+							nodeConnects[l-1].id = (int)dataSubj[k, 0];
 							nodeConnects[l-1].type = NodeConnect.Types.SUBJECT;
 						}
 
@@ -191,11 +198,10 @@ namespace Electronic_School_Gradebook
 			FormAdminPanel_Load(sender, e);
 		}
 
-		
-		
+
+		NodeConnect.Types tableType = NodeConnect.Types.NONE;
 		private void dataGridViewInformationFill()
-        {
-			NodeConnect.Types tableType = NodeConnect.Types.NONE;
+		{
 			int BDid = 0;
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
 
@@ -209,8 +215,8 @@ namespace Electronic_School_Gradebook
 				}
 			}
 
-			
 
+			rowConnectDgvInf = null;
 			dataGridViewInformation.Rows.Clear();
 			dataGridViewInformation.Columns.Clear();
 			DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
@@ -219,7 +225,7 @@ namespace Electronic_School_Gradebook
 			dataGridViewCheckBoxColumn.Width = 70;
 			dataGridViewInformation.Columns.Add(dataGridViewCheckBoxColumn);
 
-			//уберите ненужные коменты. зачем лейблы тебе?
+			
 			//switch case (по типу таблицы)
 			switch (tableType)
 			{
@@ -275,18 +281,22 @@ namespace Electronic_School_Gradebook
 						if (textBoxSearch.Text == "")
 						{
 							dataStudents = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = {BDid}");
-							dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = null");
+							dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class is null");
 						}
 						else
 						{
 							dataStudents = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = {BDid} and Surname_Student like '{textBoxSearch.Text}%'");
-							dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = null and Surname_Student like '{textBoxSearch.Text}%'");
+							dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class is null and Surname_Student like '{textBoxSearch.Text}%'");
 						}
+						rowConnectDgvInf = new InfRowConnect[dataStudents.GetLength(0) + dataStudentsAll.GetLength(0)];
 						if (checkBoxOnlyRelated.Checked)
 						{
 							for (int i = 0; i < dataStudents.GetLength(0); i++)
 							{
 								dataGridViewInformation.Rows.Add(true, dataStudents[i, 1], dataStudents[i, 2], dataStudents[i, 3], dataStudents[i, 4], dataStudents[i, 5], dataStudents[i, 6]);
+								rowConnectDgvInf[i].id = (int)dataStudents[i, 0];
+								rowConnectDgvInf[i].rowIndex_dgvInf = i;
+
 							}
 						}
 						else
@@ -294,11 +304,14 @@ namespace Electronic_School_Gradebook
 							for (int i = 0; i < dataStudents.GetLength(0); i++)
 							{
 								dataGridViewInformation.Rows.Add(true, dataStudents[i, 1], dataStudents[i, 2], dataStudents[i, 3], dataStudents[i, 4], dataStudents[i, 5], dataStudents[i, 6]);
+								rowConnectDgvInf[i].id = (int)dataStudents[i, 0];
+								rowConnectDgvInf[i].rowIndex_dgvInf = i;
 							}
-							for (int i = 0; i < dataStudentsAll.GetLength(0); i++)
+							for (int i =dataStudents.GetLength(0), j = 0; i < dataStudents.GetLength(0) + dataStudentsAll.GetLength(0); i++, j++)
 							{
-								dataGridViewInformation.Rows.Add(false, dataStudentsAll[i, 1], dataStudentsAll[i, 2], dataStudentsAll[i, 3], dataStudentsAll[i, 4], dataStudentsAll[i, 5], dataStudentsAll[i, 6]);
-
+								dataGridViewInformation.Rows.Add(false, dataStudentsAll[j, 1], dataStudentsAll[j, 2], dataStudentsAll[j, 3], dataStudentsAll[j, 4], dataStudentsAll[j, 5], dataStudentsAll[j, 6]);
+								rowConnectDgvInf[i].id = (int)dataStudentsAll[j, 0];
+								rowConnectDgvInf[i].rowIndex_dgvInf = i;
 							}
 						}
 					}
@@ -362,6 +375,7 @@ namespace Electronic_School_Gradebook
 							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
 							dataTeachersAll = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where not C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
 						}
+						rowConnectDgvInf = new InfRowConnect[dataTeachers.GetLength(0) + dataTeachersAll.GetLength(0)];
 						if (checkBoxOnlyRelated.Checked)
 						{
 							for (int i = 0; i < dataTeachers.GetLength(0); i++)
@@ -369,10 +383,14 @@ namespace Electronic_School_Gradebook
 								if ((bool)dataTeachers[i, 7] == false)
 								{
 									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель младшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachers[i, 0];
+									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 								else
 								{
 									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель старшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachers[i, 0];
+									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 							}
 						}
@@ -383,21 +401,29 @@ namespace Electronic_School_Gradebook
 								if ((bool)dataTeachers[i, 7] == false)
 								{
 									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель младшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachers[i, 0];
+									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 								else
 								{
 									dataGridViewInformation.Rows.Add(true, dataTeachers[i, 1], dataTeachers[i, 2], dataTeachers[i, 3], dataTeachers[i, 4], dataTeachers[i, 5], dataTeachers[i, 6], "преподаватель старшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachers[i, 0];
+									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 							}
-							for (int i = 0; i < dataTeachersAll.GetLength(0); i++)
+							for (int i = dataTeachers.GetLength(0), j= 0; i < dataTeachers.GetLength(0) + dataTeachersAll.GetLength(0);j++, i++)
 							{
-								if ((bool)dataTeachersAll[i, 7] == false)
+								if ((bool)dataTeachersAll[j, 7] == false)
 								{
-									dataGridViewInformation.Rows.Add(false, dataTeachersAll[i, 1], dataTeachersAll[i, 2], dataTeachersAll[i, 3], dataTeachersAll[i, 4], dataTeachersAll[i, 5], dataTeachersAll[i, 6], "преподаватель малдшей школы");
+									dataGridViewInformation.Rows.Add(false, dataTeachersAll[j, 1], dataTeachersAll[j, 2], dataTeachersAll[j, 3], dataTeachersAll[j, 4], dataTeachersAll[j, 5], dataTeachersAll[j, 6], "преподаватель малдшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachersAll[j, 0];
+									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 								else
 								{
-									dataGridViewInformation.Rows.Add(false, dataTeachersAll[i, 1], dataTeachersAll[i, 2], dataTeachersAll[i, 3], dataTeachersAll[i, 4], dataTeachersAll[i, 5], dataTeachersAll[i, 6], "преподаватель старшей школы");
+									dataGridViewInformation.Rows.Add(false, dataTeachersAll[j, 1], dataTeachersAll[j, 2], dataTeachersAll[j, 3], dataTeachersAll[j, 4], dataTeachersAll[j, 5], dataTeachersAll[j, 6], "преподаватель старшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachersAll[j, 0];
+									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 							}
 						}
@@ -449,24 +475,28 @@ namespace Electronic_School_Gradebook
 					object[,] dataParent = null;
 					object[,] dataParentAll = null;
 					if (textBoxSearch.Text == "")
-                    {
+					{
 						dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent,A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent  from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {BDid}");
 						dataParentAll = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where NOT C.ID_Student = {BDid}");
 
 						
 					}
-                    else
-                    {
+					else
+					{
 						dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent,A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent  from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {BDid} and A.Surname_Parent LIKE '{textBoxSearch.Text}%'");
 						dataParentAll = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where NOT C.ID_Student = {BDid} and A.Surname_Parent LIKE '{textBoxSearch.Text}%'");
 
 						
 					}
+					rowConnectDgvInf = new InfRowConnect[dataParent.GetLength(0) + dataParentAll.GetLength(0)];
 					if (checkBoxOnlyRelated.Checked)
 					{
 						for (int i = 0; i < dataParent.GetLength(0); i++)
 						{
 							dataGridViewInformation.Rows.Add(true, dataParent[i, 1], dataParent[i, 2], dataParent[i, 3], dataParent[i, 4], dataParent[i, 5], dataParent[i, 6]);
+							rowConnectDgvInf[i].id = (int)dataParent[i, 0];
+							rowConnectDgvInf[i].rowIndex_dgvInf = i;
+					
 						}
 					}
 					else
@@ -474,14 +504,21 @@ namespace Electronic_School_Gradebook
 						for (int i = 0; i < dataParent.GetLength(0); i++)
 						{
 							dataGridViewInformation.Rows.Add(true, dataParent[i, 1], dataParent[i, 2], dataParent[i, 3], dataParent[i, 4], dataParent[i, 5], dataParent[i, 6]);
+							rowConnectDgvInf[i].id = (int)dataParent[i, 0];
+							rowConnectDgvInf[i].rowIndex_dgvInf = i;
+
 
 						}
-						for (int i = 0; i < dataParentAll.GetLength(0); i++)
+						for (int i = dataParent.GetLength(0), j=0; i < dataParent.GetLength(0) + dataParentAll.GetLength(0);j++, i++)
 						{
-							dataGridViewInformation.Rows.Add(false, dataParentAll[i, 1], dataParentAll[i, 2], dataParentAll[i, 3], dataParentAll[i, 4], dataParentAll[i, 5], dataParentAll[i, 6]);
+							dataGridViewInformation.Rows.Add(false, dataParentAll[j, 1], dataParentAll[j, 2], dataParentAll[j, 3], dataParentAll[j, 4], dataParentAll[j, 5], dataParentAll[j, 6]);
+							rowConnectDgvInf[i].id = (int)dataParentAll[j, 0];
+							rowConnectDgvInf[i].rowIndex_dgvInf = i;
+
 
 						}
 					}
+
 					break;
 
 				case NodeConnect.Types.TEACHER:
@@ -505,7 +542,7 @@ namespace Electronic_School_Gradebook
 					object[,] dataSubj = null;
 					object[,] dataSubjAll = null;
 
-					if (textBoxSearch.Text == "")
+					if (textBoxSearch.Text == "") ///////////////////////////////////////////////////////////////////////////////////
 					{
 						for (int i = 0; i < data.GetLength(0); i++)
 						{
@@ -525,7 +562,7 @@ namespace Electronic_School_Gradebook
 							if (dataSubj.GetLength(0) != 0) break;
 						}
 					}
-
+					rowConnectDgvInf = new InfRowConnect[dataSubj.GetLength(0) + dataSubjAll.GetLength(0)];
 					if (checkBoxOnlyRelated.Checked)
 					{
 						for (int j = 0; j < dataSubj.GetLength(0); j++)
@@ -533,36 +570,54 @@ namespace Electronic_School_Gradebook
 							if ((bool)dataSubj[j, 2] == false)
 							{
 								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "младшая школа");
+								rowConnectDgvInf[j].id = (int)dataSubj[j, 0];
+								rowConnectDgvInf[j].rowIndex_dgvInf = j;
+								
 							}
 							else if ((bool)dataSubj[j, 2] == true)
 							{
 								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "старшая школа");
+								rowConnectDgvInf[j].id = (int)dataSubj[j, 0];
+								rowConnectDgvInf[j].rowIndex_dgvInf = j;
+								
 							}
 						}
 
 					}
 					else
 					{
-						for (int j = 0; j < dataSubj.GetLength(0); j++)
+						for (int j = 0; j < dataSubj.GetLength(0); j++) 
 						{
 							if ((bool)dataSubj[j, 2] == false)
 							{
 								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "младшая школа");
+								rowConnectDgvInf[j].id = (int)dataSubj[j, 0];
+								rowConnectDgvInf[j].rowIndex_dgvInf = j;
+								
 							}
 							else if ((bool)dataSubj[j, 2] == true)
 							{
 								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "старшая школа");
+								rowConnectDgvInf[j].id = (int)dataSubj[j, 0];
+								rowConnectDgvInf[j].rowIndex_dgvInf = j;
+								
 							}
 						}
-						for (int j = 0; j < dataSubjAll.GetLength(0); j++)
+						for (int j = 0, z= dataSubj.GetLength(0); z < dataSubj.GetLength(0) + dataSubjAll.GetLength(0); z++, j++)
 						{
 							if ((bool)dataSubjAll[j, 2] == false)
 							{
 								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "младшая школа");
+								rowConnectDgvInf[z].id = (int)dataSubjAll[j, 0];
+								rowConnectDgvInf[z].rowIndex_dgvInf = z;
+								
 							}
 							else if ((bool)dataSubjAll[j, 2] == true)
 							{
 								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "старшая школа");
+								rowConnectDgvInf[z].id = (int)dataSubjAll[j, 0];
+								rowConnectDgvInf[z].rowIndex_dgvInf = z;
+								
 							}
 
 						}
@@ -596,6 +651,136 @@ namespace Electronic_School_Gradebook
 		{
 			dataGridViewInformationFill();
 		}
+
+		private void dataGridViewInformation_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+
+			int BDid = 0;
+			
+			switch (tableType)
+			{
+				
+				case NodeConnect.Types.CLASS:
+					if (radioButtonStudents.Checked)
+					{
+                        if ((bool)dataGridViewInformation.SelectedCells[0].Value)
+                        {
+							for (int i = 0; i < nodeConnects.Length; i++)
+							{
+								if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+								{
+									BDid = nodeConnects[i].id;
+								}
+							}
+							int ID_Student = 0;
+							for (int i = 0; i < rowConnectDgvInf.Length; i++)
+							{
+								if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+								{
+									ID_Student = rowConnectDgvInf[i].id;
+									break;
+								}
+							}
+
+							//update
+							dBTools.executeUpdate("Students", $"ID_Class = {BDid.ToString()}", $"where ID_Student = {ID_Student.ToString()}");
+						}
+						else
+                        {
+							int ID_Student = 0;
+							for (int i = 0; i < rowConnectDgvInf.Length; i++)
+							{
+								if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+								{
+									ID_Student = rowConnectDgvInf[i].id;
+									break;
+								}
+							}
+
+							//update
+							dBTools.executeUpdate("Students", $"ID_Class = null", $"where ID_Student = {ID_Student.ToString()}");
+						}
+						
+
+					}
+					if (radioButtonTeachers.Checked)
+					{
+
+						for (int i = 0; i < nodeConnects.Length; i++)
+						{
+							if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+							{
+								BDid = nodeConnects[i].id;
+							}
+						}
+						int ID_Teacher = 0;
+						for (int i = 0; i < rowConnectDgvInf.Length; i++)
+						{
+							if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+							{
+								ID_Teacher = rowConnectDgvInf[i].id;
+								break;
+							}
+						}
+
+						//insert
+						string[] valuesTeach = { ID_Teacher.ToString(), BDid.ToString() };
+						dBTools.executeInsert("TeachToClass", valuesTeach);
+					}
+					break;
+
+
+				case NodeConnect.Types.STUDENT:
+					
+					for (int i = 0; i < nodeConnects.Length; i++)
+					{
+						if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+						{
+							BDid = nodeConnects[i].id;
+						}
+					}
+					int ID_Parent = 0;
+					for (int i = 0; i < rowConnectDgvInf.Length; i++)
+					{
+						if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+						{
+							ID_Parent = rowConnectDgvInf[i].id;
+							break;
+						}
+					}
+
+					//insert
+					string[] values = { BDid.ToString(), ID_Parent.ToString() };
+					dBTools.executeInsert("ParentToStud", values);
+					break;
+
+
+				case NodeConnect.Types.TEACHER:
+					for (int i = 0; i < nodeConnects.Length; i++)
+					{
+						if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+						{
+							BDid = nodeConnects[i].id;
+						}
+					}
+					int ID_Subject = 0;
+					for (int i = 0; i < rowConnectDgvInf.Length; i++)
+					{
+						if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+						{
+							ID_Subject = rowConnectDgvInf[i].id;
+							break;
+						}
+					}
+
+					//insert
+					string[] values1 = { BDid.ToString(), ID_Subject.ToString() };
+					dBTools.executeInsert("TeachToSubj", values1);
+					break;
+
+			}
+		}
 		///-----------------------------------------ГАЗИЗОВА САБИНА|КОНЕЦ-----------------------------------------
 
 		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|НАЧАЛО-----------------------------------------
@@ -627,6 +812,8 @@ namespace Electronic_School_Gradebook
 			Environment.Exit(0);
 		}
 
-        ///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
-    }
+
+
+		///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
+	}
 }
