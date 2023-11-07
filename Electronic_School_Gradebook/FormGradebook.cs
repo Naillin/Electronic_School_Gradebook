@@ -168,7 +168,8 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		//запрет на ввод всего кроме цифр оценки (не работает)
+		//запрет на ввод всего кроме цифр оценки
+		string realTimeWriting = string.Empty;
 		private void dataGridViewGradebook_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			// Проверка, является ли введенный символ цифрой
@@ -178,9 +179,14 @@ namespace Electronic_School_Gradebook
 				return;
 			}
 
+			realTimeWriting = realTimeWriting + e.KeyChar.ToString();
+
 			// Если символ backspace, разрешить удаление значения
 			if (e.KeyChar == '\b')
 			{
+				realTimeWriting = realTimeWriting.TrimEnd('\b');
+				if (realTimeWriting != "") realTimeWriting = realTimeWriting.Remove(realTimeWriting.Length - 1);
+
 				return;
 			}
 
@@ -188,9 +194,10 @@ namespace Electronic_School_Gradebook
 			int number = int.Parse(e.KeyChar.ToString());
 
 			// Проверка диапазона значений и однозначности числа
-			if (number < 2 || number > 5 || e.KeyChar.ToString().Length > 1)
+			if ((number < 2 || number > 5) || (realTimeWriting.Length > 1))
 			{
 				e.Handled = true; // Отмена ввода символа
+				if (realTimeWriting != "") realTimeWriting = realTimeWriting.Remove(realTimeWriting.Length - 1);
 			}
 		}
 
@@ -204,6 +211,8 @@ namespace Electronic_School_Gradebook
 			if (dialogResult == DialogResult.Yes)
 			{
 				dataGridViewGradebook.Columns.Clear();
+				rowConnects = null;
+				studentRowConnects = null;
 
 				FormEducationalPlanRedactor formEducationalPlanReadactor = new FormEducationalPlanRedactor();
 				formEducationalPlanReadactor.ShowDialog();

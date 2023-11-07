@@ -180,7 +180,7 @@ namespace Electronic_School_Gradebook
 
             //заполение dgvGradebook задачами
             DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-			for (int i = 0; i < dataGridViewTasks.RowCount; i++)
+			for (int i = 0, j = 1; i < dataGridViewTasks.RowCount; i++)
 			{
 				bool ddd = (bool)dataGridViewTasks.Rows[i].Cells[0].Value;
 				if ((bool)dataGridViewTasks.Rows[i].Cells[0].Value) //если галочка стоит 
@@ -192,8 +192,9 @@ namespace Electronic_School_Gradebook
 					//columnTask.HeaderText = ColumnText;
 
 					dataGridViewGradebookReciver.Columns.Add("Column" + ColumnText, ColumnText);
-					dataGridViewGradebookReciver.Columns[i + 1].SortMode = DataGridViewColumnSortMode.NotSortable;
-					FormGradebook.rowConnects[i].columnIndex_dgvGradebook = i + 1;
+					dataGridViewGradebookReciver.Columns[j].SortMode = DataGridViewColumnSortMode.NotSortable;
+					FormGradebook.rowConnects[i].columnIndex_dgvGradebook = j;
+					j++;
 				}
 				else
 				{

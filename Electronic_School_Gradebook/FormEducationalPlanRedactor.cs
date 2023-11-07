@@ -229,10 +229,15 @@ namespace Electronic_School_Gradebook
 				//do something else
 			}
 
-			//настройка
 			if (dataGridViewTasks.RowCount <= 0)
 			{
+				//настройка
 				buttonDelete.Enabled = false;
+			}
+			else
+			{
+				//выбор после удаления
+				dataGridViewTasks.Rows[0].Cells[0].Selected = true;
 			}
 		}
 	}
