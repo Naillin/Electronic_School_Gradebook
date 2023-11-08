@@ -95,32 +95,36 @@ namespace Electronic_School_Gradebook
 				int countClasses = dBTools.countRows("Classes");
 				int countStudents = dBTools.countRows("Students", "join Users on Users.ID_User = Students.ID_User where Users.LifeStatus = 1");
 				int countParent = dBTools.countRows("Parents");
+				int koeffStud = 0;
+				int koeffPar = 0;
 
 				nodeConnects = new NodeConnect[countClasses + countStudents+ countParent];
-				for (int i = 0, l = nodeConnects.Length - 1;  i < treeClasses.Length; l=l-2, i++)
+				for (int i = 0;  i < treeClasses.Length; i++)
 				{
 					object[,] dataStudents = dBTools.executeSelectTable($"select ID_Student, Name_Student,Surname_Student from Students where ID_Class = {data[i, 0]}");
 
 					TreeNode[] treeStudents = new TreeNode[dataStudents.GetLength(0)];
-
-					for (int j = 0; j < dataStudents.GetLength(0); j++)
+				
+					for (int j = 0, l = countClasses+koeffStud; j < dataStudents.GetLength(0); l++, j++)
 					{
 						object[,] dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Name_Parent, A.Surname_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {dataStudents[j,0]}");
 						TreeNode[] treeParent = new TreeNode[dataParent.GetLength(0)];
 
-						for (int k = 0; k < dataParent.GetLength(0); k++)
+						for (int k = 0, z=countClasses+countStudents+koeffPar; k < dataParent.GetLength(0);z++, k++)
 						{
 							treeParent[k] = new TreeNode((dataParent[k, 2] + " " + dataParent[k, 1]).ToString());
-							nodeConnects[l - 1].node = treeParent[k];
-							nodeConnects[l - 1].id = (int)dataParent[k, 0];
-							nodeConnects[l - 1].type = NodeConnect.Types.PARENT;
+							nodeConnects[z].node = treeParent[k];
+							nodeConnects[z].id = (int)dataParent[k, 0];
+							nodeConnects[z].type = NodeConnect.Types.PARENT;
+							koeffPar++;
 						}
 
-
+					
 						treeStudents[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString(), treeParent);
 						nodeConnects[l].node = treeStudents[j];
 						nodeConnects[l].id = (int)dataStudents[j, 0];
 						nodeConnects[l].type = NodeConnect.Types.STUDENT;
+						koeffStud++;
 					}
 
 					treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudents);
@@ -135,32 +139,40 @@ namespace Electronic_School_Gradebook
 			else
 			{
 				int countClasses = dBTools.countRows("Classes");
-				int countTeachers = dBTools.countRows("Teachers", "join Users on Users.ID_User = Teachers.ID_User where Users.LifeStatus = 1");
-				int countSubj = dBTools.countRows("Subjects");
+				//int countTeachers = dBTools.countRows("TeachToClass", "join Users on Users.ID_User = Teachers.ID_User where Users.LifeStatus = 1");
+				int countTeachers = dBTools.countRows("TeachToClass");
+				int countSubj = dBTools.countRows("TeachToSubj");
+				int countClassss = dBTools.countRows("Classes");
+				int countSubjjjj = dBTools.countRows("Subjects");
+				int koeffTeach = 0;
+				//int koeffSubj = 0;
 
-				nodeConnects = new NodeConnect[countClasses + countTeachers+ countSubj];
-				for (int i = 0, l = nodeConnects.Length - 1;  i < treeClasses.Length; l=l-2, i++)
+				nodeConnects = new NodeConnect[countClasses + countTeachers+ countSubj + countClassss + countSubjjjj];
+				for (int i = 0;  i < treeClasses.Length;i++)
 				{
 					object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {data[i, 0]}");
 
 					TreeNode[] treeTeach = new TreeNode[dataTeachers.GetLength(0)];
 
-					for (int j = 0; j < dataTeachers.GetLength(0); j++)
-					{
-						object[,] dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {dataTeachers[j,0]} AND D.ID_Class = {data[i, 0]}");
-						TreeNode[] treeSubj = new TreeNode[dataSubj.GetLength(0)];
-						for(int k = 0; k < dataSubj.GetLength(0); k++)
-						{
-							treeSubj[k] = new TreeNode((dataSubj[k, 1]).ToString());
-							nodeConnects[l-1].node = treeSubj[k];
-							nodeConnects[l-1].id = (int)dataSubj[k, 0];
-							nodeConnects[l-1].type = NodeConnect.Types.SUBJECT;
-						}
+                    for (int j = 0, l = countClasses + koeffTeach; j < dataTeachers.GetLength(0); l++, j++)
+                    {
+                        //                   object[,] dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject WHERE B.ID_Teacher = {dataTeachers[j, 0]}");
+                        //                   TreeNode[] treeSubj = new TreeNode[dataSubj.GetLength(0)];
+                        //                   for (int k = 0, z = countClasses + countTeachers + koeffSubj; k < dataSubj.GetLength(0); z++, k++)
+                        //                   {
+                        //                       treeSubj[k] = new TreeNode((dataSubj[k, 1]).ToString());
+                        //                       nodeConnects[z].node = treeSubj[k];
+                        //                       nodeConnects[z].id = (int)dataSubj[k, 0];
+                        //                       nodeConnects[z].type = NodeConnect.Types.SUBJECT;
+                        //                       koeffSubj++;
+                        //                   }
 
-						treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString(),treeSubj);
-						nodeConnects[l].node = treeTeach[j];
+                        //treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString(), treeSubj);
+                        treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString());
+                        nodeConnects[l].node = treeTeach[j];
 						nodeConnects[l].id = (int)dataTeachers[j, 0];
 						nodeConnects[l].type = NodeConnect.Types.TEACHER;
+						koeffTeach++;
 					}
 
 					treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeTeach);
@@ -276,7 +288,7 @@ namespace Electronic_School_Gradebook
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudAddress);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudEmail);
 
-						dataGridViewCheckBoxColumn.Width = 70;
+						dataGridViewCheckBoxColumn.Width = 50;
 
 						if (textBoxSearch.Text == "")
 						{
@@ -363,17 +375,17 @@ namespace Electronic_School_Gradebook
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachEmail);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachType);
 
-						dataGridViewCheckBoxColumn.Width = 70;
+						dataGridViewCheckBoxColumn.Width = 50;
 
 						if (textBoxSearch.Text == "")
 						{
 							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid}");
-							dataTeachersAll = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where not C.ID_Class = {BDid}");
+							dataTeachersAll = dBTools.executeSelectTable($" SELECT distinct (A.ID_Teacher),A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where  C.ID_Class! = {BDid} AND A.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Teacher = {BDid})");
 						}
 						else
 						{
 							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
-							dataTeachersAll = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where not C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
+							dataTeachersAll = dBTools.executeSelectTable($" SELECT distinct (A.ID_Teacher),A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where  C.ID_Class! = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%' AND A.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Teacher = {BDid})");
 						}
 						rowConnectDgvInf = new InfRowConnect[dataTeachers.GetLength(0) + dataTeachersAll.GetLength(0)];
 						if (checkBoxOnlyRelated.Checked)
@@ -470,7 +482,7 @@ namespace Electronic_School_Gradebook
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParAddress);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParEmail);
 
-					dataGridViewCheckBoxColumn.Width = 70;
+					dataGridViewCheckBoxColumn.Width = 50;
 
 					object[,] dataParent = null;
 					object[,] dataParentAll = null;
@@ -537,7 +549,7 @@ namespace Electronic_School_Gradebook
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjName);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjType);
 
-					dataGridViewCheckBoxColumn.Width = 70;
+					dataGridViewCheckBoxColumn.Width = 50;
 
 					object[,] dataSubj = null;
 					object[,] dataSubjAll = null;
@@ -547,20 +559,19 @@ namespace Electronic_School_Gradebook
 						for (int i = 0; i < data.GetLength(0); i++)
 						{
 							dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject,A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {BDid} AND D.ID_Class = {data[i, 0]}");
-							dataSubjAll = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE not C.ID_Teacher = {BDid}");
 							if (dataSubj.GetLength(0) != 0) break;
 							
 						}
-
+						dataSubjAll = dBTools.executeSelectTable($"  select  distinct (A.Name_Subject), A.ID_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject WHERE B.ID_Teacher != {BDid} AND B.ID_Subject NOT IN(SELECT ID_Subject from TeachToSubj D WHERE D.ID_Teacher = {BDid})");
 					}
 					else
 					{
 						for (int i = 0; i < data.GetLength(0); i++)
 						{
 							dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject,A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {BDid} AND D.ID_Class = {data[i, 0]} and A.Name_Subject like '{textBoxSearch.Text}%'");
-							dataSubjAll = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE not C.ID_Teacher = {BDid} and A.Name_Subject like '{textBoxSearch.Text}%'");
 							if (dataSubj.GetLength(0) != 0) break;
 						}
+						dataSubjAll = dBTools.executeSelectTable($"  select  distinct (A.Name_Subject), A.ID_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject WHERE B.ID_Teacher != {BDid} and A.Name_Subject like '{textBoxSearch.Text}%' AND B.ID_Subject NOT IN(SELECT ID_Subject from TeachToSubj D WHERE D.ID_Teacher = {BDid})");
 					}
 					rowConnectDgvInf = new InfRowConnect[dataSubj.GetLength(0) + dataSubjAll.GetLength(0)];
 					if (checkBoxOnlyRelated.Checked)
@@ -607,15 +618,15 @@ namespace Electronic_School_Gradebook
 						{
 							if ((bool)dataSubjAll[j, 2] == false)
 							{
-								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "младшая школа");
-								rowConnectDgvInf[z].id = (int)dataSubjAll[j, 0];
+								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 0], "младшая школа");
+								rowConnectDgvInf[z].id = (int)dataSubjAll[j, 1];
 								rowConnectDgvInf[z].rowIndex_dgvInf = z;
 								
 							}
 							else if ((bool)dataSubjAll[j, 2] == true)
 							{
-								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 1], "старшая школа");
-								rowConnectDgvInf[z].id = (int)dataSubjAll[j, 0];
+								dataGridViewInformation.Rows.Add(false, dataSubjAll[j, 0], "старшая школа");
+								rowConnectDgvInf[z].id = (int)dataSubjAll[j, 1];
 								rowConnectDgvInf[z].rowIndex_dgvInf = z;
 								
 							}
@@ -627,9 +638,15 @@ namespace Electronic_School_Gradebook
 
 					break;
 				case NodeConnect.Types.SUBJECT:
+					dataGridViewInformation.Rows.Clear();
+					dataGridViewInformation.Columns.Clear();
+					rowConnectDgvInf = null;
 					break;
 
 				case NodeConnect.Types.PARENT:
+					dataGridViewInformation.Rows.Clear();
+					dataGridViewInformation.Columns.Clear();
+					rowConnectDgvInf = null;
 					break;
 
 				default:
@@ -706,7 +723,59 @@ namespace Electronic_School_Gradebook
 					}
 					if (radioButtonTeachers.Checked)
 					{
+						if ((bool)dataGridViewInformation.SelectedCells[0].Value)
+						{
 
+							for (int i = 0; i < nodeConnects.Length; i++)
+							{
+								if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+								{
+									BDid = nodeConnects[i].id;
+								}
+							}
+							int ID_Teacher = 0;
+							for (int i = 0; i < rowConnectDgvInf.Length; i++)
+							{
+								if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+								{
+									ID_Teacher = rowConnectDgvInf[i].id;
+									break;
+								}
+							}
+
+							//insert
+							string[] valuesTeach = { ID_Teacher.ToString(), BDid.ToString() };
+							dBTools.executeInsert("TeachToClass", valuesTeach);
+						}
+                        else
+                        {
+							for (int i = 0; i < nodeConnects.Length; i++)
+							{
+								if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+								{
+									BDid = nodeConnects[i].id;
+								}
+							}
+							int ID_Teacher = 0;
+							for (int i = 0; i < rowConnectDgvInf.Length; i++)
+							{
+								if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+								{
+									ID_Teacher = rowConnectDgvInf[i].id;
+									break;
+								}
+							}
+							//delete
+							dBTools.executeDelete("TeachToClass", $"where ID_Teacher={ID_Teacher.ToString()} and ID_Class={BDid}");
+						}
+					}
+					break;
+
+
+				case NodeConnect.Types.STUDENT:
+					if((bool)dataGridViewInformation.SelectedCells[0].Value)
+					{
+						
 						for (int i = 0; i < nodeConnects.Length; i++)
 						{
 							if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
@@ -714,69 +783,87 @@ namespace Electronic_School_Gradebook
 								BDid = nodeConnects[i].id;
 							}
 						}
-						int ID_Teacher = 0;
+						int ID_Parent = 0;
 						for (int i = 0; i < rowConnectDgvInf.Length; i++)
 						{
 							if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
 							{
-								ID_Teacher = rowConnectDgvInf[i].id;
+								ID_Parent = rowConnectDgvInf[i].id;
 								break;
 							}
 						}
 
 						//insert
-						string[] valuesTeach = { ID_Teacher.ToString(), BDid.ToString() };
-						dBTools.executeInsert("TeachToClass", valuesTeach);
+						string[] values = { BDid.ToString(), ID_Parent.ToString() };
+						dBTools.executeInsert("ParentToStud", values);
 					}
-					break;
-
-
-				case NodeConnect.Types.STUDENT:
-					
-					for (int i = 0; i < nodeConnects.Length; i++)
-					{
-						if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+                    else
+                    {
+						for(int i = 0; i < nodeConnects.Length; i++)
 						{
-							BDid = nodeConnects[i].id;
+							if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+							{
+								BDid = nodeConnects[i].id;
+							}
 						}
-					}
-					int ID_Parent = 0;
-					for (int i = 0; i < rowConnectDgvInf.Length; i++)
-					{
-						if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+						int ID_Parent = 0;
+						for (int i = 0; i < rowConnectDgvInf.Length; i++)
 						{
-							ID_Parent = rowConnectDgvInf[i].id;
-							break;
+							if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+							{
+								ID_Parent = rowConnectDgvInf[i].id;
+								break;
+							}
 						}
+						dBTools.executeDelete("ParentToStud", $"where ID_Parent={ID_Parent.ToString()} and ID_Student={BDid}");
 					}
-
-					//insert
-					string[] values = { BDid.ToString(), ID_Parent.ToString() };
-					dBTools.executeInsert("ParentToStud", values);
 					break;
 
 
 				case NodeConnect.Types.TEACHER:
-					for (int i = 0; i < nodeConnects.Length; i++)
+					if ((bool)dataGridViewInformation.SelectedCells[0].Value)
 					{
-						if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+						for (int i = 0; i < nodeConnects.Length; i++)
 						{
-							BDid = nodeConnects[i].id;
+							if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+							{
+								BDid = nodeConnects[i].id;
+							}
 						}
-					}
-					int ID_Subject = 0;
-					for (int i = 0; i < rowConnectDgvInf.Length; i++)
-					{
-						if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+						int ID_Subject = 0;
+						for (int i = 0; i < rowConnectDgvInf.Length; i++)
 						{
-							ID_Subject = rowConnectDgvInf[i].id;
-							break;
+							if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+							{
+								ID_Subject = rowConnectDgvInf[i].id;
+								break;
+							}
 						}
-					}
 
-					//insert
-					string[] values1 = { BDid.ToString(), ID_Subject.ToString() };
-					dBTools.executeInsert("TeachToSubj", values1);
+						//insert
+						string[] values1 = { BDid.ToString(), ID_Subject.ToString() };
+						dBTools.executeInsert("TeachToSubj", values1);
+					}
+                    else
+                    {
+						for(int i = 0; i < nodeConnects.Length; i++)
+						{
+							if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
+							{
+								BDid = nodeConnects[i].id;
+							}
+						}
+						int ID_Subject = 0;
+						for (int i = 0; i < rowConnectDgvInf.Length; i++)
+						{
+							if (rowConnectDgvInf[i].rowIndex_dgvInf == dataGridViewInformation.SelectedCells[0].RowIndex)
+							{
+								ID_Subject = rowConnectDgvInf[i].id;
+								break;
+							}
+						}
+						dBTools.executeDelete("TeachToSubj", $"where ID_Subject={ID_Subject.ToString()} and ID_Teacher={BDid}");
+					}
 					break;
 
 			}

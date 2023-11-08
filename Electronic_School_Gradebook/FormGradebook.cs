@@ -157,6 +157,8 @@ namespace Electronic_School_Gradebook
 					dBTools.executeUpdate("Gradebook", values, $"where ID_Student = {studentRowConnects[selectRow].id.ToString()} and ID_TeachToSubj = {ID_TeachToSubj.ToString()} and ID_Work = {ID_Work.ToString()}");
 				}
 			}
+
+			realTimeWriting = string.Empty;
 		}
 
 		private void dataGridViewGradebook_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

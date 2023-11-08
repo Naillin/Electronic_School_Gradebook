@@ -193,7 +193,7 @@
             this.dataGridViewInformation.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewInformation.RowTemplate.Height = 24;
             this.dataGridViewInformation.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewInformation.Size = new System.Drawing.Size(1053, 746);
+            this.dataGridViewInformation.Size = new System.Drawing.Size(1053, 655);
             this.dataGridViewInformation.TabIndex = 2;
             this.dataGridViewInformation.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewInformation_CellEndEdit);
             // 
@@ -204,7 +204,7 @@
             this.treeViewMainCommunications.Location = new System.Drawing.Point(3, 95);
             this.treeViewMainCommunications.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.treeViewMainCommunications.Name = "treeViewMainCommunications";
-            this.treeViewMainCommunications.Size = new System.Drawing.Size(387, 746);
+            this.treeViewMainCommunications.Size = new System.Drawing.Size(387, 655);
             this.treeViewMainCommunications.TabIndex = 0;
             this.treeViewMainCommunications.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMainCommunications_AfterSelect);
             // 
