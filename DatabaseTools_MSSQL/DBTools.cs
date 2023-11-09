@@ -33,15 +33,24 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public int executeAnySql(string sql)
 		{
-			int result = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			int result = -1;
+			try
 			{
-				sqlConnection.Open();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteNonQuery();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteNonQuery();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -55,14 +64,23 @@ namespace DatabaseTools_MSSQL
 		public object executeAnySqlScalar(string sql)
 		{
 			object result = null;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			try
 			{
-				sqlConnection.Open();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteScalar();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteScalar();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -81,29 +99,38 @@ namespace DatabaseTools_MSSQL
 
 			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
-				DataTable data = new DataTable();
-				data.Clear();
-				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				try
 				{
-					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					SqlDataReader reader = command.ExecuteReader();
-					data.Load(reader);
-
-					sqlConnection.Close();
-				}
-
-				result = new object[data.Rows.Count, data.Columns.Count];
-
-				for (int i = 0; i < data.Rows.Count; i++)
-				{
-					for (int j = 0; j < data.Columns.Count; j++)
+					DataTable data = new DataTable();
+					data.Clear();
+					using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 					{
-						result[i, j] = data.Rows[i][j];
+						sqlConnection.Open();
+
+						SqlCommand command = new SqlCommand(@sql, sqlConnection);
+						SqlDataReader reader = command.ExecuteReader();
+						data.Load(reader);
+
+						sqlConnection.Close();
 					}
+
+					result = new object[data.Rows.Count, data.Columns.Count];
+
+					for (int i = 0; i < data.Rows.Count; i++)
+					{
+						for (int j = 0; j < data.Columns.Count; j++)
+						{
+							result[i, j] = data.Rows[i][j];
+						}
+					}
+					data.Clear();
 				}
-				data.Clear();
+				catch(Exception ex)
+				{
+					//искуственное исключение
+					ConsoleHandler consoleHandler = new ConsoleHandler();
+					consoleHandler.ConsoleWriteText(ex.Message);
+				}
 			}
 			else
 			{
@@ -126,16 +153,25 @@ namespace DatabaseTools_MSSQL
 
 			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
-				result.Clear();
-				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				try
 				{
-					sqlConnection.Open();
+					result.Clear();
+					using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+					{
+						sqlConnection.Open();
 
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					SqlDataReader reader = command.ExecuteReader();
-					result.Load(reader);
+						SqlCommand command = new SqlCommand(@sql, sqlConnection);
+						SqlDataReader reader = command.ExecuteReader();
+						result.Load(reader);
 
-					sqlConnection.Close();
+						sqlConnection.Close();
+					}
+				}
+				catch(Exception ex)
+				{
+					//искуственное исключение
+					ConsoleHandler consoleHandler = new ConsoleHandler();
+					consoleHandler.ConsoleWriteText(ex.Message);
 				}
 			}
 			else
@@ -155,23 +191,33 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet takeDatabase(string database)
 		{
-			string[] tableNamesMassive = tableNames(database, true);
-			SqlDataAdapter[] adapterMass = new SqlDataAdapter[tableNamesMassive.Length];
-			DataSet result = new DataSet();
-
-			result.Clear();
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet result = null;
+			try
 			{
-				sqlConnection.Open();
+				string[] tableNamesMassive = tableNames(database, true);
+				SqlDataAdapter[] adapterMass = new SqlDataAdapter[tableNamesMassive.Length];
+				result = new DataSet();
 
-				for(int i = 0; i < tableNamesMassive.Length; i++)
+				result.Clear();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
-					string sql = $"SELECT * FROM {tableNamesMassive[i]}";
-					adapterMass[i] = new SqlDataAdapter(@sql, sqlConnection);
-					adapterMass[i].Fill(result, tableNamesMassive[i]);
-				}
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					for (int i = 0; i < tableNamesMassive.Length; i++)
+					{
+						string sql = $"SELECT * FROM {tableNamesMassive[i]}";
+						adapterMass[i] = new SqlDataAdapter(@sql, sqlConnection);
+						adapterMass[i].Fill(result, tableNamesMassive[i]);
+					}
+
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -184,25 +230,34 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает массив значений.</param>
 		public void executeInsert(string table, string[] value)
 		{
-			ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
-			string columns = string.Empty;
-			for (int i = 1; i < columnsNamesMassive.Length; i++)
+			try
 			{
-				columns = columns + columnsNamesMassive[i].Name + ", ";
+				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
+				string columns = string.Empty;
+				for (int i = 1; i < columnsNamesMassive.Length; i++)
+				{
+					columns = columns + columnsNamesMassive[i].Name + ", ";
+				}
+				columns = columns.Remove(columns.Length - 2);
+
+				string strValues = string.Join(", ", value);
+				string sql = $"insert into {table} ({columns}) values ({strValues});";
+
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					command.ExecuteNonQuery();
+
+					sqlConnection.Close();
+				}
 			}
-			columns = columns.Remove(columns.Length - 2);
-
-			string strValues = string.Join(", ", value);
-			string sql = $"insert into {table} ({columns}) values ({strValues});";
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			catch (Exception ex)
 			{
-				sqlConnection.Open();
-
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				command.ExecuteNonQuery();
-
-				sqlConnection.Close();
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 		}
 
@@ -213,33 +268,42 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "column1=value1;column2=value2;column3=value3;".</param>
 		public void executeInsert(string table, string value)
 		{
-			if (value.Substring(value.Length - 1) == ";")
+			try
 			{
-				value = value.Remove(value.Length - 1);
+				if (value.Substring(value.Length - 1) == ";")
+				{
+					value = value.Remove(value.Length - 1);
+				}
+				string[] valueMass = value.Split(';');
+
+				//ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
+				string columns = string.Empty;
+				string values = string.Empty;
+				for (int i = 0; i < valueMass.Length; i++)
+				{
+					columns = columns + valueMass[i].Split('=')[0] + ", ";
+					values = values + valueMass[i].Split('=')[0] + ", ";
+				}
+				columns = columns.Remove(columns.Length - 2);
+				values = values.Remove(columns.Length - 2);
+
+				string sql = $"insert into {table} ({columns}) values ({values});";
+
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					command.ExecuteNonQuery();
+
+					sqlConnection.Close();
+				}
 			}
-			string [] valueMass = value.Split(';');
-
-			//ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
-			string columns = string.Empty;
-			string values = string.Empty;
-			for (int i = 0; i < valueMass.Length; i++)
+			catch(Exception ex)
 			{
-				columns = columns + valueMass[i].Split('=')[0] + ", ";
-				values = values + valueMass[i].Split('=')[0] + ", ";
-			}
-			columns = columns.Remove(columns.Length - 2);
-			values = values.Remove(columns.Length - 2);
-
-			string sql = $"insert into {table} ({columns}) values ({values});";
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
-			{
-				sqlConnection.Open();
-
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				command.ExecuteNonQuery();
-
-				sqlConnection.Close();
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 		}
 
@@ -248,29 +312,37 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает массив значений для установки.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public int executeUpdate(string table, string [] value, string conditions)
 		{
-			string strValues = string.Empty;
-
-			ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
-			for (int i = 1; i <= value.Length; i++)
+			int result = -1;
+			try
 			{
-				strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
+				string strValues = string.Empty;
+				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
+				for (int i = 1; i <= value.Length; i++)
+				{
+					strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
+				}
+				strValues = strValues.Remove(strValues.Length - 2);
+				string sql = $"update {table} set {strValues} {conditions};";
+
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteNonQuery();
+
+					sqlConnection.Close();
+				}
 			}
-			strValues = strValues.Remove(strValues.Length - 2);
-			string sql = $"update {table} set {strValues} {conditions};";
-
-			int result = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			catch (Exception ex)
 			{
-				sqlConnection.Open();
-
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteNonQuery();
-
-				sqlConnection.Close();
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -284,25 +356,34 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public int executeUpdate(string table, string[] value)
 		{
-			string strValues = string.Empty;
-
-			ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
-			for (int i = 1; i <= value.Length; i++)
+			int result = -1;
+			try
 			{
-				strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
+				string strValues = string.Empty;
+
+				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
+				for (int i = 1; i <= value.Length; i++)
+				{
+					strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
+				}
+				strValues = strValues.Remove(strValues.Length - 2);
+				string sql = $"update {table} set {strValues};";
+
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteNonQuery();
+
+					sqlConnection.Close();
+				}
 			}
-			strValues = strValues.Remove(strValues.Length - 2);
-			string sql = $"update {table} set {strValues};";
-
-			int result = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			catch(Exception ex)
 			{
-				sqlConnection.Open();
-
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteNonQuery();
-
-				sqlConnection.Close();
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -313,29 +394,37 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "column1=value1;column2=value2;column3=value3;".</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public int executeUpdate(string table, string value, string conditions)
 		{
-			if (value.Substring(value.Length - 1) == ";")
+			int result = -1;
+			try
 			{
-				value = value.Remove(value.Length - 1);
+				if (value.Substring(value.Length - 1) == ";")
+				{
+					value = value.Remove(value.Length - 1);
+				}
+				string strValues = value.Replace(';', ',');
+
+				string sql = $"update {table} set {strValues} {conditions};";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteNonQuery();
+
+					sqlConnection.Close();
+				}
 			}
-			string strValues = value.Replace(';', ',');
-
-			string sql = $"update {table} set {strValues} {conditions};";
-
-			int result = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			catch(Exception ex)
 			{
-				sqlConnection.Open();
-
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteNonQuery();
-
-				sqlConnection.Close();
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
-
+			
 			return result;
 		}
 
@@ -347,23 +436,31 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public int executeUpdate(string table, string value)
 		{
-			if (value.Substring(value.Length - 1) == ";")
+			int result = -1;
+			try
 			{
-				value = value.Remove(value.Length - 1);
+				if (value.Substring(value.Length - 1) == ";")
+				{
+					value = value.Remove(value.Length - 1);
+				}
+				string strValues = value.Replace(';', ',');
+
+				string sql = $"update {table} set {strValues};";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteNonQuery();
+
+					sqlConnection.Close();
+				}
 			}
-			string strValues = value.Replace(';', ',');
-
-			string sql = $"update {table} set {strValues};";
-
-			int result = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			catch(Exception ex)
 			{
-				sqlConnection.Open();
-
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteNonQuery();
-
-				sqlConnection.Close();
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -373,21 +470,29 @@ namespace DatabaseTools_MSSQL
 		/// Выполнение запроса DELETE для заданной таблицы с укзанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public int executeDelete(string table, string conditions)
 		{
-			string sql = $"delete {table} {conditions};";
-
-			int result = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			int result = -1;
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"delete {table} {conditions};";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteNonQuery();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteNonQuery();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -402,31 +507,39 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public object [] searchRecord(string table, string column, string value)
 		{
-			string sql = $"select top (1) * from {table} where {column} = {value};";
-
-			object [] result = { -1 };
-
-			DataTable data = new DataTable();
-			data.Clear();
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			object[] result = { -1 };
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"select top (1) * from {table} where {column} = {value};";
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				SqlDataReader reader = command.ExecuteReader();
-				data.Load(reader);
+				DataTable data = new DataTable();
+				data.Clear();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					SqlDataReader reader = command.ExecuteReader();
+					data.Load(reader);
+
+					sqlConnection.Close();
+				}
+
+				result = new object[data.Columns.Count];
+
+				for (int i = 0; i < data.Columns.Count; i++)
+				{
+					result[i] = data.Rows[0][i];
+				}
+				data.Clear();
 			}
-
-			result = new object[data.Columns.Count];
-
-			for (int i = 0; i < data.Columns.Count; i++)
+			catch (Exception ex)
 			{
-				result[i] = data.Rows[0][i];
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
-			data.Clear();
-
+			
 			return result;
 		}
 
@@ -438,17 +551,25 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public int countRows(string table)
 		{
-			string sql = $"select count(*) from {table};";
-
-			int count = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			int count = -1;
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"select count(*) from {table};";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				count = (int)command.ExecuteScalar();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					count = (int)command.ExecuteScalar();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return count;
@@ -459,21 +580,29 @@ namespace DatabaseTools_MSSQL
 		/// Выполнение SQL-функции COUNT(*) с условием и возвратом количества строк.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public int countRows(string table, string conditions)
 		{
-			string sql = $"select count(*) from {table} {conditions};";
-
 			int count = 0;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"select count(*) from {table} {conditions};";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				count = (int)command.ExecuteScalar();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					count = (int)command.ExecuteScalar();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return count;
@@ -521,42 +650,51 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public ColumnsNames[] columnsNames(string table)
 		{
-			// запрос для имена столбцов таблицы
-			string sql = $"select top (1) * from {table};";
-			string sql1 = $"SELECT COL_NAME(fc.parent_object_id, fc.parent_column_id) AS 'Поле', OBJECT_NAME (f.referenced_object_id) AS 'Связанная таблица' FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE OBJECT_NAME(f.parent_object_id) = '{table}';";
-			object[,] foreignKeys = executeSelectTable(@sql1);
-
-			ColumnsNames[] result = null; 
-			DataTable data = new DataTable();
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			ColumnsNames[] result = null;
+			try
 			{
-				sqlConnection.Open();
+				// запрос для имена столбцов таблицы
+				string sql = $"select top (1) * from {table};";
+				string sql1 = $"SELECT COL_NAME(fc.parent_object_id, fc.parent_column_id) AS 'Поле', OBJECT_NAME (f.referenced_object_id) AS 'Связанная таблица' FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE OBJECT_NAME(f.parent_object_id) = '{table}';";
+				object[,] foreignKeys = executeSelectTable(@sql1);
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				SqlDataReader reader = command.ExecuteReader();
-				data.Load(reader);
-				result = new ColumnsNames[data.Columns.Count];
-				for (int i = 0; i < data.Columns.Count; i++)
+				DataTable data = new DataTable();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
-					result[i].Name = data.Columns[i].ColumnName;
-					result[i].LongName = table + "." + data.Columns[i].ColumnName;
-					if (i == 0)
-					{
-						result[i].Key = ColumnsNames.BDKeys.PK;
-					}
+					sqlConnection.Open();
 
-					for (int j = 0; j < foreignKeys.GetLength(0); j++)
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					SqlDataReader reader = command.ExecuteReader();
+					data.Load(reader);
+					result = new ColumnsNames[data.Columns.Count];
+					for (int i = 0; i < data.Columns.Count; i++)
 					{
-						if (data.Columns[i].ColumnName == foreignKeys[j, 0].ToString())
+						result[i].Name = data.Columns[i].ColumnName;
+						result[i].LongName = table + "." + data.Columns[i].ColumnName;
+						if (i == 0)
 						{
-							result[i].Key = ColumnsNames.BDKeys.FK;
-							result[i].FkParent = foreignKeys[j, 1].ToString();
+							result[i].Key = ColumnsNames.BDKeys.PK;
+						}
+
+						for (int j = 0; j < foreignKeys.GetLength(0); j++)
+						{
+							if (data.Columns[i].ColumnName == foreignKeys[j, 0].ToString())
+							{
+								result[i].Key = ColumnsNames.BDKeys.FK;
+								result[i].FkParent = foreignKeys[j, 1].ToString();
+							}
 						}
 					}
-				}
-				data.Clear();
+					data.Clear();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -571,33 +709,42 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public string[] tableNames(string database, bool flag)
 		{
-			string sql = $"SELECT TABLE_NAME FROM {database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME != 'sysdiagrams';";
-			string strUser = currentUser();
-
 			string[] result = null;
-			DataTable data = new DataTable();
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"SELECT TABLE_NAME FROM {database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME != 'sysdiagrams';";
+				string strUser = currentUser();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				SqlDataReader reader = command.ExecuteReader();
-				data.Load(reader);
-				result = new string[data.Rows.Count];
-				for (int i = 0; i < data.Rows.Count; i++)
+				DataTable data = new DataTable();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
-					if(flag)
-					{
-						result[i] = database + "." + strUser + "." + data.Rows[i].ToString();
-					}
-					else
-					{
-						result[i] = data.Rows[i].ToString();
-					}
-				}
-				data.Clear();
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					SqlDataReader reader = command.ExecuteReader();
+					data.Load(reader);
+					result = new string[data.Rows.Count];
+					for (int i = 0; i < data.Rows.Count; i++)
+					{
+						if (flag)
+						{
+							result[i] = database + "." + strUser + "." + data.Rows[i].ToString();
+						}
+						else
+						{
+							result[i] = data.Rows[i].ToString();
+						}
+					}
+					data.Clear();
+
+					sqlConnection.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -610,17 +757,25 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public string currentUser()
 		{
-			string sql = $"SELECT (CURRENT_USER);";
-
 			string result = string.Empty;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"SELECT (CURRENT_USER);";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteScalar().ToString();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteScalar().ToString();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;
@@ -633,17 +788,25 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public string datebaseName()
 		{
-			string sql = $"select db_name(dbid) from master.dbo.sysprocesses where spid = @@spid;";
-
 			string result = string.Empty;
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"select db_name(dbid) from master.dbo.sysprocesses where spid = @@spid;";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlCommand command = new SqlCommand(@sql, sqlConnection);
-				result = command.ExecuteScalar().ToString();
+					SqlCommand command = new SqlCommand(@sql, sqlConnection);
+					result = command.ExecuteScalar().ToString();
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return result;

@@ -27,7 +27,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Хранит связь между сурогатным идентификатором записи и индесом строки DataGridView.
+		/// Хранит связь между сурогатным идентификатором записи таблицы из базы данных и индексом строки DataGridView.
 		/// </summary>
 		public struct RowConnect
 		{
@@ -35,10 +35,10 @@ namespace DatabaseTools_MSSQL
 			public int rowIndex;
 
 			/// <summary>
-			/// Хранит связь между сурогатным идентификатором записи и индесом строки DataGridView.
+			/// Хранит связь между сурогатным идентификатором записи таблицы из базы данных и индексом строки DataGridView.
 			/// </summary>
-			/// <param name="idDataBase"></param>
-			/// <param name="rowIndex"></param>
+			/// <param name="idDataBase">Сурогатный идентификатор записи таблицы из базы данных.</param>
+			/// <param name="rowIndex">Индекс строки DataGridView.</param>
 			RowConnect(object idDataBase = null, int rowIndex = -1)
 			{
 				this.idDataBase = idDataBase;
@@ -54,30 +54,88 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public RowConnect [] FillDGVWithRowConnect(ref DataGridView dataGridView, string table)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames [] columnsNames = dBTools.columnsNames(table);
-			string columns = string.Empty;
-			for (int i = 0; i < columnsNames.Length; i++)
+			RowConnect[] rowConnects = null;
+			try
 			{
-				columns = columns + columnsNames[i].LongName + ", ";
-			}
-			columns = columns.Remove(columns.Length - 2);
-
-			string sql = $"select {columns} from {table};";
-			object[,] data = dBTools.executeSelectTable(@sql);
-			RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
-
-			for(int i = 0; i < data.GetLength(0); i++)
-			{
-				object[] values = new object[data.GetLength(1)];
-				for (int j = 0; j < values.Length; j++)
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				string columns = string.Empty;
+				for (int i = 0; i < columnsNames.Length; i++)
 				{
-					values[j] = data[i, j];
+					columns = columns + columnsNames[i].LongName + ", ";
 				}
+				columns = columns.Remove(columns.Length - 2);
 
-				dataGridView.Rows.Add(values);
-				rowConnects[i].idDataBase = data[i, 0];
-				rowConnects[i].idDataBase = i;
+				string sql = $"select {columns} from {table};";
+				object[,] data = dBTools.executeSelectTable(@sql);
+				rowConnects = new RowConnect[data.GetLength(0)];
+
+				for (int i = 0; i < data.GetLength(0); i++)
+				{
+					object[] values = new object[data.GetLength(1)];
+					for (int j = 1; j < values.Length; j++)
+					{
+						values[j] = data[i, j];
+					}
+
+					dataGridView.Rows.Add(values);
+					rowConnects[i].idDataBase = data[i, 0];
+					rowConnects[i].idDataBase = i;
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
+			}
+			
+			return rowConnects;
+		}
+
+		/// <summary>
+		/// Заполняет DataGridView всеми данными указанных полей таблицы.
+		/// </summary>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
+		/// <returns></returns>
+		public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string table, string conditions)
+		{
+			RowConnect[] rowConnects = null;
+			try
+			{
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				string columns = string.Empty;
+				for (int i = 0; i < columnsNames.Length; i++)
+				{
+					columns = columns + columnsNames[i].LongName + ", ";
+				}
+				columns = columns.Remove(columns.Length - 2);
+
+				string sql = $"select {columns} from {table} {conditions};";
+				object[,] data = dBTools.executeSelectTable(@sql);
+				rowConnects = new RowConnect[data.GetLength(0)];
+
+				for (int i = 0; i < data.GetLength(0); i++)
+				{
+					object[] values = new object[data.GetLength(1)];
+					for (int j = 1; j < values.Length; j++)
+					{
+						values[j] = data[i, j];
+					}
+
+					dataGridView.Rows.Add(values);
+					rowConnects[i].idDataBase = data[i, 0];
+					rowConnects[i].idDataBase = i;
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return rowConnects;
@@ -88,116 +146,87 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="fields">Массив хранящий поля таблицы.</param>
 		/// <returns></returns>
-		public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string table, string conditions)
+		public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string table, string[] fields)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
-			string columns = string.Empty;
-			for (int i = 0; i < columnsNames.Length; i++)
+			RowConnect[] rowConnects = null;
+			try
 			{
-				columns = columns + columnsNames[i].LongName + ", ";
-			}
-			columns = columns.Remove(columns.Length - 2);
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				string columns = columnsNames[0].LongName + string.Join(", ", fields);
 
-			string sql = $"select {columns} from {table} {conditions};";
-			object[,] data = dBTools.executeSelectTable(@sql);
-			RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
+				string sql = $"select {columns} from {table};";
+				object[,] data = dBTools.executeSelectTable(@sql);
+				rowConnects = new RowConnect[data.GetLength(0)];
 
-			for (int i = 0; i < data.GetLength(0); i++)
-			{
-				object[] values = new object[data.GetLength(1)];
-				for (int j = 0; j < values.Length; j++)
+				for (int i = 0; i < data.GetLength(0); i++)
 				{
-					values[j] = data[i, j];
-				}
+					object[] values = new object[data.GetLength(1)];
+					for (int j = 1; j < values.Length; j++)
+					{
+						values[j] = data[i, j];
+					}
 
-				dataGridView.Rows.Add(values);
-				rowConnects[i].idDataBase = data[i, 0];
-				rowConnects[i].idDataBase = i;
+					dataGridView.Rows.Add(values);
+					rowConnects[i].idDataBase = data[i, 0];
+					rowConnects[i].idDataBase = i;
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
+			}
+			
+			return rowConnects;
+		}
+
+		/// <summary>
+		/// Заполняет DataGridView всеми данными указанных полей таблицы.
+		/// </summary>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="fields">Массив хранящий поля таблицы.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
+		/// <returns></returns>
+		public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string table, string[] fields, string conditions)
+		{
+			RowConnect[] rowConnects = null;
+			try
+			{
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				string columns = columnsNames[0].LongName + string.Join(", ", fields);
+
+				string sql = $"select {columns} from {table} {conditions};";
+				object[,] data = dBTools.executeSelectTable(@sql);
+				rowConnects = new RowConnect[data.GetLength(0)];
+
+				for (int i = 0; i < data.GetLength(0); i++)
+				{
+					object[] values = new object[data.GetLength(1)];
+					for (int j = 1; j < values.Length; j++)
+					{
+						values[j] = data[i, j];
+					}
+
+					dataGridView.Rows.Add(values);
+					rowConnects[i].idDataBase = data[i, 0];
+					rowConnects[i].idDataBase = i;
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return rowConnects;
 		}
-
-		///// <summary>
-		///// Заполняет DataGridView всеми данными указанных полей таблицы.
-		///// </summary>
-		///// <param name="dataGridView">Ссылка на объект элемента формы.</param>
-		///// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
-		///// <param name="fields">Массив хранящий поля таблицы.</param>
-		///// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
-		///// <returns></returns>
-		//public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string[] tables, string[] fields)
-		//{
-		//	DBTools dBTools = new DBTools(connectionStringReceiver);
-		//	DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
-		//	string columns = string.Empty;
-		//	for (int i = 0; i < columnsNames.Length; i++)
-		//	{
-		//		columns = columns + columnsNames[i].LongName + ", ";
-		//	}
-		//	columns = columns.Remove(columns.Length - 2);
-
-		//	string sql = $"select {columns} from {table} {conditions};";
-		//	object[,] data = dBTools.executeSelectTable(@sql);
-		//	RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
-
-		//	for (int i = 0; i < data.GetLength(0); i++)
-		//	{
-		//		object[] values = new object[data.GetLength(1)];
-		//		for (int j = 0; j < values.Length; j++)
-		//		{
-		//			values[j] = data[i, j];
-		//		}
-
-		//		dataGridView.Rows.Add(values);
-		//		rowConnects[i].idDataBase = data[i, 0];
-		//		rowConnects[i].idDataBase = i;
-		//	}
-
-		//	return rowConnects;
-		//}
-
-		///// <summary>
-		///// Заполняет DataGridView всеми данными указанных полей таблицы.
-		///// </summary>
-		///// <param name="dataGridView">Ссылка на объект элемента формы.</param>
-		///// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
-		///// <param name="fields">Массив хранящий поля таблицы.</param>
-		///// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
-		///// <returns></returns>
-		//public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string[] tables, string[] fields, string conditions)
-		//{
-		//	DBTools dBTools = new DBTools(connectionStringReceiver);
-		//	DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
-		//	string columns = string.Empty;
-		//	for (int i = 0; i < columnsNames.Length; i++)
-		//	{
-		//		columns = columns + columnsNames[i].LongName + ", ";
-		//	}
-		//	columns = columns.Remove(columns.Length - 2);
-
-		//	string sql = $"select {columns} from {table} {conditions};";
-		//	object[,] data = dBTools.executeSelectTable(@sql);
-		//	RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
-
-		//	for (int i = 0; i < data.GetLength(0); i++)
-		//	{
-		//		object[] values = new object[data.GetLength(1)];
-		//		for (int j = 0; j < values.Length; j++)
-		//		{
-		//			values[j] = data[i, j];
-		//		}
-
-		//		dataGridView.Rows.Add(values);
-		//		rowConnects[i].idDataBase = data[i, 0];
-		//		rowConnects[i].idDataBase = i;
-		//	}
-
-		//	return rowConnects;
-		//}
 
 		/// <summary>
 		/// Заполняет DataGridView всеми данными указанных полей таблицы.
@@ -208,13 +237,23 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataTable FillDGV(ref DataGridView dataGridView, string table, string[] fields)
 		{
-			string columns = string.Join(", ", fields);
+			DataTable dt = null;
+			try
+			{
+				string columns = string.Join(", ", fields);
 
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string sql = $"select {columns} from {table};";
-			DataTable dt = dBTools.executeSelectTableDT(@sql);
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				string sql = $"select {columns} from {table};";
+				dt = dBTools.executeSelectTableDT(@sql);
 
-			dataGridView.DataSource = dt;
+				dataGridView.DataSource = dt;
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
+			}
 
 			return dt;
 		}
@@ -225,17 +264,27 @@ namespace DatabaseTools_MSSQL
 		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="fields">Массив хранящий поля таблицы.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public DataTable FillDGV(ref DataGridView dataGridView, string table, string[] fields, string conditions)
 		{
-			string columns = string.Join(", ", fields);
+			DataTable dt = null;
+			try
+			{
+				string columns = string.Join(", ", fields);
 
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			string sql = $"select {columns} from {table} {conditions};";
-			DataTable dt = dBTools.executeSelectTableDT(@sql);
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				string sql = $"select {columns} from {table} {conditions};";
+				dt = dBTools.executeSelectTableDT(@sql);
 
-			dataGridView.DataSource = dt;
+				dataGridView.DataSource = dt;
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
+			}
 
 			return dt;
 		}
@@ -247,19 +296,27 @@ namespace DatabaseTools_MSSQL
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		public DataSet FillDGV(ref DataGridView dataGridView, string table)
 		{
-			string sql = $"select * from {table};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"select * from {table};";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				dataGridView.DataSource = null;
-				dataGridView.DataSource = ds.Tables["TableFromBD"];
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					dataGridView.DataSource = null;
+					dataGridView.DataSource = ds.Tables["TableFromBD"];
 
-				sqlConnection.Close();
+					sqlConnection.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
@@ -270,22 +327,31 @@ namespace DatabaseTools_MSSQL
 		/// </summary>
 		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		public DataSet FillDGV(ref DataGridView dataGridView, string table, string conditions)
 		{
-			string sql = $"select * from {table} {conditions};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				string sql = $"select * from {table} {conditions};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				dataGridView.DataSource = null;
-				dataGridView.DataSource = ds.Tables["TableFromBD"];
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					dataGridView.DataSource = null;
+					dataGridView.DataSource = ds.Tables["TableFromBD"];
+
+					sqlConnection.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
@@ -300,22 +366,31 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassive[0].Name;
-				listBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					listBox.DataSource = ds.Tables["TableFromBD"];
+					listBox.ValueMember = columnsNamesMassive[0].Name;
+					listBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
@@ -331,25 +406,35 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, int selectValue)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassive[0].Name;
-				listBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					listBox.DataSource = ds.Tables["TableFromBD"];
+					listBox.ValueMember = columnsNamesMassive[0].Name;
+					listBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+
+				listBox.SelectedValue = selectValue;
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
-			listBox.SelectedValue = selectValue;
 			return ds;
 		}
 
@@ -359,26 +444,35 @@ namespace DatabaseTools_MSSQL
 		/// <param name="listBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassive[0].Name;
-				listBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					listBox.DataSource = ds.Tables["TableFromBD"];
+					listBox.ValueMember = columnsNamesMassive[0].Name;
+					listBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
@@ -390,30 +484,40 @@ namespace DatabaseTools_MSSQL
 		/// <param name="listBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <param name="selectValue">Задает выбор элемента.</param>
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions, int selectValue)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				listBox.DataSource = ds.Tables["TableFromBD"];
-				listBox.ValueMember = columnsNamesMassive[0].Name;
-				listBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					listBox.DataSource = ds.Tables["TableFromBD"];
+					listBox.ValueMember = columnsNamesMassive[0].Name;
+					listBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+
+				listBox.SelectedValue = selectValue;
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
-			listBox.SelectedValue = selectValue;
 			return ds;
 		}
 
@@ -426,22 +530,31 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassive[0].Name;
-				comboBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					comboBox.DataSource = ds.Tables["TableFromBD"];
+					comboBox.ValueMember = columnsNamesMassive[0].Name;
+					comboBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
@@ -457,25 +570,35 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, int selectValue)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassive[0].Name;
-				comboBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					comboBox.DataSource = ds.Tables["TableFromBD"];
+					comboBox.ValueMember = columnsNamesMassive[0].Name;
+					comboBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+
+				comboBox.SelectedValue = selectValue;
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
-			comboBox.SelectedValue = selectValue;
 			return ds;
 		}
 
@@ -485,26 +608,35 @@ namespace DatabaseTools_MSSQL
 		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, string conditions)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassive[0].Name;
-				comboBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					comboBox.DataSource = ds.Tables["TableFromBD"];
+					comboBox.ValueMember = columnsNamesMassive[0].Name;
+					comboBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
@@ -516,30 +648,40 @@ namespace DatabaseTools_MSSQL
 		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <param name="selectValue">Задает выбор элемента.</param>
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, string conditions, int selectValue)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassive[0].Name;
-				comboBox.DisplayMember = column;
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					comboBox.DataSource = ds.Tables["TableFromBD"];
+					comboBox.ValueMember = columnsNamesMassive[0].Name;
+					comboBox.DisplayMember = column;
+
+					sqlConnection.Close();
+				}
+
+				comboBox.SelectedValue = selectValue;
+			}
+			catch (Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
-			comboBox.SelectedValue = selectValue;
 			return ds;
 		}
 
@@ -552,23 +694,32 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassive[0].Name;
-				comboBox.DisplayMember = column;
-				comboBox.Name = "ComboBoxColumn";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					comboBox.DataSource = ds.Tables["TableFromBD"];
+					comboBox.ValueMember = columnsNamesMassive[0].Name;
+					comboBox.DisplayMember = column;
+					comboBox.Name = "ComboBoxColumn";
+
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
@@ -580,27 +731,36 @@ namespace DatabaseTools_MSSQL
 		/// <param name="comboBox">Ссылка на объект элемента формы.</param>
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		/// <param name="column">Поле таблицы которое требуется отобразить.</param>
-		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column, string conditions)
 		{
-			DBTools dBTools = new DBTools(connectionStringReceiver);
-			DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
-			string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
-			DataSet ds = new DataSet();
-
-			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			DataSet ds = null;
+			try
 			{
-				sqlConnection.Open();
+				DBTools dBTools = new DBTools(connectionStringReceiver);
+				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
-				SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
-				adapter.Fill(ds, "TableFromBD");
-				comboBox.DataSource = ds.Tables["TableFromBD"];
-				comboBox.ValueMember = columnsNamesMassive[0].Name;
-				comboBox.DisplayMember = column;
-				comboBox.Name = "ComboBoxColumn";
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
 
-				sqlConnection.Close();
+					SqlDataAdapter adapter = new SqlDataAdapter(@sql, sqlConnection);
+					adapter.Fill(ds, "TableFromBD");
+					comboBox.DataSource = ds.Tables["TableFromBD"];
+					comboBox.ValueMember = columnsNamesMassive[0].Name;
+					comboBox.DisplayMember = column;
+					comboBox.Name = "ComboBoxColumn";
+
+					sqlConnection.Close();
+				}
+			}
+			catch(Exception ex)
+			{
+				//искуственное исключение
+				ConsoleHandler consoleHandler = new ConsoleHandler();
+				consoleHandler.ConsoleWriteText(ex.Message);
 			}
 
 			return ds;
