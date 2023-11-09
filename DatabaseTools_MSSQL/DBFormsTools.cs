@@ -75,7 +75,7 @@ namespace DatabaseTools_MSSQL
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
 					object[] values = new object[data.GetLength(1) - 1];
-					for (int j = 1; j < values.Length; j++)
+					for (int j = 0; j < values.Length; j++)
 					{
 						values[j] = data[i, j + 1];
 					}
@@ -125,7 +125,7 @@ namespace DatabaseTools_MSSQL
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
 					object[] values = new object[data.GetLength(1) - 1];
-					for (int j = 1; j < values.Length; j++)
+					for (int j = 0; j < values.Length; j++)
 					{
 						values[j] = data[i, j + 1];
 					}
@@ -170,7 +170,7 @@ namespace DatabaseTools_MSSQL
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
 					object[] values = new object[data.GetLength(1) - 1];
-					for (int j = 1; j < values.Length; j++)
+					for (int j = 0; j < values.Length; j++)
 					{
 						values[j] = data[i, j + 1];
 					}
@@ -216,7 +216,7 @@ namespace DatabaseTools_MSSQL
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
 					object[] values = new object[data.GetLength(1) - 1];
-					for (int j = 1; j < values.Length; j++)
+					for (int j = 0; j < values.Length; j++)
 					{
 						values[j] = data[i, j + 1];
 					}
