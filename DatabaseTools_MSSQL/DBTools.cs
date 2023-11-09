@@ -771,7 +771,7 @@ namespace DatabaseTools_MSSQL
 					sqlConnection.Close();
 				}
 			}
-			catch
+			catch(Exception ex)
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
