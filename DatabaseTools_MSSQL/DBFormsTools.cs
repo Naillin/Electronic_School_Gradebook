@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Data.SqlTypes;
 
 namespace DatabaseTools_MSSQL
 {
@@ -24,6 +25,179 @@ namespace DatabaseTools_MSSQL
 		{
 			connectionStringReceiver = connectionString;
 		}
+
+		/// <summary>
+		/// Хранит связь между сурогатным идентификатором записи и индесом строки DataGridView.
+		/// </summary>
+		public struct RowConnect
+		{
+			public object idDataBase;
+			public int rowIndex;
+
+			/// <summary>
+			/// Хранит связь между сурогатным идентификатором записи и индесом строки DataGridView.
+			/// </summary>
+			/// <param name="idDataBase"></param>
+			/// <param name="rowIndex"></param>
+			RowConnect(object idDataBase = null, int rowIndex = -1)
+			{
+				this.idDataBase = idDataBase;
+				this.rowIndex = rowIndex;
+			}
+		}
+
+		/// <summary>
+		/// Заполняет DataGridView всеми данными указанных полей таблицы.
+		/// </summary>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <returns></returns>
+		public RowConnect [] FillDGVWithRowConnect(ref DataGridView dataGridView, string table)
+		{
+			DBTools dBTools = new DBTools(connectionStringReceiver);
+			DBTools.ColumnsNames [] columnsNames = dBTools.columnsNames(table);
+			string columns = string.Empty;
+			for (int i = 0; i < columnsNames.Length; i++)
+			{
+				columns = columns + columnsNames[i].LongName + ", ";
+			}
+			columns = columns.Remove(columns.Length - 2);
+
+			string sql = $"select {columns} from {table};";
+			object[,] data = dBTools.executeSelectTable(@sql);
+			RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
+
+			for(int i = 0; i < data.GetLength(0); i++)
+			{
+				object[] values = new object[data.GetLength(1)];
+				for (int j = 0; j < values.Length; j++)
+				{
+					values[j] = data[i, j];
+				}
+
+				dataGridView.Rows.Add(values);
+				rowConnects[i].idDataBase = data[i, 0];
+				rowConnects[i].idDataBase = i;
+			}
+
+			return rowConnects;
+		}
+
+		/// <summary>
+		/// Заполняет DataGridView всеми данными указанных полей таблицы.
+		/// </summary>
+		/// <param name="dataGridView">Ссылка на объект элемента формы.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		/// <returns></returns>
+		public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string table, string conditions)
+		{
+			DBTools dBTools = new DBTools(connectionStringReceiver);
+			DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+			string columns = string.Empty;
+			for (int i = 0; i < columnsNames.Length; i++)
+			{
+				columns = columns + columnsNames[i].LongName + ", ";
+			}
+			columns = columns.Remove(columns.Length - 2);
+
+			string sql = $"select {columns} from {table} {conditions};";
+			object[,] data = dBTools.executeSelectTable(@sql);
+			RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
+
+			for (int i = 0; i < data.GetLength(0); i++)
+			{
+				object[] values = new object[data.GetLength(1)];
+				for (int j = 0; j < values.Length; j++)
+				{
+					values[j] = data[i, j];
+				}
+
+				dataGridView.Rows.Add(values);
+				rowConnects[i].idDataBase = data[i, 0];
+				rowConnects[i].idDataBase = i;
+			}
+
+			return rowConnects;
+		}
+
+		///// <summary>
+		///// Заполняет DataGridView всеми данными указанных полей таблицы.
+		///// </summary>
+		///// <param name="dataGridView">Ссылка на объект элемента формы.</param>
+		///// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		///// <param name="fields">Массив хранящий поля таблицы.</param>
+		///// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		///// <returns></returns>
+		//public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string[] tables, string[] fields)
+		//{
+		//	DBTools dBTools = new DBTools(connectionStringReceiver);
+		//	DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+		//	string columns = string.Empty;
+		//	for (int i = 0; i < columnsNames.Length; i++)
+		//	{
+		//		columns = columns + columnsNames[i].LongName + ", ";
+		//	}
+		//	columns = columns.Remove(columns.Length - 2);
+
+		//	string sql = $"select {columns} from {table} {conditions};";
+		//	object[,] data = dBTools.executeSelectTable(@sql);
+		//	RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
+
+		//	for (int i = 0; i < data.GetLength(0); i++)
+		//	{
+		//		object[] values = new object[data.GetLength(1)];
+		//		for (int j = 0; j < values.Length; j++)
+		//		{
+		//			values[j] = data[i, j];
+		//		}
+
+		//		dataGridView.Rows.Add(values);
+		//		rowConnects[i].idDataBase = data[i, 0];
+		//		rowConnects[i].idDataBase = i;
+		//	}
+
+		//	return rowConnects;
+		//}
+
+		///// <summary>
+		///// Заполняет DataGridView всеми данными указанных полей таблицы.
+		///// </summary>
+		///// <param name="dataGridView">Ссылка на объект элемента формы.</param>
+		///// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		///// <param name="fields">Массив хранящий поля таблицы.</param>
+		///// <param name="conditions">Условия выполнения запроса (обычно начинается с where).</param>
+		///// <returns></returns>
+		//public RowConnect[] FillDGVWithRowConnect(ref DataGridView dataGridView, string[] tables, string[] fields, string conditions)
+		//{
+		//	DBTools dBTools = new DBTools(connectionStringReceiver);
+		//	DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+		//	string columns = string.Empty;
+		//	for (int i = 0; i < columnsNames.Length; i++)
+		//	{
+		//		columns = columns + columnsNames[i].LongName + ", ";
+		//	}
+		//	columns = columns.Remove(columns.Length - 2);
+
+		//	string sql = $"select {columns} from {table} {conditions};";
+		//	object[,] data = dBTools.executeSelectTable(@sql);
+		//	RowConnect[] rowConnects = new RowConnect[data.GetLength(0)];
+
+		//	for (int i = 0; i < data.GetLength(0); i++)
+		//	{
+		//		object[] values = new object[data.GetLength(1)];
+		//		for (int j = 0; j < values.Length; j++)
+		//		{
+		//			values[j] = data[i, j];
+		//		}
+
+		//		dataGridView.Rows.Add(values);
+		//		rowConnects[i].idDataBase = data[i, 0];
+		//		rowConnects[i].idDataBase = i;
+		//	}
+
+		//	return rowConnects;
+		//}
 
 		/// <summary>
 		/// Заполняет DataGridView всеми данными указанных полей таблицы.
