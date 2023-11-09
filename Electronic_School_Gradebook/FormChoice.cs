@@ -116,6 +116,7 @@ namespace Electronic_School_Gradebook
 			dataGridViewTasks.Rows.Clear();
 			buttonAccept.Enabled = false;
 		}
+
 		//если выбрали предмет
 		private void listBoxSubjects_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -203,7 +204,7 @@ namespace Electronic_School_Gradebook
 			}
 			
 			//заполение dgvGradebook студентами
-			object[,] dataStudents = dBTools.executeSelectTable($"SELECT ID_Student, Name_Student, Surname_Student FROM Students WHERE ID_Class = {listBoxClasses.SelectedValue};");
+			object[,] dataStudents = dBTools.executeSelectTable($"SELECT ID_Student, Name_Student, Surname_Student FROM Students join Users on Users.ID_User = Students.ID_User WHERE Students.ID_Class = {listBoxClasses.SelectedValue} and Users.LifeStatus = 1;");
 			FormGradebook.studentRowConnects = new StudentRowConnect[dataStudents.GetLength(0)]; //массив структуры связи строк и id
 			for (int i = 0; i < dataStudents.GetLength(0); i++)
 			{
@@ -226,13 +227,13 @@ namespace Electronic_School_Gradebook
             dataGridViewGradebookReciver.Columns[0].ReadOnly = true;
 
             //заполение dgvGradebook оценками (нужна тестировка)
-            object[,] dataGradebook = dBTools.executeSelectTable($"select Gradebook.ID_Writing, Gradebook.Mark, Gradebook.ID_Student, TeacherPlan.ID_Work from Gradebook join TeacherPlan on TeacherPlan.ID_Work = Gradebook.ID_Work join TeachToSubj on TeachToSubj.ID_TeachToSubj = Gradebook.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
+            object[,] dataGradebook = dBTools.executeSelectTable($"select Gradebook.ID_Writing, Gradebook.Mark, Gradebook.ID_Student, TeacherPlan.ID_Work from Gradebook join TeacherPlan on TeacherPlan.ID_Work = Gradebook.ID_Work join TeachToSubj on TeachToSubj.ID_TeachToSubj = Gradebook.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject join Students on Students.ID_Student = Gradebook.ID_Student join Users on Users.ID_User = Students.ID_User where Users.LifeStatus = 1 and Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
 			for (int z = 0; z < dataGradebook.GetLength(0); z++)
 			{
 				int rowIndex = 0;
 				for(int i = 0; i < FormGradebook.studentRowConnects.Length; i++)
 				{
-					if (FormGradebook.studentRowConnects[i].id == (int)dataGradebook[i, 2])
+					if (FormGradebook.studentRowConnects[i].id == (int)dataGradebook[z, 2])
 					{
 						rowIndex = FormGradebook.studentRowConnects[i].rowIndex_dgvStudents;
 						break;
