@@ -57,6 +57,8 @@ namespace DatabaseTools_MSSQL
 			RowConnect[] rowConnects = null;
 			try
 			{
+				dataGridView.Rows.Clear();
+
 				DBTools dBTools = new DBTools(connectionStringReceiver);
 				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = string.Empty;
@@ -72,10 +74,10 @@ namespace DatabaseTools_MSSQL
 
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
-					object[] values = new object[data.GetLength(1)];
+					object[] values = new object[data.GetLength(1) - 1];
 					for (int j = 1; j < values.Length; j++)
 					{
-						values[j] = data[i, j];
+						values[j] = data[i, j + 1];
 					}
 
 					dataGridView.Rows.Add(values);
@@ -105,6 +107,8 @@ namespace DatabaseTools_MSSQL
 			RowConnect[] rowConnects = null;
 			try
 			{
+				dataGridView.Rows.Clear();
+
 				DBTools dBTools = new DBTools(connectionStringReceiver);
 				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = string.Empty;
@@ -120,10 +124,10 @@ namespace DatabaseTools_MSSQL
 
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
-					object[] values = new object[data.GetLength(1)];
+					object[] values = new object[data.GetLength(1) - 1];
 					for (int j = 1; j < values.Length; j++)
 					{
-						values[j] = data[i, j];
+						values[j] = data[i, j + 1];
 					}
 
 					dataGridView.Rows.Add(values);
@@ -153,6 +157,8 @@ namespace DatabaseTools_MSSQL
 			RowConnect[] rowConnects = null;
 			try
 			{
+				dataGridView.Rows.Clear();
+
 				DBTools dBTools = new DBTools(connectionStringReceiver);
 				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = columnsNames[0].LongName + string.Join(", ", fields);
@@ -163,10 +169,10 @@ namespace DatabaseTools_MSSQL
 
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
-					object[] values = new object[data.GetLength(1)];
+					object[] values = new object[data.GetLength(1) - 1];
 					for (int j = 1; j < values.Length; j++)
 					{
-						values[j] = data[i, j];
+						values[j] = data[i, j + 1];
 					}
 
 					dataGridView.Rows.Add(values);
@@ -197,6 +203,8 @@ namespace DatabaseTools_MSSQL
 			RowConnect[] rowConnects = null;
 			try
 			{
+				dataGridView.Rows.Clear();
+
 				DBTools dBTools = new DBTools(connectionStringReceiver);
 				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = columnsNames[0].LongName + string.Join(", ", fields);
@@ -207,10 +215,10 @@ namespace DatabaseTools_MSSQL
 
 				for (int i = 0; i < data.GetLength(0); i++)
 				{
-					object[] values = new object[data.GetLength(1)];
+					object[] values = new object[data.GetLength(1) - 1];
 					for (int j = 1; j < values.Length; j++)
 					{
-						values[j] = data[i, j];
+						values[j] = data[i, j + 1];
 					}
 
 					dataGridView.Rows.Add(values);

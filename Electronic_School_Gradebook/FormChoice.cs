@@ -17,6 +17,7 @@ using System.IO;
 //Media
 using System.Media;
 using System.Globalization;
+using System.Data.SqlClient;
 
 namespace Electronic_School_Gradebook
 {
