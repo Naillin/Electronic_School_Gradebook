@@ -380,12 +380,12 @@ namespace Electronic_School_Gradebook
 						if (textBoxSearch.Text == "")
 						{
 							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid}");
-							dataTeachersAll = dBTools.executeSelectTable($" SELECT distinct (A.ID_Teacher),A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where  C.ID_Class! = {BDid} AND A.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Teacher = {BDid})");
+							dataTeachersAll = dBTools.executeSelectTable($" SELECT distinct(A.Surname_Teacher),A.ID_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher where  B.ID_Class! = {BDid} AND B.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Class = {BDid})");
 						}
 						else
 						{
 							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
-							dataTeachersAll = dBTools.executeSelectTable($" SELECT distinct (A.ID_Teacher),A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where  C.ID_Class! = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%' AND A.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Teacher = {BDid})");
+							dataTeachersAll = dBTools.executeSelectTable($" SELECT distinct(A.Surname_Teacher),A.ID_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher where  B.ID_Class! = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%' AND B.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Class = {BDid})");
 						}
 						rowConnectDgvInf = new InfRowConnect[dataTeachers.GetLength(0) + dataTeachersAll.GetLength(0)];
 						if (checkBoxOnlyRelated.Checked)
@@ -427,14 +427,14 @@ namespace Electronic_School_Gradebook
 							{
 								if ((bool)dataTeachersAll[j, 7] == false)
 								{
-									dataGridViewInformation.Rows.Add(false, dataTeachersAll[j, 1], dataTeachersAll[j, 2], dataTeachersAll[j, 3], dataTeachersAll[j, 4], dataTeachersAll[j, 5], dataTeachersAll[j, 6], "преподаватель малдшей школы");
-									rowConnectDgvInf[i].id = (int)dataTeachersAll[j, 0];
+									dataGridViewInformation.Rows.Add(false, dataTeachersAll[j, 0], dataTeachersAll[j, 2], dataTeachersAll[j, 3], dataTeachersAll[j, 4], dataTeachersAll[j, 5], dataTeachersAll[j, 6], "преподаватель малдшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachersAll[j, 1];
 									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 								else
 								{
-									dataGridViewInformation.Rows.Add(false, dataTeachersAll[j, 1], dataTeachersAll[j, 2], dataTeachersAll[j, 3], dataTeachersAll[j, 4], dataTeachersAll[j, 5], dataTeachersAll[j, 6], "преподаватель старшей школы");
-									rowConnectDgvInf[i].id = (int)dataTeachersAll[j, 0];
+									dataGridViewInformation.Rows.Add(false, dataTeachersAll[j, 0], dataTeachersAll[j, 2], dataTeachersAll[j, 3], dataTeachersAll[j, 4], dataTeachersAll[j, 5], dataTeachersAll[j, 6], "преподаватель старшей школы");
+									rowConnectDgvInf[i].id = (int)dataTeachersAll[j, 1];
 									rowConnectDgvInf[i].rowIndex_dgvInf = i;
 								}
 							}
