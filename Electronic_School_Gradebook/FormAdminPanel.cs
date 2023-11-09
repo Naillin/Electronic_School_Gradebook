@@ -723,7 +723,7 @@ namespace Electronic_School_Gradebook
 					}
 					if (radioButtonTeachers.Checked)
 					{
-						if ((bool)dataGridViewInformation.SelectedCells[0].Value)
+						if ((bool)dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value)
 						{
 
 							for (int i = 0; i < nodeConnects.Length; i++)
@@ -742,10 +742,16 @@ namespace Electronic_School_Gradebook
 									break;
 								}
 							}
-
-							//insert
-							string[] valuesTeach = { ID_Teacher.ToString(), BDid.ToString() };
-							dBTools.executeInsert("TeachToClass", valuesTeach);
+							try
+							{
+								//insert
+								string[] valuesTeach = { ID_Teacher.ToString(), BDid.ToString() };
+								dBTools.executeInsert("TeachToClass", valuesTeach);
+							}
+                            catch
+                            {
+								dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value = false;
+							}
 						}
                         else
                         {
@@ -773,7 +779,7 @@ namespace Electronic_School_Gradebook
 
 
 				case NodeConnect.Types.STUDENT:
-					if((bool)dataGridViewInformation.SelectedCells[0].Value)
+                    if ((bool)dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value)
 					{
 						
 						for (int i = 0; i < nodeConnects.Length; i++)
@@ -792,11 +798,17 @@ namespace Electronic_School_Gradebook
 								break;
 							}
 						}
+                        try
+                        {   //insert
+                            string[] values = { BDid.ToString(), ID_Parent.ToString() };
+                            dBTools.executeInsert("ParentToStud", values);
+                        }
+                        catch
+                        {
+							dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value = false;
+                        }
 
-						//insert
-						string[] values = { BDid.ToString(), ID_Parent.ToString() };
-						dBTools.executeInsert("ParentToStud", values);
-					}
+                    }
                     else
                     {
 						for(int i = 0; i < nodeConnects.Length; i++)
