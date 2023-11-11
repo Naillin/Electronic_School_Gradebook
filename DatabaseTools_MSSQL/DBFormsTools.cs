@@ -57,6 +57,7 @@ namespace DatabaseTools_MSSQL
 			RowConnect[] rowConnects = null;
 			try
 			{
+				dataGridView.Focus();
 				dataGridView.Rows.Clear();
 
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -84,12 +85,12 @@ namespace DatabaseTools_MSSQL
 					rowConnects[i].idDataBase = data[i, 0];
 					rowConnects[i].idDataBase = i;
 				}
-			}
+		}
 			catch(Exception ex)
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 			
 			return rowConnects;
@@ -139,7 +140,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return rowConnects;
@@ -184,7 +185,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 			
 			return rowConnects;
@@ -230,7 +231,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return rowConnects;
@@ -260,7 +261,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return dt;
@@ -291,7 +292,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return dt;
@@ -304,7 +305,7 @@ namespace DatabaseTools_MSSQL
 		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
 		public DataSet FillDGV(ref DataGridView dataGridView, string table)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				string sql = $"select * from {table};";
@@ -324,7 +325,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -338,7 +339,7 @@ namespace DatabaseTools_MSSQL
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		public DataSet FillDGV(ref DataGridView dataGridView, string table, string conditions)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				string sql = $"select * from {table} {conditions};";
@@ -359,7 +360,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -374,7 +375,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -398,7 +399,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -414,7 +415,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, int selectValue)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -440,7 +441,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -456,7 +457,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -480,7 +481,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -497,7 +498,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions, int selectValue)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -523,7 +524,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -538,7 +539,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -562,7 +563,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -578,7 +579,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, int selectValue)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -604,7 +605,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -620,7 +621,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, string conditions)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -644,7 +645,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -661,7 +662,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref System.Windows.Forms.ComboBox comboBox, string table, string column, string conditions, int selectValue)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -687,7 +688,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -702,7 +703,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -727,7 +728,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;
@@ -743,7 +744,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public DataSet FillComboBox(ref DataGridViewComboBoxColumn comboBox, string table, string column, string conditions)
 		{
-			DataSet ds = null;
+			DataSet ds = new DataSet();
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
@@ -768,7 +769,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return ds;

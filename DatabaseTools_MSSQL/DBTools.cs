@@ -8,6 +8,7 @@ using System.Data;
 using Microsoft.SqlServer.Server;
 using System.Data.SqlTypes;
 using System.Security.Policy;
+using System.Windows.Forms;
 
 namespace DatabaseTools_MSSQL
 {
@@ -50,7 +51,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -80,7 +81,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -129,7 +130,7 @@ namespace DatabaseTools_MSSQL
 				{
 					//искуственное исключение
 					ConsoleHandler consoleHandler = new ConsoleHandler();
-					consoleHandler.ConsoleWriteText(ex.Message);
+					MessageBox.Show(ex.Message, "Warning!");
 				}
 			}
 			else
@@ -171,7 +172,7 @@ namespace DatabaseTools_MSSQL
 				{
 					//искуственное исключение
 					ConsoleHandler consoleHandler = new ConsoleHandler();
-					consoleHandler.ConsoleWriteText(ex.Message);
+					MessageBox.Show(ex.Message, "Warning!");
 				}
 			}
 			else
@@ -217,7 +218,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -257,7 +258,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 		}
 
@@ -303,7 +304,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 		}
 
@@ -342,7 +343,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -383,7 +384,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -418,13 +419,13 @@ namespace DatabaseTools_MSSQL
 					sqlConnection.Close();
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
-			
+
 			return result;
 		}
 
@@ -460,7 +461,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -492,7 +493,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -537,7 +538,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 			
 			return result;
@@ -569,7 +570,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return count;
@@ -602,7 +603,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return count;
@@ -694,7 +695,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -744,7 +745,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -775,7 +776,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
@@ -806,7 +807,7 @@ namespace DatabaseTools_MSSQL
 			{
 				//искуственное исключение
 				ConsoleHandler consoleHandler = new ConsoleHandler();
-				consoleHandler.ConsoleWriteText(ex.Message);
+				MessageBox.Show(ex.Message, "Warning!");
 			}
 
 			return result;
