@@ -882,9 +882,6 @@ namespace Electronic_School_Gradebook
 		}
 		///-----------------------------------------ГАЗИЗОВА САБИНА|КОНЕЦ-----------------------------------------
 
-		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|НАЧАЛО-----------------------------------------
-		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
-
 		///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|НАЧАЛО-----------------------------------------
 		//клик по тултипу в туллах
 		private void notifyIconInfoUser_MouseClick(object sender, MouseEventArgs e)
@@ -911,8 +908,96 @@ namespace Electronic_School_Gradebook
 			Environment.Exit(0);
 		}
 
+        ///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
 
+        ///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|НАЧАЛО----------------------------------------
 
-		///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
-	}
+        int selectRow = -1;
+        int selectColumn = -1;
+        object oldWriting = null;
+
+        private void buttonAddRecord_Click(object sender, EventArgs e)
+        {
+            buttonAddRecordClick();
+        }
+
+        private void buttonRemoveRecord_Click(object sender, EventArgs e)
+        {
+            buttonRemoveRecordClick();
+        }
+
+        private void dataGridViewUsers_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            selectRow = dataGridViewUsers.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewUsers.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewUsers.Rows[selectRow].Cells[selectColumn].Value;
+        }
+
+        private void dataGridViewUsers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewUsersCellEndEdit();
+        }
+
+        private void dataGridViewClasses_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            selectRow = dataGridViewClasses.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewClasses.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewClasses.Rows[selectRow].Cells[selectColumn].Value;
+        }
+
+        private void dataGridViewClasses_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewClassesCellEndEdit();
+        }
+
+        private void dataGridViewStudents_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            selectRow = dataGridViewStudents.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewStudents.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value;
+        }
+
+        private void dataGridViewStudents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewStudentsCellEndEdit();
+        }
+
+        private void dataGridViewParents_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            selectRow = dataGridViewParents.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewParents.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewParents.Rows[selectRow].Cells[selectColumn].Value;
+        }
+
+        private void dataGridViewParents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewParentsCellEndEdit();
+        }
+
+        private void dataGridViewTeachers_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            selectRow = dataGridViewTeachers.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewTeachers.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value;
+        }
+
+        private void dataGridViewTeachers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewTeachersCellEndEdit();
+        }
+
+        private void dataGridViewSubjects_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            selectRow = dataGridViewSubjects.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewSubjects.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewSubjects.Rows[selectRow].Cells[selectColumn].Value;
+        }
+
+        private void dataGridViewSubjects_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewSubjectsCellEndEdit();
+        }
+
+        ///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
+    }
 }
