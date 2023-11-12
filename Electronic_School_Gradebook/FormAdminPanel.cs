@@ -899,18 +899,6 @@ namespace Electronic_School_Gradebook
             buttonRemoveRecordClick();
         }
 
-        private void dataGridViewUsers_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            selectRow = dataGridViewUsers.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewUsers.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewUsers.Rows[selectRow].Cells[selectColumn].Value;
-        }
-
-        private void dataGridViewUsers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            dataGridViewUsersCellEndEdit();
-        }
-
 		private void dataGridViewClasses_Click(object sender, EventArgs e) // Сергей - добавь такие для всех дгв
 		{
 			selectRow = dataGridViewClasses.SelectedCells[0].RowIndex;
@@ -982,8 +970,7 @@ namespace Electronic_School_Gradebook
         {
             TabPage selectedTabPage = tabControlAtoms.SelectedTab;
 
-            if (selectedTabPage == tabPageUsers ||
-                selectedTabPage == tabPageClasses ||
+            if (selectedTabPage == tabPageClasses ||
                 selectedTabPage == tabPageStudents ||
                 selectedTabPage == tabPageParents ||
                 selectedTabPage == tabPageTeachers ||
@@ -1001,6 +988,13 @@ namespace Electronic_School_Gradebook
             {
                 StartFillDataGridViews(selectedTabConrolPage);
             }
+        }
+
+        private void tabControlAtoms_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+			TabPage selectingTabPage = tabControlAtoms.SelectedTab;
+
+            tabControlAtomsSelecting(selectingTabPage);
         }
 
         ///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
