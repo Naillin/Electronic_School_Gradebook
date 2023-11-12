@@ -83,7 +83,7 @@ namespace DatabaseTools_MSSQL
 
 					dataGridView.Rows.Add(values);
 					rowConnects[i].idDataBase = data[i, 0];
-					rowConnects[i].idDataBase = i;
+					rowConnects[i].rowIndex = i;
 				}
 		}
 			catch(Exception ex)
@@ -133,7 +133,7 @@ namespace DatabaseTools_MSSQL
 
 					dataGridView.Rows.Add(values);
 					rowConnects[i].idDataBase = data[i, 0];
-					rowConnects[i].idDataBase = i;
+					rowConnects[i].rowIndex = i;
 				}
 			}
 			catch (Exception ex)
@@ -178,7 +178,7 @@ namespace DatabaseTools_MSSQL
 
 					dataGridView.Rows.Add(values);
 					rowConnects[i].idDataBase = data[i, 0];
-					rowConnects[i].idDataBase = i;
+					rowConnects[i].rowIndex = i;
 				}
 			}
 			catch(Exception ex)
@@ -224,7 +224,7 @@ namespace DatabaseTools_MSSQL
 
 					dataGridView.Rows.Add(values);
 					rowConnects[i].idDataBase = data[i, 0];
-					rowConnects[i].idDataBase = i;
+					rowConnects[i].rowIndex = i;
 				}
 			}
 			catch (Exception ex)
