@@ -162,7 +162,7 @@ namespace DatabaseTools_MSSQL
 
 				DBTools dBTools = new DBTools(connectionStringReceiver);
 				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
-				string columns = columnsNames[0].LongName + string.Join(", ", fields);
+				string columns = columnsNames[0].LongName + ", " + string.Join(", ", fields);
 
 				string sql = $"select {columns} from {table};";
 				object[,] data = dBTools.executeSelectTable(@sql);
@@ -208,7 +208,7 @@ namespace DatabaseTools_MSSQL
 
 				DBTools dBTools = new DBTools(connectionStringReceiver);
 				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
-				string columns = columnsNames[0].LongName + string.Join(", ", fields);
+				string columns = columnsNames[0].LongName + ", " + string.Join(", ", fields);
 
 				string sql = $"select {columns} from {table} {conditions};";
 				object[,] data = dBTools.executeSelectTable(@sql);
