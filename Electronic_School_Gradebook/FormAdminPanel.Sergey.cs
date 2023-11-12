@@ -233,11 +233,11 @@ namespace Electronic_School_Gradebook
 		private DBFormsTools.RowConnect[] teachersRowConnect;
 		private DBFormsTools.RowConnect[] subjectsRowConnect;
 
-		private void FillDataGridViews(bool flag = false)
+		private void FillDataGridViews()
 		{
 			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
 
-			switch (flag ? string.Empty : tabControlAtoms.SelectedTab.Text)
+			switch (tabControlAtoms.SelectedTab.Text)
 			{
 				case "Users":
                     usersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewUsers, "Users");
@@ -257,18 +257,40 @@ namespace Electronic_School_Gradebook
 				case "Subjects":
                     subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
                     break;
-				default:
-                    usersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewUsers, "Users");
-                    classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
-                    studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students");
-                    parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
-                    teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers");
-                    subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
-                    break;
 			}
 		}
 
-		private void dataGridViewUsersCellEndEdit()
+        private void StartFillDataGridViews(TabPage tabPage)
+        {
+            DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
+
+            switch (tabPage.Name)
+            {
+                case "tabPageAtoms":
+                    usersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewUsers, "Users");
+                    break;
+                case "tabPageUsers":
+                    usersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewUsers, "Users");
+                    break;
+                case "tabPageClasses":
+                    classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
+                    break;
+                case "tabPageStudents":
+                    studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students");
+                    break;
+                case "tabPageParents":
+                    parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
+                    break;
+                case "tabPageTeachers":
+                    teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers");
+                    break;
+                case "tabPageSubjects":
+                    subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
+                    break;
+            }
+        }
+
+        private void dataGridViewUsersCellEndEdit()
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
@@ -285,14 +307,9 @@ namespace Electronic_School_Gradebook
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
                 conditionString = $"WHERE ID_User = {usersRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                buttonAddRecord.Text = selectRow.ToString();
                 try
 				{
 					int result = dbTools.executeUpdate("Users", valueString, conditionString);
-					if (result > 0)
-					{
-						//FillDataGridViews();
-					}
 				}
 				catch (Exception ex)
 				{
@@ -302,7 +319,7 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		private void dataGridViewClassesCellEndEdit() // зачем второй метод проверки - сделай один универсальный
+		private void dataGridViewClassesCellEndEdit() // зачем второй метод проверки - сделай один универсальный. 
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
@@ -319,16 +336,9 @@ namespace Electronic_School_Gradebook
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
 				conditionString = $"WHERE ID_Class = {classesRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-				buttonAddRecord.Text = selectRow.ToString();
-				//int result = dbTools.executeUpdate("Classes", valueString, conditionString);
-				//FillDataGridViews();
 				try
 				{
 					int result = dbTools.executeUpdate("Classes", valueString, conditionString);
-					if (result > 0) // неплохо, молодец
-					{
-						//FillDataGridViews(); // не надо обновлять дгв после обновления записи. данные дгв и так соответсвуют последней версии. а так ты будешь ловить ошибку установки значения потому что редактирование ячейки не изменилось а мой метод попытался очистить для тебя дгв(удали эту строку вообще)
-					}
 				}
 				catch (Exception ex)
 				{
@@ -355,14 +365,9 @@ namespace Electronic_School_Gradebook
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
                 conditionString = $"WHERE ID_Student = {studentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                buttonAddRecord.Text = selectRow.ToString();
                 try
 				{
 					int result = dbTools.executeUpdate("Students", valueString, conditionString);
-					if (result > 0)
-					{
-						//FillDataGridViews();
-					}
 				}
 				catch (Exception ex)
 				{
@@ -389,14 +394,9 @@ namespace Electronic_School_Gradebook
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
                 conditionString = $"WHERE ID_Teacher = {teachersRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                buttonAddRecord.Text = selectRow.ToString();
                 try
 				{
 					int result = dbTools.executeUpdate("Teachers", valueString, conditionString);
-					if (result > 0)
-					{
-						//FillDataGridViews();
-					}
 				}
 				catch (Exception ex)
 				{
@@ -423,14 +423,9 @@ namespace Electronic_School_Gradebook
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
                 conditionString = $"WHERE ID_Parent = {parentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                buttonAddRecord.Text = selectRow.ToString();
                 try
 				{
 					int result = dbTools.executeUpdate("Parents", valueString, conditionString);
-					if (result > 0)
-					{
-						//FillDataGridViews();
-					}
 				}
 				catch (Exception ex)
 				{
@@ -457,14 +452,9 @@ namespace Electronic_School_Gradebook
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
                 conditionString = $"WHERE ID_Subject = {subjectsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                buttonAddRecord.Text = selectRow.ToString();
                 try
 				{
 					int result = dbTools.executeUpdate("Subjects", valueString, conditionString);
-					if (result > 0)
-					{
-						//FillDataGridViews();
-					}
 				}
 				catch (Exception ex)
 				{

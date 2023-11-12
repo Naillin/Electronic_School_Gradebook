@@ -927,7 +927,6 @@ namespace Electronic_School_Gradebook
 
         private void dataGridViewClasses_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-			buttonAddRecord.Text = selectRow.ToString();
 			dataGridViewClassesCellEndEdit();
         }
 
@@ -978,6 +977,32 @@ namespace Electronic_School_Gradebook
         {
             dataGridViewSubjectsCellEndEdit();
         }
-		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
-	}
+
+        private void tabControlAtoms_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabPage selectedTabPage = tabControlAtoms.SelectedTab;
+
+            if (selectedTabPage == tabPageUsers ||
+                selectedTabPage == tabPageClasses ||
+                selectedTabPage == tabPageStudents ||
+                selectedTabPage == tabPageParents ||
+                selectedTabPage == tabPageTeachers ||
+                selectedTabPage == tabPageSubjects)
+            {
+                StartFillDataGridViews(selectedTabPage);
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabPage selectedTabConrolPage = tabControl1.SelectedTab;
+
+            if (selectedTabConrolPage == tabPageAtoms)
+            {
+                StartFillDataGridViews(selectedTabConrolPage);
+            }
+        }
+
+        ///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
+    }
 }
