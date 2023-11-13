@@ -27,7 +27,7 @@ namespace Electronic_School_Gradebook
 
 			///-----------------------------------------СРЕДА ОБЩЕГО КОДА|НАЧАЛО-----------------------------------------
 			//настройка формы
-			this.DoubleBuffered = true;
+			//this.DoubleBuffered = true;
 			this.StartPosition = FormStartPosition.CenterScreen;
 
 			//границы размеров
@@ -112,21 +112,21 @@ namespace Electronic_School_Gradebook
 
 						for (int k = 0, z=countClasses+countStudents+koeffPar; k < dataParent.GetLength(0);z++, k++)
 						{
-							treeParent[k] = new TreeNode((dataParent[k, 2] + " " + dataParent[k, 1]).ToString());
+							treeParent[k] = new TreeNode((dataParent[k, 2] + " " + dataParent[k, 1]).ToString()); treeParent[k].ImageIndex = 3;
 							nodeConnects[z].node = treeParent[k];
 							nodeConnects[z].id = (int)dataParent[k, 0];
 							nodeConnects[z].type = NodeConnect.Types.PARENT;
 							koeffPar++;
 						}
 					
-						treeStudents[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString(), treeParent);
+						treeStudents[j] = new TreeNode((dataStudents[j, 2] + " " + dataStudents[j, 1]).ToString(), treeParent); treeStudents[j].ImageIndex = 1;
 						nodeConnects[l].node = treeStudents[j];
 						nodeConnects[l].id = (int)dataStudents[j, 0];
 						nodeConnects[l].type = NodeConnect.Types.STUDENT;
 						koeffStud++;
 					}
 
-					treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudents);
+					treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeStudents); treeClasses[i].ImageIndex = 2;
 					nodeConnects[i].node = treeClasses[i];
 					nodeConnects[i].id = (int)data[i, 0];
 					nodeConnects[i].type = NodeConnect.Types.CLASS;
@@ -167,14 +167,14 @@ namespace Electronic_School_Gradebook
                         //                   }
 
                         //treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString(), treeSubj);
-                        treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString());
-                        nodeConnects[l].node = treeTeach[j];
+                        treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString()); treeTeach[j].ImageIndex = 0;
+						nodeConnects[l].node = treeTeach[j];
 						nodeConnects[l].id = (int)dataTeachers[j, 0];
 						nodeConnects[l].type = NodeConnect.Types.TEACHER;
 						koeffTeach++;
 					}
 
-					treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeTeach);
+					treeClasses[i] = new TreeNode(data[i, 1].ToString(), treeTeach); treeClasses[i].ImageIndex = 2;
 					nodeConnects[i].node = treeClasses[i];
 					nodeConnects[i].id = (int)data[i, 0];
 					nodeConnects[i].type = NodeConnect.Types.CLASS;
