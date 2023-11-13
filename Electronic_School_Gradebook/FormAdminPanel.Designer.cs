@@ -39,9 +39,9 @@
 			this.groupBoxSelect = new System.Windows.Forms.GroupBox();
 			this.radioButtonTeachers = new System.Windows.Forms.RadioButton();
 			this.radioButtonStudents = new System.Windows.Forms.RadioButton();
-			this.label1 = new System.Windows.Forms.Label();
 			this.dataGridViewInformation = new System.Windows.Forms.DataGridView();
 			this.treeViewMainCommunications = new System.Windows.Forms.TreeView();
+			this.imageListMainCommunications = new System.Windows.Forms.ImageList(this.components);
 			this.tabPageAtoms = new System.Windows.Forms.TabPage();
 			this.buttonRemoveRecord = new System.Windows.Forms.Button();
 			this.buttonAddRecord = new System.Windows.Forms.Button();
@@ -91,7 +91,7 @@
 			this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notifyIconInfoUser = new System.Windows.Forms.NotifyIcon(this.components);
-			this.imageListMainCommunications = new System.Windows.Forms.ImageList(this.components);
+			this.labelSelectedRecord = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPageConnections.SuspendLayout();
 			this.groupBoxSearch.SuspendLayout();
@@ -118,7 +118,7 @@
 			this.tabControl1.Controls.Add(this.tabPageAtoms);
 			this.tabControl1.Font = new System.Drawing.Font("Arcon", 16.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tabControl1.Location = new System.Drawing.Point(9, 28);
-			this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(1106, 656);
@@ -131,14 +131,13 @@
 			this.tabPageConnections.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.tabPageConnections.Controls.Add(this.groupBoxSearch);
 			this.tabPageConnections.Controls.Add(this.groupBoxSelect);
-			this.tabPageConnections.Controls.Add(this.label1);
 			this.tabPageConnections.Controls.Add(this.dataGridViewInformation);
 			this.tabPageConnections.Controls.Add(this.treeViewMainCommunications);
 			this.tabPageConnections.Font = new System.Drawing.Font("Arcon", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tabPageConnections.Location = new System.Drawing.Point(4, 35);
-			this.tabPageConnections.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabPageConnections.Margin = new System.Windows.Forms.Padding(2);
 			this.tabPageConnections.Name = "tabPageConnections";
-			this.tabPageConnections.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabPageConnections.Padding = new System.Windows.Forms.Padding(2);
 			this.tabPageConnections.Size = new System.Drawing.Size(1098, 617);
 			this.tabPageConnections.TabIndex = 0;
 			this.tabPageConnections.Text = "Connections";
@@ -171,7 +170,7 @@
 			this.checkBoxOnlyRelated.AutoSize = true;
 			this.checkBoxOnlyRelated.Font = new System.Drawing.Font("Arcon", 13.8F, System.Drawing.FontStyle.Italic);
 			this.checkBoxOnlyRelated.Location = new System.Drawing.Point(14, 25);
-			this.checkBoxOnlyRelated.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxOnlyRelated.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxOnlyRelated.Name = "checkBoxOnlyRelated";
 			this.checkBoxOnlyRelated.Size = new System.Drawing.Size(179, 27);
 			this.checkBoxOnlyRelated.TabIndex = 1;
@@ -196,7 +195,7 @@
 			this.radioButtonTeachers.AutoSize = true;
 			this.radioButtonTeachers.Font = new System.Drawing.Font("Arcon", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.radioButtonTeachers.Location = new System.Drawing.Point(149, 25);
-			this.radioButtonTeachers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.radioButtonTeachers.Margin = new System.Windows.Forms.Padding(2);
 			this.radioButtonTeachers.Name = "radioButtonTeachers";
 			this.radioButtonTeachers.Size = new System.Drawing.Size(102, 27);
 			this.radioButtonTeachers.TabIndex = 4;
@@ -210,7 +209,7 @@
 			this.radioButtonStudents.Checked = true;
 			this.radioButtonStudents.Font = new System.Drawing.Font("Arcon", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.radioButtonStudents.Location = new System.Drawing.Point(22, 25);
-			this.radioButtonStudents.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.radioButtonStudents.Margin = new System.Windows.Forms.Padding(2);
 			this.radioButtonStudents.Name = "radioButtonStudents";
 			this.radioButtonStudents.Size = new System.Drawing.Size(97, 27);
 			this.radioButtonStudents.TabIndex = 3;
@@ -218,15 +217,6 @@
 			this.radioButtonStudents.Text = "Students";
 			this.radioButtonStudents.UseVisualStyleBackColor = true;
 			this.radioButtonStudents.CheckedChanged += new System.EventHandler(this.radioButtonStudents_CheckedChanged);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(293, 683);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(45, 19);
-			this.label1.TabIndex = 3;
-			this.label1.Text = "label1";
 			// 
 			// dataGridViewInformation
 			// 
@@ -238,7 +228,7 @@
 			this.dataGridViewInformation.BackgroundColor = System.Drawing.Color.LavenderBlush;
 			this.dataGridViewInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewInformation.Location = new System.Drawing.Point(297, 77);
-			this.dataGridViewInformation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.dataGridViewInformation.Margin = new System.Windows.Forms.Padding(2);
 			this.dataGridViewInformation.MultiSelect = false;
 			this.dataGridViewInformation.Name = "dataGridViewInformation";
 			this.dataGridViewInformation.RowHeadersWidth = 51;
@@ -257,22 +247,33 @@
 			this.treeViewMainCommunications.ImageIndex = 0;
 			this.treeViewMainCommunications.ImageList = this.imageListMainCommunications;
 			this.treeViewMainCommunications.Location = new System.Drawing.Point(2, 77);
-			this.treeViewMainCommunications.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.treeViewMainCommunications.Margin = new System.Windows.Forms.Padding(2);
 			this.treeViewMainCommunications.Name = "treeViewMainCommunications";
 			this.treeViewMainCommunications.SelectedImageIndex = 0;
 			this.treeViewMainCommunications.Size = new System.Drawing.Size(291, 533);
 			this.treeViewMainCommunications.TabIndex = 0;
 			this.treeViewMainCommunications.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMainCommunications_AfterSelect);
 			// 
+			// imageListMainCommunications
+			// 
+			this.imageListMainCommunications.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMainCommunications.ImageStream")));
+			this.imageListMainCommunications.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageListMainCommunications.Images.SetKeyName(0, "person.png");
+			this.imageListMainCommunications.Images.SetKeyName(1, "akademHat.png");
+			this.imageListMainCommunications.Images.SetKeyName(2, "class.png");
+			this.imageListMainCommunications.Images.SetKeyName(3, "Parent4.png");
+			this.imageListMainCommunications.Images.SetKeyName(4, "subjects1.png");
+			// 
 			// tabPageAtoms
 			// 
+			this.tabPageAtoms.Controls.Add(this.labelSelectedRecord);
 			this.tabPageAtoms.Controls.Add(this.buttonRemoveRecord);
 			this.tabPageAtoms.Controls.Add(this.buttonAddRecord);
 			this.tabPageAtoms.Controls.Add(this.tabControlAtoms);
 			this.tabPageAtoms.Location = new System.Drawing.Point(4, 35);
-			this.tabPageAtoms.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabPageAtoms.Margin = new System.Windows.Forms.Padding(2);
 			this.tabPageAtoms.Name = "tabPageAtoms";
-			this.tabPageAtoms.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabPageAtoms.Padding = new System.Windows.Forms.Padding(2);
 			this.tabPageAtoms.Size = new System.Drawing.Size(1098, 617);
 			this.tabPageAtoms.TabIndex = 1;
 			this.tabPageAtoms.Text = "Atoms";
@@ -280,22 +281,30 @@
 			// 
 			// buttonRemoveRecord
 			// 
-			this.buttonRemoveRecord.Location = new System.Drawing.Point(639, 512);
+			this.buttonRemoveRecord.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(97)))), ((int)(((byte)(0)))));
+			this.buttonRemoveRecord.FlatAppearance.BorderSize = 0;
+			this.buttonRemoveRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonRemoveRecord.ForeColor = System.Drawing.Color.White;
+			this.buttonRemoveRecord.Location = new System.Drawing.Point(593, 562);
 			this.buttonRemoveRecord.Name = "buttonRemoveRecord";
-			this.buttonRemoveRecord.Size = new System.Drawing.Size(200, 100);
+			this.buttonRemoveRecord.Size = new System.Drawing.Size(500, 50);
 			this.buttonRemoveRecord.TabIndex = 2;
-			this.buttonRemoveRecord.Text = "Удалить запись";
-			this.buttonRemoveRecord.UseVisualStyleBackColor = true;
+			this.buttonRemoveRecord.Text = "Delete";
+			this.buttonRemoveRecord.UseVisualStyleBackColor = false;
 			this.buttonRemoveRecord.Click += new System.EventHandler(this.buttonRemoveRecord_Click);
 			// 
 			// buttonAddRecord
 			// 
-			this.buttonAddRecord.Location = new System.Drawing.Point(260, 512);
+			this.buttonAddRecord.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(241)))), ((int)(((byte)(187)))));
+			this.buttonAddRecord.FlatAppearance.BorderSize = 0;
+			this.buttonAddRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonAddRecord.ForeColor = System.Drawing.Color.White;
+			this.buttonAddRecord.Location = new System.Drawing.Point(6, 562);
 			this.buttonAddRecord.Name = "buttonAddRecord";
-			this.buttonAddRecord.Size = new System.Drawing.Size(200, 100);
+			this.buttonAddRecord.Size = new System.Drawing.Size(500, 50);
 			this.buttonAddRecord.TabIndex = 1;
-			this.buttonAddRecord.Text = "Добавить запись";
-			this.buttonAddRecord.UseVisualStyleBackColor = true;
+			this.buttonAddRecord.Text = "Add";
+			this.buttonAddRecord.UseVisualStyleBackColor = false;
 			this.buttonAddRecord.Click += new System.EventHandler(this.buttonAddRecord_Click);
 			// 
 			// tabControlAtoms
@@ -305,10 +314,11 @@
 			this.tabControlAtoms.Controls.Add(this.tabPageParents);
 			this.tabControlAtoms.Controls.Add(this.tabPageTeachers);
 			this.tabControlAtoms.Controls.Add(this.tabPageSubjects);
+			this.tabControlAtoms.ImageList = this.imageListMainCommunications;
 			this.tabControlAtoms.Location = new System.Drawing.Point(6, 6);
 			this.tabControlAtoms.Name = "tabControlAtoms";
 			this.tabControlAtoms.SelectedIndex = 0;
-			this.tabControlAtoms.Size = new System.Drawing.Size(1087, 500);
+			this.tabControlAtoms.Size = new System.Drawing.Size(1087, 515);
 			this.tabControlAtoms.TabIndex = 0;
 			this.tabControlAtoms.SelectedIndexChanged += new System.EventHandler(this.tabControlAtoms_SelectedIndexChanged);
 			this.tabControlAtoms.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControlAtoms_Selecting);
@@ -316,10 +326,11 @@
 			// tabPageClasses
 			// 
 			this.tabPageClasses.Controls.Add(this.dataGridViewClasses);
+			this.tabPageClasses.ImageIndex = 2;
 			this.tabPageClasses.Location = new System.Drawing.Point(4, 35);
 			this.tabPageClasses.Name = "tabPageClasses";
-			this.tabPageClasses.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-			this.tabPageClasses.Size = new System.Drawing.Size(1079, 461);
+			this.tabPageClasses.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageClasses.Size = new System.Drawing.Size(1079, 476);
 			this.tabPageClasses.TabIndex = 1;
 			this.tabPageClasses.Text = "Classes";
 			this.tabPageClasses.UseVisualStyleBackColor = true;
@@ -340,7 +351,7 @@
 			this.dataGridViewClasses.Name = "dataGridViewClasses";
 			this.dataGridViewClasses.RowHeadersWidth = 51;
 			this.dataGridViewClasses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewClasses.Size = new System.Drawing.Size(1072, 454);
+			this.dataGridViewClasses.Size = new System.Drawing.Size(1072, 466);
 			this.dataGridViewClasses.TabIndex = 0;
 			this.dataGridViewClasses.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewClasses_CellBeginEdit);
 			this.dataGridViewClasses.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewClasses_CellEndEdit);
@@ -369,9 +380,10 @@
 			// tabPageStudents
 			// 
 			this.tabPageStudents.Controls.Add(this.dataGridViewStudents);
+			this.tabPageStudents.ImageIndex = 1;
 			this.tabPageStudents.Location = new System.Drawing.Point(4, 35);
 			this.tabPageStudents.Name = "tabPageStudents";
-			this.tabPageStudents.Size = new System.Drawing.Size(1079, 461);
+			this.tabPageStudents.Size = new System.Drawing.Size(1079, 476);
 			this.tabPageStudents.TabIndex = 2;
 			this.tabPageStudents.Text = "Students";
 			this.tabPageStudents.UseVisualStyleBackColor = true;
@@ -398,7 +410,7 @@
 			this.dataGridViewStudents.Name = "dataGridViewStudents";
 			this.dataGridViewStudents.RowHeadersWidth = 51;
 			this.dataGridViewStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewStudents.Size = new System.Drawing.Size(1072, 454);
+			this.dataGridViewStudents.Size = new System.Drawing.Size(1072, 469);
 			this.dataGridViewStudents.TabIndex = 0;
 			this.dataGridViewStudents.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewStudents_CellBeginEdit);
 			this.dataGridViewStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStudents_CellEndEdit);
@@ -477,9 +489,10 @@
 			// tabPageParents
 			// 
 			this.tabPageParents.Controls.Add(this.dataGridViewParents);
+			this.tabPageParents.ImageIndex = 3;
 			this.tabPageParents.Location = new System.Drawing.Point(4, 35);
 			this.tabPageParents.Name = "tabPageParents";
-			this.tabPageParents.Size = new System.Drawing.Size(1079, 461);
+			this.tabPageParents.Size = new System.Drawing.Size(1079, 476);
 			this.tabPageParents.TabIndex = 3;
 			this.tabPageParents.Text = "Parents";
 			this.tabPageParents.UseVisualStyleBackColor = true;
@@ -503,7 +516,7 @@
 			this.dataGridViewParents.Name = "dataGridViewParents";
 			this.dataGridViewParents.RowHeadersWidth = 51;
 			this.dataGridViewParents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewParents.Size = new System.Drawing.Size(1072, 454);
+			this.dataGridViewParents.Size = new System.Drawing.Size(1072, 469);
 			this.dataGridViewParents.TabIndex = 0;
 			this.dataGridViewParents.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewParents_CellBeginEdit);
 			this.dataGridViewParents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewParents_CellEndEdit);
@@ -553,9 +566,10 @@
 			// tabPageTeachers
 			// 
 			this.tabPageTeachers.Controls.Add(this.dataGridViewTeachers);
+			this.tabPageTeachers.ImageIndex = 0;
 			this.tabPageTeachers.Location = new System.Drawing.Point(4, 35);
 			this.tabPageTeachers.Name = "tabPageTeachers";
-			this.tabPageTeachers.Size = new System.Drawing.Size(1079, 461);
+			this.tabPageTeachers.Size = new System.Drawing.Size(1079, 476);
 			this.tabPageTeachers.TabIndex = 4;
 			this.tabPageTeachers.Text = "Teachers";
 			this.tabPageTeachers.UseVisualStyleBackColor = true;
@@ -583,7 +597,7 @@
 			this.dataGridViewTeachers.Name = "dataGridViewTeachers";
 			this.dataGridViewTeachers.RowHeadersWidth = 51;
 			this.dataGridViewTeachers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewTeachers.Size = new System.Drawing.Size(1072, 454);
+			this.dataGridViewTeachers.Size = new System.Drawing.Size(1072, 469);
 			this.dataGridViewTeachers.TabIndex = 0;
 			this.dataGridViewTeachers.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTeachers_CellBeginEdit);
 			this.dataGridViewTeachers.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTeachers_CellEndEdit);
@@ -669,9 +683,10 @@
 			// tabPageSubjects
 			// 
 			this.tabPageSubjects.Controls.Add(this.dataGridViewSubjects);
+			this.tabPageSubjects.ImageIndex = 4;
 			this.tabPageSubjects.Location = new System.Drawing.Point(4, 35);
 			this.tabPageSubjects.Name = "tabPageSubjects";
-			this.tabPageSubjects.Size = new System.Drawing.Size(1079, 461);
+			this.tabPageSubjects.Size = new System.Drawing.Size(1079, 476);
 			this.tabPageSubjects.TabIndex = 5;
 			this.tabPageSubjects.Text = "Subjects";
 			this.tabPageSubjects.UseVisualStyleBackColor = true;
@@ -691,7 +706,7 @@
 			this.dataGridViewSubjects.Name = "dataGridViewSubjects";
 			this.dataGridViewSubjects.RowHeadersWidth = 51;
 			this.dataGridViewSubjects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewSubjects.Size = new System.Drawing.Size(1072, 454);
+			this.dataGridViewSubjects.Size = new System.Drawing.Size(1072, 469);
 			this.dataGridViewSubjects.TabIndex = 0;
 			this.dataGridViewSubjects.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewSubjects_CellBeginEdit);
 			this.dataGridViewSubjects.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSubjects_CellEndEdit);
@@ -757,14 +772,15 @@
 			this.notifyIconInfoUser.Visible = true;
 			this.notifyIconInfoUser.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconInfoUser_MouseClick);
 			// 
-			// imageListMainCommunications
+			// labelSelectedRecord
 			// 
-			this.imageListMainCommunications.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMainCommunications.ImageStream")));
-			this.imageListMainCommunications.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMainCommunications.Images.SetKeyName(0, "person.png");
-			this.imageListMainCommunications.Images.SetKeyName(1, "akademHat.png");
-			this.imageListMainCommunications.Images.SetKeyName(2, "class.png");
-			this.imageListMainCommunications.Images.SetKeyName(3, "Parent4.png");
+			this.labelSelectedRecord.AutoSize = true;
+			this.labelSelectedRecord.Font = new System.Drawing.Font("Arcon", 21.75F, System.Drawing.FontStyle.Italic);
+			this.labelSelectedRecord.Location = new System.Drawing.Point(8, 524);
+			this.labelSelectedRecord.Name = "labelSelectedRecord";
+			this.labelSelectedRecord.Size = new System.Drawing.Size(214, 35);
+			this.labelSelectedRecord.TabIndex = 3;
+			this.labelSelectedRecord.Text = "Selected record:";
 			// 
 			// FormAdminPanel
 			// 
@@ -777,20 +793,20 @@
 			this.Controls.Add(this.menuStripAdminPanel);
 			this.Controls.Add(this.tabControl1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "FormAdminPanel";
 			this.Text = "Control Panel";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAdminPanel_FormClosing);
 			this.Load += new System.EventHandler(this.FormAdminPanel_Load);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPageConnections.ResumeLayout(false);
-			this.tabPageConnections.PerformLayout();
 			this.groupBoxSearch.ResumeLayout(false);
 			this.groupBoxSearch.PerformLayout();
 			this.groupBoxSelect.ResumeLayout(false);
 			this.groupBoxSelect.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewInformation)).EndInit();
 			this.tabPageAtoms.ResumeLayout(false);
+			this.tabPageAtoms.PerformLayout();
 			this.tabControlAtoms.ResumeLayout(false);
 			this.tabPageClasses.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewClasses)).EndInit();
@@ -816,7 +832,6 @@
         private System.Windows.Forms.TabPage tabPageAtoms;
         private System.Windows.Forms.TreeView treeViewMainCommunications;
         private System.Windows.Forms.DataGridView dataGridViewInformation;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.GroupBox groupBoxSelect;
 		private System.Windows.Forms.MenuStrip menuStripAdminPanel;
 		private System.Windows.Forms.ToolStripMenuItem systemToolStripMenuItem;
@@ -872,5 +887,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Password_User_Teacher;
         private System.Windows.Forms.DataGridViewCheckBoxColumn LifeStatus_Teacher;
 		private System.Windows.Forms.ImageList imageListMainCommunications;
+		private System.Windows.Forms.Label labelSelectedRecord;
 	}
 }

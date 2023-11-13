@@ -898,12 +898,14 @@ namespace Electronic_School_Gradebook
         {
             buttonRemoveRecordClick();
         }
-
+																			/// БЛЯТЬ СЕРГЕЙ СДЕЛАЙ ТАКИЕ ДЛЯ ВСЕХ
 		private void dataGridViewClasses_Click(object sender, EventArgs e) // Сергей - добавь такие для всех дгв
 		{
 			selectRow = dataGridViewClasses.SelectedCells[0].RowIndex;
 			selectColumn = dataGridViewClasses.SelectedCells[0].ColumnIndex;
 			oldWriting = dataGridViewClasses.Rows[selectRow].Cells[selectColumn].Value;
+
+			labelSelectedRecord.Text = "Selected record: " + dataGridViewClasses.Rows[selectRow].Cells[0].Value.ToString(); // сделай такие для всех методов, где получаешь selectRow selectColumn. в таблицах студентов, родителей, учителей, выводи фамилии.
 		}
 
 		private void dataGridViewClasses_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
