@@ -283,7 +283,7 @@ namespace DatabaseTools_MSSQL
 				for (int i = 0; i < valueMass.Length; i++)
 				{
 					columns = columns + valueMass[i].Split('=')[0] + ", ";
-					values = values + valueMass[i].Split('=')[0] + ", ";
+					values = values + valueMass[i].Split('=')[1] + ", ";
 				}
 				columns = columns.Remove(columns.Length - 2);
 				values = values.Remove(columns.Length - 2);

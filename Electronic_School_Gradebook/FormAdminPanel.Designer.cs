@@ -43,6 +43,7 @@
 			this.treeViewMainCommunications = new System.Windows.Forms.TreeView();
 			this.imageListMainCommunications = new System.Windows.Forms.ImageList(this.components);
 			this.tabPageAtoms = new System.Windows.Forms.TabPage();
+			this.labelSelectedRecord = new System.Windows.Forms.Label();
 			this.buttonRemoveRecord = new System.Windows.Forms.Button();
 			this.buttonAddRecord = new System.Windows.Forms.Button();
 			this.tabControlAtoms = new System.Windows.Forms.TabControl();
@@ -91,7 +92,6 @@
 			this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notifyIconInfoUser = new System.Windows.Forms.NotifyIcon(this.components);
-			this.labelSelectedRecord = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPageConnections.SuspendLayout();
 			this.groupBoxSearch.SuspendLayout();
@@ -244,7 +244,7 @@
 			// 
 			this.treeViewMainCommunications.BackColor = System.Drawing.Color.Linen;
 			this.treeViewMainCommunications.Font = new System.Drawing.Font("Franklin Gothic Medium", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.treeViewMainCommunications.ImageIndex = 0;
+			this.treeViewMainCommunications.ImageIndex = 4;
 			this.treeViewMainCommunications.ImageList = this.imageListMainCommunications;
 			this.treeViewMainCommunications.Location = new System.Drawing.Point(2, 77);
 			this.treeViewMainCommunications.Margin = new System.Windows.Forms.Padding(2);
@@ -278,6 +278,16 @@
 			this.tabPageAtoms.TabIndex = 1;
 			this.tabPageAtoms.Text = "Atoms";
 			this.tabPageAtoms.UseVisualStyleBackColor = true;
+			// 
+			// labelSelectedRecord
+			// 
+			this.labelSelectedRecord.AutoSize = true;
+			this.labelSelectedRecord.Font = new System.Drawing.Font("Arcon", 21.75F, System.Drawing.FontStyle.Italic);
+			this.labelSelectedRecord.Location = new System.Drawing.Point(8, 524);
+			this.labelSelectedRecord.Name = "labelSelectedRecord";
+			this.labelSelectedRecord.Size = new System.Drawing.Size(214, 35);
+			this.labelSelectedRecord.TabIndex = 3;
+			this.labelSelectedRecord.Text = "Selected record:";
 			// 
 			// buttonRemoveRecord
 			// 
@@ -771,16 +781,6 @@
 			this.notifyIconInfoUser.Text = "Empty";
 			this.notifyIconInfoUser.Visible = true;
 			this.notifyIconInfoUser.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconInfoUser_MouseClick);
-			// 
-			// labelSelectedRecord
-			// 
-			this.labelSelectedRecord.AutoSize = true;
-			this.labelSelectedRecord.Font = new System.Drawing.Font("Arcon", 21.75F, System.Drawing.FontStyle.Italic);
-			this.labelSelectedRecord.Location = new System.Drawing.Point(8, 524);
-			this.labelSelectedRecord.Name = "labelSelectedRecord";
-			this.labelSelectedRecord.Size = new System.Drawing.Size(214, 35);
-			this.labelSelectedRecord.TabIndex = 3;
-			this.labelSelectedRecord.Text = "Selected record:";
 			// 
 			// FormAdminPanel
 			// 
