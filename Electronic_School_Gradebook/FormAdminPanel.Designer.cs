@@ -37,7 +37,6 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageConnections = new System.Windows.Forms.TabPage();
 			this.groupBoxSearch = new System.Windows.Forms.GroupBox();
@@ -128,9 +127,9 @@
 			// 
 			this.tabControl1.Controls.Add(this.tabPageConnections);
 			this.tabControl1.Controls.Add(this.tabPageAtoms);
-			this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tabControl1.Font = new System.Drawing.Font("Arcon", 17.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tabControl1.Location = new System.Drawing.Point(9, 28);
-			this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(1106, 656);
@@ -146,11 +145,11 @@
 			this.tabPageConnections.Controls.Add(this.dataGridViewInformation);
 			this.tabPageConnections.Controls.Add(this.treeViewMainCommunications);
 			this.tabPageConnections.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tabPageConnections.Location = new System.Drawing.Point(4, 35);
-			this.tabPageConnections.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabPageConnections.Location = new System.Drawing.Point(4, 37);
+			this.tabPageConnections.Margin = new System.Windows.Forms.Padding(2);
 			this.tabPageConnections.Name = "tabPageConnections";
-			this.tabPageConnections.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.tabPageConnections.Size = new System.Drawing.Size(1098, 617);
+			this.tabPageConnections.Padding = new System.Windows.Forms.Padding(2);
+			this.tabPageConnections.Size = new System.Drawing.Size(1098, 615);
 			this.tabPageConnections.TabIndex = 0;
 			this.tabPageConnections.Text = "Connections";
 			this.tabPageConnections.UseVisualStyleBackColor = true;
@@ -159,7 +158,7 @@
 			// 
 			this.groupBoxSearch.Controls.Add(this.textBoxSearch);
 			this.groupBoxSearch.Controls.Add(this.checkBoxOnlyRelated);
-			this.groupBoxSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.groupBoxSearch.Font = new System.Drawing.Font("Arcon", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.groupBoxSearch.Location = new System.Drawing.Point(298, 5);
 			this.groupBoxSearch.Name = "groupBoxSearch";
 			this.groupBoxSearch.Size = new System.Drawing.Size(789, 67);
@@ -180,11 +179,11 @@
 			// checkBoxOnlyRelated
 			// 
 			this.checkBoxOnlyRelated.AutoSize = true;
-			this.checkBoxOnlyRelated.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Italic);
+			this.checkBoxOnlyRelated.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.checkBoxOnlyRelated.Location = new System.Drawing.Point(14, 25);
-			this.checkBoxOnlyRelated.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxOnlyRelated.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxOnlyRelated.Name = "checkBoxOnlyRelated";
-			this.checkBoxOnlyRelated.Size = new System.Drawing.Size(181, 28);
+			this.checkBoxOnlyRelated.Size = new System.Drawing.Size(179, 27);
 			this.checkBoxOnlyRelated.TabIndex = 1;
 			this.checkBoxOnlyRelated.Text = "Only those related";
 			this.checkBoxOnlyRelated.UseVisualStyleBackColor = true;
@@ -194,7 +193,7 @@
 			// 
 			this.groupBoxSelect.Controls.Add(this.radioButtonTeachers);
 			this.groupBoxSelect.Controls.Add(this.radioButtonStudents);
-			this.groupBoxSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.groupBoxSelect.Font = new System.Drawing.Font("Arcon", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.groupBoxSelect.Location = new System.Drawing.Point(5, 5);
 			this.groupBoxSelect.Name = "groupBoxSelect";
 			this.groupBoxSelect.Size = new System.Drawing.Size(287, 67);
@@ -205,11 +204,11 @@
 			// radioButtonTeachers
 			// 
 			this.radioButtonTeachers.AutoSize = true;
-			this.radioButtonTeachers.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonTeachers.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.radioButtonTeachers.Location = new System.Drawing.Point(149, 25);
-			this.radioButtonTeachers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.radioButtonTeachers.Margin = new System.Windows.Forms.Padding(2);
 			this.radioButtonTeachers.Name = "radioButtonTeachers";
-			this.radioButtonTeachers.Size = new System.Drawing.Size(108, 28);
+			this.radioButtonTeachers.Size = new System.Drawing.Size(102, 27);
 			this.radioButtonTeachers.TabIndex = 4;
 			this.radioButtonTeachers.Text = "Teachers";
 			this.radioButtonTeachers.UseVisualStyleBackColor = true;
@@ -219,11 +218,11 @@
 			// 
 			this.radioButtonStudents.AutoSize = true;
 			this.radioButtonStudents.Checked = true;
-			this.radioButtonStudents.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonStudents.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.radioButtonStudents.Location = new System.Drawing.Point(22, 25);
-			this.radioButtonStudents.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.radioButtonStudents.Margin = new System.Windows.Forms.Padding(2);
 			this.radioButtonStudents.Name = "radioButtonStudents";
-			this.radioButtonStudents.Size = new System.Drawing.Size(101, 28);
+			this.radioButtonStudents.Size = new System.Drawing.Size(97, 27);
 			this.radioButtonStudents.TabIndex = 3;
 			this.radioButtonStudents.TabStop = true;
 			this.radioButtonStudents.Text = "Students";
@@ -241,14 +240,14 @@
 			this.dataGridViewInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Franklin Gothic Medium", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.dataGridViewInformation.DefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridViewInformation.Location = new System.Drawing.Point(297, 77);
-			this.dataGridViewInformation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.dataGridViewInformation.Margin = new System.Windows.Forms.Padding(2);
 			this.dataGridViewInformation.MultiSelect = false;
 			this.dataGridViewInformation.Name = "dataGridViewInformation";
 			this.dataGridViewInformation.RowHeadersWidth = 51;
@@ -267,7 +266,7 @@
 			this.treeViewMainCommunications.ImageIndex = 4;
 			this.treeViewMainCommunications.ImageList = this.imageListMainCommunications;
 			this.treeViewMainCommunications.Location = new System.Drawing.Point(2, 77);
-			this.treeViewMainCommunications.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.treeViewMainCommunications.Margin = new System.Windows.Forms.Padding(2);
 			this.treeViewMainCommunications.Name = "treeViewMainCommunications";
 			this.treeViewMainCommunications.SelectedImageIndex = 0;
 			this.treeViewMainCommunications.Size = new System.Drawing.Size(291, 533);
@@ -290,11 +289,11 @@
 			this.tabPageAtoms.Controls.Add(this.buttonRemoveRecord);
 			this.tabPageAtoms.Controls.Add(this.buttonAddRecord);
 			this.tabPageAtoms.Controls.Add(this.tabControlAtoms);
-			this.tabPageAtoms.Location = new System.Drawing.Point(4, 35);
-			this.tabPageAtoms.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tabPageAtoms.Location = new System.Drawing.Point(4, 37);
+			this.tabPageAtoms.Margin = new System.Windows.Forms.Padding(2);
 			this.tabPageAtoms.Name = "tabPageAtoms";
-			this.tabPageAtoms.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.tabPageAtoms.Size = new System.Drawing.Size(1098, 617);
+			this.tabPageAtoms.Padding = new System.Windows.Forms.Padding(2);
+			this.tabPageAtoms.Size = new System.Drawing.Size(1098, 615);
 			this.tabPageAtoms.TabIndex = 1;
 			this.tabPageAtoms.Text = "Atoms";
 			this.tabPageAtoms.UseVisualStyleBackColor = true;
@@ -302,10 +301,10 @@
 			// labelSelectedRecord
 			// 
 			this.labelSelectedRecord.AutoSize = true;
-			this.labelSelectedRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Italic);
+			this.labelSelectedRecord.Font = new System.Drawing.Font("Arcon", 21.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelSelectedRecord.Location = new System.Drawing.Point(8, 524);
 			this.labelSelectedRecord.Name = "labelSelectedRecord";
-			this.labelSelectedRecord.Size = new System.Drawing.Size(227, 33);
+			this.labelSelectedRecord.Size = new System.Drawing.Size(214, 35);
 			this.labelSelectedRecord.TabIndex = 3;
 			this.labelSelectedRecord.Text = "Selected record:";
 			// 
@@ -344,6 +343,7 @@
 			this.tabControlAtoms.Controls.Add(this.tabPageParents);
 			this.tabControlAtoms.Controls.Add(this.tabPageTeachers);
 			this.tabControlAtoms.Controls.Add(this.tabPageSubjects);
+			this.tabControlAtoms.Font = new System.Drawing.Font("Arcon", 17.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tabControlAtoms.ImageList = this.imageListMainCommunications;
 			this.tabControlAtoms.Location = new System.Drawing.Point(6, 6);
 			this.tabControlAtoms.Name = "tabControlAtoms";
@@ -358,10 +358,10 @@
 			this.tabPageClasses.Controls.Add(this.textBoxSearchClass);
 			this.tabPageClasses.Controls.Add(this.dataGridViewClasses);
 			this.tabPageClasses.ImageIndex = 2;
-			this.tabPageClasses.Location = new System.Drawing.Point(4, 35);
+			this.tabPageClasses.Location = new System.Drawing.Point(4, 37);
 			this.tabPageClasses.Name = "tabPageClasses";
-			this.tabPageClasses.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-			this.tabPageClasses.Size = new System.Drawing.Size(1079, 476);
+			this.tabPageClasses.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageClasses.Size = new System.Drawing.Size(1079, 474);
 			this.tabPageClasses.TabIndex = 1;
 			this.tabPageClasses.Text = "Classes";
 			this.tabPageClasses.UseVisualStyleBackColor = true;
@@ -369,9 +369,9 @@
 			// textBoxSearchClass
 			// 
 			this.textBoxSearchClass.Location = new System.Drawing.Point(4, 3);
-			this.textBoxSearchClass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxSearchClass.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxSearchClass.Name = "textBoxSearchClass";
-			this.textBoxSearchClass.Size = new System.Drawing.Size(1073, 32);
+			this.textBoxSearchClass.Size = new System.Drawing.Size(1073, 35);
 			this.textBoxSearchClass.TabIndex = 1;
 			this.textBoxSearchClass.TextChanged += new System.EventHandler(this.textBoxSearchClass_TextChanged);
 			// 
@@ -389,7 +389,7 @@
             this.Count_Students});
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Franklin Gothic Medium", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
 			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -431,9 +431,9 @@
 			this.tabPageStudents.Controls.Add(this.textBoxSearchStudent);
 			this.tabPageStudents.Controls.Add(this.dataGridViewStudents);
 			this.tabPageStudents.ImageIndex = 1;
-			this.tabPageStudents.Location = new System.Drawing.Point(4, 35);
+			this.tabPageStudents.Location = new System.Drawing.Point(4, 37);
 			this.tabPageStudents.Name = "tabPageStudents";
-			this.tabPageStudents.Size = new System.Drawing.Size(1079, 476);
+			this.tabPageStudents.Size = new System.Drawing.Size(1079, 474);
 			this.tabPageStudents.TabIndex = 2;
 			this.tabPageStudents.Text = "Students";
 			this.tabPageStudents.UseVisualStyleBackColor = true;
@@ -441,9 +441,9 @@
 			// textBoxSearchStudent
 			// 
 			this.textBoxSearchStudent.Location = new System.Drawing.Point(4, 3);
-			this.textBoxSearchStudent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxSearchStudent.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxSearchStudent.Name = "textBoxSearchStudent";
-			this.textBoxSearchStudent.Size = new System.Drawing.Size(1073, 32);
+			this.textBoxSearchStudent.Size = new System.Drawing.Size(1073, 35);
 			this.textBoxSearchStudent.TabIndex = 1;
 			this.textBoxSearchStudent.TextChanged += new System.EventHandler(this.textBoxSearchStudent_TextChanged);
 			// 
@@ -560,9 +560,9 @@
 			this.tabPageParents.Controls.Add(this.textBoxSearchParent);
 			this.tabPageParents.Controls.Add(this.dataGridViewParents);
 			this.tabPageParents.ImageIndex = 3;
-			this.tabPageParents.Location = new System.Drawing.Point(4, 35);
+			this.tabPageParents.Location = new System.Drawing.Point(4, 37);
 			this.tabPageParents.Name = "tabPageParents";
-			this.tabPageParents.Size = new System.Drawing.Size(1079, 476);
+			this.tabPageParents.Size = new System.Drawing.Size(1079, 474);
 			this.tabPageParents.TabIndex = 3;
 			this.tabPageParents.Text = "Parents";
 			this.tabPageParents.UseVisualStyleBackColor = true;
@@ -570,9 +570,9 @@
 			// textBoxSearchParent
 			// 
 			this.textBoxSearchParent.Location = new System.Drawing.Point(4, 3);
-			this.textBoxSearchParent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxSearchParent.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxSearchParent.Name = "textBoxSearchParent";
-			this.textBoxSearchParent.Size = new System.Drawing.Size(1073, 32);
+			this.textBoxSearchParent.Size = new System.Drawing.Size(1073, 35);
 			this.textBoxSearchParent.TabIndex = 1;
 			this.textBoxSearchParent.TextChanged += new System.EventHandler(this.textBoxSearchParent_TextChanged);
 			// 
@@ -657,9 +657,9 @@
 			this.tabPageTeachers.Controls.Add(this.textBoxSearchTeacher);
 			this.tabPageTeachers.Controls.Add(this.dataGridViewTeachers);
 			this.tabPageTeachers.ImageIndex = 0;
-			this.tabPageTeachers.Location = new System.Drawing.Point(4, 35);
+			this.tabPageTeachers.Location = new System.Drawing.Point(4, 37);
 			this.tabPageTeachers.Name = "tabPageTeachers";
-			this.tabPageTeachers.Size = new System.Drawing.Size(1079, 476);
+			this.tabPageTeachers.Size = new System.Drawing.Size(1079, 474);
 			this.tabPageTeachers.TabIndex = 4;
 			this.tabPageTeachers.Text = "Teachers";
 			this.tabPageTeachers.UseVisualStyleBackColor = true;
@@ -667,9 +667,9 @@
 			// textBoxSearchTeacher
 			// 
 			this.textBoxSearchTeacher.Location = new System.Drawing.Point(4, 3);
-			this.textBoxSearchTeacher.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxSearchTeacher.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxSearchTeacher.Name = "textBoxSearchTeacher";
-			this.textBoxSearchTeacher.Size = new System.Drawing.Size(1073, 32);
+			this.textBoxSearchTeacher.Size = new System.Drawing.Size(1073, 35);
 			this.textBoxSearchTeacher.TabIndex = 1;
 			this.textBoxSearchTeacher.TextChanged += new System.EventHandler(this.textBoxSearchTeacher_TextChanged);
 			// 
@@ -680,14 +680,6 @@
 			this.dataGridViewTeachers.AllowUserToResizeRows = false;
 			this.dataGridViewTeachers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewTeachers.BackgroundColor = System.Drawing.Color.Thistle;
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Italic);
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridViewTeachers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
 			this.dataGridViewTeachers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewTeachers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Name_Teacher,
@@ -700,14 +692,14 @@
             this.Login_User_Teacher,
             this.Password_User_Teacher,
             this.LifeStatus_Teacher});
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle7.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dataGridViewTeachers.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Italic);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridViewTeachers.DefaultCellStyle = dataGridViewCellStyle6;
 			this.dataGridViewTeachers.Location = new System.Drawing.Point(4, 41);
 			this.dataGridViewTeachers.MultiSelect = false;
 			this.dataGridViewTeachers.Name = "dataGridViewTeachers";
@@ -802,20 +794,22 @@
 			this.tabPageSubjects.Controls.Add(this.textBoxSearchSubject);
 			this.tabPageSubjects.Controls.Add(this.dataGridViewSubjects);
 			this.tabPageSubjects.ImageIndex = 4;
-			this.tabPageSubjects.Location = new System.Drawing.Point(4, 35);
+			this.tabPageSubjects.Location = new System.Drawing.Point(4, 37);
 			this.tabPageSubjects.Name = "tabPageSubjects";
-			this.tabPageSubjects.Size = new System.Drawing.Size(1079, 476);
+			this.tabPageSubjects.Size = new System.Drawing.Size(1079, 474);
 			this.tabPageSubjects.TabIndex = 5;
 			this.tabPageSubjects.Text = "Subjects";
 			this.tabPageSubjects.UseVisualStyleBackColor = true;
 			// 
 			// textBoxSearchSubject
 			// 
+			this.textBoxSearchSubject.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.textBoxSearchSubject.Location = new System.Drawing.Point(4, 3);
-			this.textBoxSearchSubject.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxSearchSubject.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxSearchSubject.Name = "textBoxSearchSubject";
-			this.textBoxSearchSubject.Size = new System.Drawing.Size(1073, 32);
+			this.textBoxSearchSubject.Size = new System.Drawing.Size(1073, 31);
 			this.textBoxSearchSubject.TabIndex = 1;
+			this.textBoxSearchSubject.Text = "dddd";
 			this.textBoxSearchSubject.TextChanged += new System.EventHandler(this.textBoxSearchSubject_TextChanged);
 			// 
 			// dataGridViewSubjects
@@ -829,14 +823,14 @@
 			this.dataGridViewSubjects.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Name_Subject,
             this.Type_Of_Subject});
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle8.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dataGridViewSubjects.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle7.Font = new System.Drawing.Font("Franklin Gothic Medium", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridViewSubjects.DefaultCellStyle = dataGridViewCellStyle7;
 			this.dataGridViewSubjects.Location = new System.Drawing.Point(4, 41);
 			this.dataGridViewSubjects.MultiSelect = false;
 			this.dataGridViewSubjects.Name = "dataGridViewSubjects";
@@ -865,7 +859,7 @@
 			// 
 			this.menuStripAdminPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuStripAdminPanel.BackgroundImage")));
 			this.menuStripAdminPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-			this.menuStripAdminPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.menuStripAdminPanel.Font = new System.Drawing.Font("Arcon", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.menuStripAdminPanel.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.menuStripAdminPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.systemToolStripMenuItem});
@@ -882,20 +876,20 @@
             this.logoutToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-			this.systemToolStripMenuItem.Size = new System.Drawing.Size(76, 22);
+			this.systemToolStripMenuItem.Size = new System.Drawing.Size(68, 22);
 			this.systemToolStripMenuItem.Text = "System";
 			// 
 			// logoutToolStripMenuItem
 			// 
 			this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-			this.logoutToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+			this.logoutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.logoutToolStripMenuItem.Text = "Logout";
 			this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -920,7 +914,7 @@
 			this.Controls.Add(this.menuStripAdminPanel);
 			this.Controls.Add(this.tabControl1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "FormAdminPanel";
 			this.Text = "Control Panel";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAdminPanel_FormClosing);
