@@ -104,22 +104,23 @@ namespace Electronic_School_Gradebook
 					dbTools.executeInsert("Classes", classValues);
 					break;
 				case "Students":
-					string[] studentsValues = new string[8];
-                    studentsValues[0] = "'Фамилия'";
-                    studentsValues[1] = "'Имя'";
-                    studentsValues[2] = "'Отчество'";
-                    studentsValues[3] = "'(000) 000-00-00'";
-                    studentsValues[4] = "'Адрес'";
-                    studentsValues[5] = "'email@example.com'";
-                    studentsValues[6] = "null";
-                    studentsValues[7] = "'1'";
-                    string[] studentsValuesUser = new string[4];
+					string[] studentsValuesUser = new string[4];
 					studentsValuesUser[0] = "'Роль'";
 					studentsValuesUser[1] = "'Логин'";
 					studentsValuesUser[2] = "'Пароль'";
-                    studentsValuesUser[3] = "'1'";
-                    dbTools.executeInsert("Users", studentsValuesUser);
-                    dbTools.executeInsert("Students", studentsValues);
+					studentsValuesUser[3] = "'1'";
+					dbTools.executeInsert("Users", studentsValuesUser);
+					
+					string[] studentsValues = new string[8];
+					studentsValues[0] = "'Фамилия'";
+					studentsValues[1] = "'Имя'";
+					studentsValues[2] = "'Отчество'";
+					studentsValues[3] = "'(000) 000-00-00'";
+					studentsValues[4] = "'Адрес'";
+					studentsValues[5] = "'email@example.com'";
+					studentsValues[6] = "null";
+					studentsValues[7] = dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString();
+					dbTools.executeInsert("Students", studentsValues);
 					break;
 				case "Parents":
 					string[] parentsValues = new string[6];
@@ -132,6 +133,13 @@ namespace Electronic_School_Gradebook
 					dbTools.executeInsert("Parents", parentsValues);
 					break;
 				case "Teachers":
+					string[] teachersValuesUser = new string[4];
+					teachersValuesUser[0] = "'Роль'";
+					teachersValuesUser[1] = "'Логин'";
+					teachersValuesUser[2] = "'Пароль'";
+					teachersValuesUser[3] = "'1'";
+					dbTools.executeInsert("Users", teachersValuesUser);
+
 					string[] teachersValues = new string[8];
 					teachersValues[0] = "'Фамилия'";
 					teachersValues[1] = "'Имя'";
@@ -140,14 +148,8 @@ namespace Electronic_School_Gradebook
 					teachersValues[4] = "'Адрес'";
 					teachersValues[5] = "'email@example.com'";
 					teachersValues[6] = "'1'";
-					teachersValues[7] = "'1'";
-                    string[] teachersValuesUser = new string[4];
-                    teachersValuesUser[0] = "'Роль'";
-                    teachersValuesUser[1] = "'Логин'";
-                    teachersValuesUser[2] = "'Пароль'";
-                    teachersValuesUser[3] = "true";
-                    dbTools.executeInsert("Users", teachersValuesUser);
-                    dbTools.executeInsert("Students", teachersValues);
+					teachersValues[7] = dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString();
+					dbTools.executeInsert("Teachers", teachersValues);
 					break;
 				case "Subjects":
 					string[] subjectsValues = new string[2];
@@ -226,7 +228,7 @@ namespace Electronic_School_Gradebook
 
 		private DBFormsTools.RowConnect[] usersRowConnect;
 		private DBFormsTools.RowConnect[] classesRowConnect;
-        private DBFormsTools.RowConnect[] studentsRowConnect;
+		private DBFormsTools.RowConnect[] studentsRowConnect;
 		private DBFormsTools.RowConnect[] parentsRowConnect;
 		private DBFormsTools.RowConnect[] teachersRowConnect;
 		private DBFormsTools.RowConnect[] subjectsRowConnect;
@@ -248,7 +250,8 @@ namespace Electronic_School_Gradebook
 					parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
 					break;
 				case "Teachers":
-					string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Login_User", "Password_User", "LifeStatus" };
+					//string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Login_User", "Password_User", "LifeStatus" };
+					string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Type_Of_Teacher", "Login_User", "Password_User", "LifeStatus" };
 					teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers", fieldsTeachers, $"join Users on Users.ID_User = Teachers.ID_User");
 					break;
 				case "Subjects":
@@ -316,27 +319,7 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-        private int GetUserIdByStudentId(int studentId)
-        {
-            int userId = -1;
-            string query = $"SELECT ID_User FROM Students WHERE ID_Student = {studentId}";
-
-            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    reader.Read();
-                    userId = reader.GetInt32(0);
-                }
-            }
-
-            return userId;
-        }
-
-        private void dataGridViewStudentsCellEndEdit()
+		private void dataGridViewStudentsCellEndEdit()
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
@@ -350,80 +333,50 @@ namespace Electronic_School_Gradebook
 			}
 			else
 			{
-				string valueString = $"{columnName}='{newWriting}'";
-				string conditionString = string.Empty;
-				conditionString = $"WHERE ID_Student = {studentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-				try
+				string userId = dbTools.executeAnySqlScalar($"select ID_User from Students where ID_Student = {studentsRowConnect[selectRow].idDataBase.ToString()}").ToString();
+				switch (selectColumn)
 				{
-					int result = dbTools.executeUpdate("Students", valueString, conditionString);
-                    int studentId = (int)studentsRowConnect[selectRow].idDataBase;
-                    int userId = GetUserIdByStudentId(studentId);
+					case 6:
+						dbTools.executeUpdate("Users", $"Login_User='{newWriting}';", $"WHERE ID_User = {userId}");
+						break;
+					case 7:
+						dbTools.executeUpdate("Users", $"Password_User='{newWriting}'", $"WHERE ID_User = {userId}");
+						break;
+					case 8:
+						dbTools.executeUpdate("Users", $"LifeStatus='{newWriting}'", $"WHERE ID_User = {userId}");
+						break;
+					default:
+						string valueString = $"{columnName}='{newWriting}'";
+						string conditionString = string.Empty;
+						conditionString = $"WHERE ID_Student = {studentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
 
-                    if (userId != -1)
-                    {
-                        if (columnName == "Login_User_Student")
-                        {
-                            string updateStatement = $"UPDATE Users SET Login_User = '{newWriting}' WHERE ID_User = {userId}";
-                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-                            {
-                                connection.Open();
-                                SqlCommand command = new SqlCommand(updateStatement, connection);
-                                command.ExecuteNonQuery();
-                            }
-                        }
-
-                        if (columnName == "Password_User_Student")
-                        {
-                            string updateStatement = $"UPDATE Users SET Password_User = '{newWriting}' WHERE ID_User = {userId}";
-                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-                            {
-                                connection.Open();
-                                SqlCommand command = new SqlCommand(updateStatement, connection);
-                                command.ExecuteNonQuery();
-                            }
-                        }
-
-                        if (columnName == "LifeStatus_Student")
-                        {
-                            string updateStatement = $"UPDATE Users SET LifeStatus = '{newWriting}' WHERE ID_User = {userId}";
-                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-                            {
-                                connection.Open();
-                                SqlCommand command = new SqlCommand(updateStatement, connection);
-                                command.ExecuteNonQuery();
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-				{
-					dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value = oldWriting;
-					MessageBox.Show("An error occurred while updating the data: " + ex.Message);
+						int result = dbTools.executeUpdate("Students", valueString, conditionString);
+						break;
 				}
 			}
 		}
 
-        private int GetUserIdByTeacherId(int teacherId)
-        {
-            int userId = -1;
-            string query = $"SELECT ID_User FROM Teachers WHERE ID_Teacher = {teacherId}";
+		private int GetUserIdByTeacherId(int teacherId)
+		{
+			int userId = -1;
+			string query = $"SELECT ID_User FROM Teachers WHERE ID_Teacher = {teacherId}";
 
-            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    reader.Read();
-                    userId = reader.GetInt32(0);
-                }
-            }
+			using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+			using (SqlCommand command = new SqlCommand(query, connection))
+			{
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				if (reader.HasRows)
+				{
+					reader.Read();
+					userId = reader.GetInt32(0);
+				}
+			}
 
-            return userId;
-        }
+			return userId;
+		}
 
-        private void dataGridViewTeachersCellEndEdit()
+		private void dataGridViewTeachersCellEndEdit()
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
@@ -437,55 +390,25 @@ namespace Electronic_School_Gradebook
 			}
 			else
 			{
-				string valueString = $"{columnName}='{newWriting}'";
-				string conditionString = string.Empty;
-				conditionString = $"WHERE ID_Teacher = {teachersRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-				try
+				string userId = dbTools.executeAnySqlScalar($"select ID_User from Teachers where ID_Teacher = {teachersRowConnect[selectRow].idDataBase.ToString()}").ToString();
+				switch (selectColumn)
 				{
-					int result = dbTools.executeUpdate("Teachers", valueString, conditionString);
-                    int teacherId = (int)teachersRowConnect[selectRow].idDataBase;
-                    int userId = GetUserIdByTeacherId(teacherId);
+					case 7:
+						dbTools.executeUpdate("Users", $"Login_User='{newWriting}';", $"WHERE ID_User = {userId}");
+						break;
+					case 8:
+						dbTools.executeUpdate("Users", $"Password_User='{newWriting}'", $"WHERE ID_User = {userId}");
+						break;
+					case 9:
+						dbTools.executeUpdate("Users", $"LifeStatus='{newWriting}'", $"WHERE ID_User = {userId}");
+						break;
+					default:
+						string valueString = $"{columnName}='{newWriting}'";
+						string conditionString = string.Empty;
+						conditionString = $"WHERE ID_Teacher = {teachersRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
 
-                    if (userId != -1)
-                    {
-                        if (columnName == "Login_User_Teacher")
-                        {
-                            string updateStatement = $"UPDATE Users SET Login_User = '{newWriting}' WHERE ID_User = {userId}";
-                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-                            {
-                                connection.Open();
-                                SqlCommand command = new SqlCommand(updateStatement, connection);
-                                command.ExecuteNonQuery();
-                            }
-                        }
-
-                        if (columnName == "Password_User_Teacher")
-                        {
-                            string updateStatement = $"UPDATE Users SET Password_User = '{newWriting}' WHERE ID_User = {userId}";
-                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-                            {
-                                connection.Open();
-                                SqlCommand command = new SqlCommand(updateStatement, connection);
-                                command.ExecuteNonQuery();
-                            }
-                        }
-
-                        if (columnName == "LifeStatus_Teacher")
-                        {
-                            string updateStatement = $"UPDATE Users SET LifeStatus = '{newWriting}' WHERE ID_User = {userId}";
-                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-                            {
-                                connection.Open();
-                                SqlCommand command = new SqlCommand(updateStatement, connection);
-                                command.ExecuteNonQuery();
-                            }
-                        }
-                    }
-                }
-				catch (Exception ex)
-				{
-					dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value = oldWriting;
-					MessageBox.Show("An error occurred while updating the data: " + ex.Message);
+						int result = dbTools.executeUpdate("Teachers", valueString, conditionString);
+						break;
 				}
 			}
 		}

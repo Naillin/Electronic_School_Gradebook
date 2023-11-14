@@ -382,7 +382,7 @@ namespace Electronic_School_Gradebook
 						else
 						{
 							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
-							dataTeachersAll = dBTools.executeSelectTable($" SELECT distinct(A.Surname_Teacher),A.ID_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher where  B.ID_Class! = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%' AND B.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Class = {BDid})");
+							dataTeachersAll = dBTools.executeSelectTable($"SELECT distinct(A.Surname_Teacher),A.ID_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher where  B.ID_Class! = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%' AND B.ID_Teacher NOT IN(SELECT ID_Teacher from TeachToClass D WHERE D.ID_Class = {BDid})");
 						}
 						rowConnectDgvInf = new InfRowConnect[dataTeachers.GetLength(0) + dataTeachersAll.GetLength(0)];
 						if (checkBoxOnlyRelated.Checked)
@@ -542,7 +542,7 @@ namespace Electronic_School_Gradebook
 					object[,] dataSubj = null;
 					object[,] dataSubjAll = null;
 
-					if (textBoxSearch.Text == "") ///////////////////////////////////////////////////////////////////////////////////
+					if (textBoxSearch.Text == "")
 					{
 						for (int i = 0; i < data.GetLength(0); i++)
 						{

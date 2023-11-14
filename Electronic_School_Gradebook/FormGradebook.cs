@@ -119,7 +119,8 @@ namespace Electronic_School_Gradebook
 		private void dataGridViewGradebook_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
 			DateTime today = DateTime.Today;
-			string dateFormatBD = today.ToString("yyyy-MM-dd HH:mm:ss");
+			//string dateFormatBD = today.ToString("yyyy-MM-dd HH:mm:ss");
+			string dateFormatBD = today.ToString("yyyy-MM-dd");
 
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
 			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {FormGradebook.ID_Subject};");
@@ -139,7 +140,7 @@ namespace Electronic_School_Gradebook
 			{
 				if (dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value != null)
 				{
-                    string[] values = { "'" + dateFormatBD + "'", dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString(), studentRowConnects[selectRow].id.ToString(), ID_TeachToSubj.ToString(), ID_Work.ToString() };
+                    string[] values = { dateFormatBD, dataGridViewGradebook.Rows[selectRow].Cells[selectColumn].Value.ToString(), studentRowConnects[selectRow].id.ToString(), ID_TeachToSubj.ToString(), ID_Work.ToString() };
                     dBTools.executeInsert("Gradebook", values);
                 }
 			}
@@ -153,7 +154,7 @@ namespace Electronic_School_Gradebook
 				}
 				else //update
 				{
-					string[] values = { "'" + dateFormatBD + "'", newRecord.ToString(), studentRowConnects[selectRow].id.ToString(), ID_TeachToSubj.ToString(), ID_Work.ToString() };
+					string[] values = { dateFormatBD, newRecord.ToString(), studentRowConnects[selectRow].id.ToString(), ID_TeachToSubj.ToString(), ID_Work.ToString() };
 					dBTools.executeUpdate("Gradebook", values, $"where ID_Student = {studentRowConnects[selectRow].id.ToString()} and ID_TeachToSubj = {ID_TeachToSubj.ToString()} and ID_Work = {ID_Work.ToString()}");
 				}
 			}
