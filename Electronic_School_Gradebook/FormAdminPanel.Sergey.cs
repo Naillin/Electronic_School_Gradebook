@@ -1,6 +1,8 @@
 ﻿using DatabaseTools_MSSQL;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -102,16 +104,21 @@ namespace Electronic_School_Gradebook
 					dbTools.executeInsert("Classes", classValues);
 					break;
 				case "Students":
-					string[] studentsValues = new string[9];
-					studentsValues[0] = "'Фамилия'";
-					studentsValues[1] = "'Имя'";
-					studentsValues[2] = "'Отчество'";
-					studentsValues[3] = "'(000) 000-00-00'";
-					studentsValues[4] = "'Адрес'";
-					studentsValues[5] = "'email@example.com'";
-                    studentsValues[6] = "'Логин'";
-                    studentsValues[7] = "'Пароль'";
-                    studentsValues[8] = "'1'";
+					string[] studentsValues = new string[8];
+                    studentsValues[0] = "'Фамилия'";
+                    studentsValues[1] = "'Имя'";
+                    studentsValues[2] = "'Отчество'";
+                    studentsValues[3] = "'(000) 000-00-00'";
+                    studentsValues[4] = "'Адрес'";
+                    studentsValues[5] = "'email@example.com'";
+                    studentsValues[6] = "null";
+                    studentsValues[7] = "'1'";
+                    string[] studentsValuesUser = new string[4];
+					studentsValuesUser[0] = "'Роль'";
+					studentsValuesUser[1] = "'Логин'";
+					studentsValuesUser[2] = "'Пароль'";
+                    studentsValuesUser[3] = "'1'";
+                    dbTools.executeInsert("Users", studentsValuesUser);
                     dbTools.executeInsert("Students", studentsValues);
 					break;
 				case "Parents":
@@ -125,17 +132,21 @@ namespace Electronic_School_Gradebook
 					dbTools.executeInsert("Parents", parentsValues);
 					break;
 				case "Teachers":
-					string[] teachersValues = new string[10];
+					string[] teachersValues = new string[8];
 					teachersValues[0] = "'Фамилия'";
 					teachersValues[1] = "'Имя'";
 					teachersValues[2] = "'Отчество'";
 					teachersValues[3] = "'(000) 000-00-00'";
 					teachersValues[4] = "'Адрес'";
 					teachersValues[5] = "'email@example.com'";
-					teachersValues[6] = "'0'";
-                    teachersValues[7] = "'Логин'";
-                    teachersValues[8] = "'Пароль'";
-                    teachersValues[9] = "'1'";
+					teachersValues[6] = "'1'";
+					teachersValues[7] = "'1'";
+                    string[] teachersValuesUser = new string[4];
+                    teachersValuesUser[0] = "'Роль'";
+                    teachersValuesUser[1] = "'Логин'";
+                    teachersValuesUser[2] = "'Пароль'";
+                    teachersValuesUser[3] = "true";
+                    dbTools.executeInsert("Users", teachersValuesUser);
                     dbTools.executeInsert("Students", teachersValues);
 					break;
 				case "Subjects":
@@ -213,9 +224,9 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-        private DBFormsTools.RowConnect[] usersRowConnect;
-        private DBFormsTools.RowConnect[] classesRowConnect;
-		private DBFormsTools.RowConnect[] studentsRowConnect;
+		private DBFormsTools.RowConnect[] usersRowConnect;
+		private DBFormsTools.RowConnect[] classesRowConnect;
+        private DBFormsTools.RowConnect[] studentsRowConnect;
 		private DBFormsTools.RowConnect[] parentsRowConnect;
 		private DBFormsTools.RowConnect[] teachersRowConnect;
 		private DBFormsTools.RowConnect[] subjectsRowConnect;
@@ -230,51 +241,51 @@ namespace Electronic_School_Gradebook
 					classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
 					break;
 				case "Students":
-                    string[] fieldsStudents = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student", "Login_User", "Password_User", "LifeStatus" };
-                    studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students", fieldsStudents, $"join Users on Users.ID_User = Students.ID_User");
-                    break;
+					string[] fieldsStudents = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student", "Login_User", "Password_User", "LifeStatus" };
+					studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students", fieldsStudents, $"join Users on Users.ID_User = Students.ID_User");
+					break;
 				case "Parents":
-                    parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
-                    break;
+					parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
+					break;
 				case "Teachers":
-                    string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Login_User", "Password_User", "LifeStatus" };
-                    teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers", fieldsTeachers, $"join Users on Users.ID_User = Teachers.ID_User");
-                    break;
+					string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Login_User", "Password_User", "LifeStatus" };
+					teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers", fieldsTeachers, $"join Users on Users.ID_User = Teachers.ID_User");
+					break;
 				case "Subjects":
-                    subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
-                    break;
+					subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
+					break;
 			}
 		}
 
-        private void StartFillDataGridViews(TabPage tabPage)
-        {
-            DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
+		private void StartFillDataGridViews(TabPage tabPage)
+		{
+			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
 
 
-            switch (tabPage.Name)
-            {
-                case "tabPageAtoms":
-                    classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
-                    break;
-                case "tabPageClasses":
-                    classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
-                    break;
-                case "tabPageStudents":
+			switch (tabPage.Name)
+			{
+				case "tabPageAtoms":
+					classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
+					break;
+				case "tabPageClasses":
+					classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
+					break;
+				case "tabPageStudents":
 					string[] fieldsStudents = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student", "Login_User", "Password_User", "LifeStatus" };
-                    studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students", fieldsStudents, $"join Users on Users.ID_User = Students.ID_User");
-                    break;
-                case "tabPageParents":
-                    parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
-                    break;
-                case "tabPageTeachers":
-                    string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Type_Of_Teacher", "Login_User", "Password_User", "LifeStatus" };
-                    teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers", fieldsTeachers, $"join Users on Users.ID_User = Teachers.ID_User");
-                    break;
-                case "tabPageSubjects":
-                    subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
-                    break;
-            }
-        }
+					studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students", fieldsStudents, $"join Users on Users.ID_User = Students.ID_User");
+					break;
+				case "tabPageParents":
+					parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
+					break;
+				case "tabPageTeachers":
+					string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Type_Of_Teacher", "Login_User", "Password_User", "LifeStatus" };
+					teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers", fieldsTeachers, $"join Users on Users.ID_User = Teachers.ID_User");
+					break;
+				case "tabPageSubjects":
+					subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
+					break;
+			}
+		}
 
 		private void dataGridViewClassesCellEndEdit()
 		{
@@ -304,8 +315,28 @@ namespace Electronic_School_Gradebook
 				}
 			}
 		}
-		
-		private void dataGridViewStudentsCellEndEdit()
+
+        private int GetUserIdByStudentId(int studentId)
+        {
+            int userId = -1;
+            string query = $"SELECT ID_User FROM Students WHERE ID_Student = {studentId}";
+
+            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    userId = reader.GetInt32(0);
+                }
+            }
+
+            return userId;
+        }
+
+        private void dataGridViewStudentsCellEndEdit()
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
@@ -321,12 +352,50 @@ namespace Electronic_School_Gradebook
 			{
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
-                conditionString = $"WHERE ID_Student = {studentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                try
+				conditionString = $"WHERE ID_Student = {studentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
+				try
 				{
 					int result = dbTools.executeUpdate("Students", valueString, conditionString);
-				}
-				catch (Exception ex)
+                    int studentId = (int)studentsRowConnect[selectRow].idDataBase;
+                    int userId = GetUserIdByStudentId(studentId);
+
+                    if (userId != -1)
+                    {
+                        if (columnName == "Login_User_Student")
+                        {
+                            string updateStatement = $"UPDATE Users SET Login_User = '{newWriting}' WHERE ID_User = {userId}";
+                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+                            {
+                                connection.Open();
+                                SqlCommand command = new SqlCommand(updateStatement, connection);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        if (columnName == "Password_User_Student")
+                        {
+                            string updateStatement = $"UPDATE Users SET Password_User = '{newWriting}' WHERE ID_User = {userId}";
+                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+                            {
+                                connection.Open();
+                                SqlCommand command = new SqlCommand(updateStatement, connection);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        if (columnName == "LifeStatus_Student")
+                        {
+                            string updateStatement = $"UPDATE Users SET LifeStatus = '{newWriting}' WHERE ID_User = {userId}";
+                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+                            {
+                                connection.Open();
+                                SqlCommand command = new SqlCommand(updateStatement, connection);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
 				{
 					dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value = oldWriting;
 					MessageBox.Show("An error occurred while updating the data: " + ex.Message);
@@ -334,7 +403,27 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		private void dataGridViewTeachersCellEndEdit()
+        private int GetUserIdByTeacherId(int teacherId)
+        {
+            int userId = -1;
+            string query = $"SELECT ID_User FROM Teachers WHERE ID_Teacher = {teacherId}";
+
+            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    userId = reader.GetInt32(0);
+                }
+            }
+
+            return userId;
+        }
+
+        private void dataGridViewTeachersCellEndEdit()
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
@@ -350,11 +439,49 @@ namespace Electronic_School_Gradebook
 			{
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
-                conditionString = $"WHERE ID_Teacher = {teachersRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                try
+				conditionString = $"WHERE ID_Teacher = {teachersRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
+				try
 				{
 					int result = dbTools.executeUpdate("Teachers", valueString, conditionString);
-				}
+                    int teacherId = (int)teachersRowConnect[selectRow].idDataBase;
+                    int userId = GetUserIdByTeacherId(teacherId);
+
+                    if (userId != -1)
+                    {
+                        if (columnName == "Login_User_Teacher")
+                        {
+                            string updateStatement = $"UPDATE Users SET Login_User = '{newWriting}' WHERE ID_User = {userId}";
+                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+                            {
+                                connection.Open();
+                                SqlCommand command = new SqlCommand(updateStatement, connection);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        if (columnName == "Password_User_Teacher")
+                        {
+                            string updateStatement = $"UPDATE Users SET Password_User = '{newWriting}' WHERE ID_User = {userId}";
+                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+                            {
+                                connection.Open();
+                                SqlCommand command = new SqlCommand(updateStatement, connection);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        if (columnName == "LifeStatus_Teacher")
+                        {
+                            string updateStatement = $"UPDATE Users SET LifeStatus = '{newWriting}' WHERE ID_User = {userId}";
+                            using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
+                            {
+                                connection.Open();
+                                SqlCommand command = new SqlCommand(updateStatement, connection);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
 				catch (Exception ex)
 				{
 					dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value = oldWriting;
@@ -379,8 +506,8 @@ namespace Electronic_School_Gradebook
 			{
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
-                conditionString = $"WHERE ID_Parent = {parentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                try
+				conditionString = $"WHERE ID_Parent = {parentsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
+				try
 				{
 					int result = dbTools.executeUpdate("Parents", valueString, conditionString);
 				}
@@ -408,8 +535,8 @@ namespace Electronic_School_Gradebook
 			{
 				string valueString = $"{columnName}='{newWriting}'";
 				string conditionString = string.Empty;
-                conditionString = $"WHERE ID_Subject = {subjectsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
-                try
+				conditionString = $"WHERE ID_Subject = {subjectsRowConnect[(selectRow == -1) ? 0 : selectRow].idDataBase}";
+				try
 				{
 					int result = dbTools.executeUpdate("Subjects", valueString, conditionString);
 				}
@@ -421,27 +548,81 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-        private void tabControlAtomsSelecting(TabPage tabPage)
-        {
-            switch (tabPage.Name)
-            {
-                case "tabPageClasses":
-                    buttonRemoveRecord.Enabled = true;
-                    break;
-                case "tabPageStudents":
-                    buttonRemoveRecord.Enabled = false;
-                    break;
-                case "tabPageParents":
-                    buttonRemoveRecord.Enabled = true;
-                    break;
-                case "tabPageTeachers":
-                    buttonRemoveRecord.Enabled = false;
-                    break;
-                case "tabPageSubjects":
-                    buttonRemoveRecord.Enabled = true;
-                    break;
-            }
-        }
+		private void tabControlAtomsSelecting(TabPage tabPage)
+		{
+			switch (tabPage.Name)
+			{
+				case "tabPageClasses":
+					buttonRemoveRecord.Enabled = true;
+					break;
+				case "tabPageStudents":
+					buttonRemoveRecord.Enabled = false;
+					break;
+				case "tabPageParents":
+					buttonRemoveRecord.Enabled = true;
+					break;
+				case "tabPageTeachers":
+					buttonRemoveRecord.Enabled = false;
+					break;
+				case "tabPageSubjects":
+					buttonRemoveRecord.Enabled = true;
+					break;
+			}
+		}
 
-    }
+		private void SearchDataClass(string searchText)
+		{
+			string columnNameToSearch = "Name_Class";
+			foreach (DataGridViewRow row in dataGridViewClasses.Rows)
+			{
+				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
+				bool match = cellValue != null && cellValue.Contains(searchText);
+				row.Visible = match;
+			}
+		}
+
+		private void SearchDataStudent(string searchText)
+		{
+			string columnNameToSearch = "Surname_Student";
+			foreach (DataGridViewRow row in dataGridViewStudents.Rows)
+			{
+				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
+				bool match = cellValue != null && cellValue.Contains(searchText);
+				row.Visible = match;
+			}
+		}
+
+		private void SearchDataParent(string searchText)
+		{
+			string columnNameToSearch = "Surname_Parent";
+			foreach (DataGridViewRow row in dataGridViewParents.Rows)
+			{
+				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
+				bool match = cellValue != null && cellValue.Contains(searchText);
+				row.Visible = match;
+			}
+		}
+
+		private void SearchDataTeacher(string searchText)
+		{
+			string columnNameToSearch = "Surname_Teacher";
+			foreach (DataGridViewRow row in dataGridViewTeachers.Rows)
+			{
+				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
+				bool match = cellValue != null && cellValue.Contains(searchText);
+				row.Visible = match;
+			}
+		}
+
+		private void SearchDataSubject(string searchText)
+		{
+			string columnNameToSearch = "Name_Subject";
+			foreach (DataGridViewRow row in dataGridViewSubjects.Rows)
+			{
+				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
+				bool match = cellValue != null && cellValue.Contains(searchText);
+				row.Visible = match;
+			}
+		}
+	}
 }

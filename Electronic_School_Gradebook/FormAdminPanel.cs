@@ -898,17 +898,53 @@ namespace Electronic_School_Gradebook
         {
             buttonRemoveRecordClick();
         }
-																			/// БЛЯТЬ СЕРГЕЙ СДЕЛАЙ ТАКИЕ ДЛЯ ВСЕХ
-		private void dataGridViewClasses_Click(object sender, EventArgs e) // Сергей - добавь такие для всех дгв
+																			
+		private void dataGridViewClasses_Click(object sender, EventArgs e) 
 		{
 			selectRow = dataGridViewClasses.SelectedCells[0].RowIndex;
 			selectColumn = dataGridViewClasses.SelectedCells[0].ColumnIndex;
 			oldWriting = dataGridViewClasses.Rows[selectRow].Cells[selectColumn].Value;
 
-			labelSelectedRecord.Text = "Selected record: " + dataGridViewClasses.Rows[selectRow].Cells[0].Value.ToString(); // сделай такие для всех методов, где получаешь selectRow selectColumn. в таблицах студентов, родителей, учителей, выводи фамилии.
+			labelSelectedRecord.Text = "Selected record: " + dataGridViewClasses.Rows[selectRow].Cells[0].Value.ToString();
 		}
 
-		private void dataGridViewClasses_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        private void dataGridViewStudents_Click(object sender, EventArgs e)
+        {
+            selectRow = dataGridViewStudents.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewStudents.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value;
+
+            labelSelectedRecord.Text = "Selected record: " + dataGridViewStudents.Rows[selectRow].Cells[1].Value.ToString();
+        }
+
+        private void dataGridViewParents_Click(object sender, EventArgs e)
+        {
+            selectRow = dataGridViewParents.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewParents.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewParents.Rows[selectRow].Cells[selectColumn].Value;
+
+            labelSelectedRecord.Text = "Selected record: " + dataGridViewParents.Rows[selectRow].Cells[1].Value.ToString();
+        }
+
+        private void dataGridViewTeachers_Click(object sender, EventArgs e)
+        {
+            selectRow = dataGridViewTeachers.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewTeachers.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value;
+
+            labelSelectedRecord.Text = "Selected record: " + dataGridViewTeachers.Rows[selectRow].Cells[1].Value.ToString();
+        }
+
+        private void dataGridViewSubjects_Click(object sender, EventArgs e)
+        {
+            selectRow = dataGridViewSubjects.SelectedCells[0].RowIndex;
+            selectColumn = dataGridViewSubjects.SelectedCells[0].ColumnIndex;
+            oldWriting = dataGridViewSubjects.Rows[selectRow].Cells[selectColumn].Value;
+
+            labelSelectedRecord.Text = "Selected record: " + dataGridViewSubjects.Rows[selectRow].Cells[0].Value.ToString();
+        }
+
+        private void dataGridViewClasses_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             selectRow = dataGridViewClasses.SelectedCells[0].RowIndex;
             selectColumn = dataGridViewClasses.SelectedCells[0].ColumnIndex;
@@ -997,6 +1033,31 @@ namespace Electronic_School_Gradebook
 			TabPage selectingTabPage = tabControlAtoms.SelectedTab;
 
             tabControlAtomsSelecting(selectingTabPage);
+        }
+
+        private void textBoxSearchClass_TextChanged(object sender, EventArgs e)
+        {
+			SearchDataClass(textBoxSearchClass.Text);
+        }
+
+        private void textBoxSearchStudent_TextChanged(object sender, EventArgs e)
+        {
+            SearchDataStudent(textBoxSearchStudent.Text);
+        }
+
+        private void textBoxSearchParent_TextChanged(object sender, EventArgs e)
+        {
+            SearchDataParent(textBoxSearchParent.Text);
+        }
+
+        private void textBoxSearchTeacher_TextChanged(object sender, EventArgs e)
+        {
+            SearchDataTeacher(textBoxSearchTeacher.Text);
+        }
+
+        private void textBoxSearchSubject_TextChanged(object sender, EventArgs e)
+        {
+            SearchDataSubject(textBoxSearchSubject.Text);
         }
 
         ///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
