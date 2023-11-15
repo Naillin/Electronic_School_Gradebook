@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGradebook));
 			this.dataGridViewGradebook = new System.Windows.Forms.DataGridView();
 			this.labelClass = new System.Windows.Forms.Label();
@@ -47,6 +47,7 @@
 			this.changeTasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.plansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelSubject = new System.Windows.Forms.Label();
+			this.checkBoxColorMark = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGradebook)).BeginInit();
 			this.statusStripStatus.SuspendLayout();
 			this.menuStripGradebook.SuspendLayout();
@@ -59,23 +60,23 @@
 			this.dataGridViewGradebook.AllowUserToResizeRows = false;
 			this.dataGridViewGradebook.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewGradebook.BackgroundColor = System.Drawing.Color.White;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridViewGradebook.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridViewGradebook.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridViewGradebook.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dataGridViewGradebook.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridViewGradebook.DefaultCellStyle = dataGridViewCellStyle2;
 			this.dataGridViewGradebook.Location = new System.Drawing.Point(12, 92);
 			this.dataGridViewGradebook.Name = "dataGridViewGradebook";
 			this.dataGridViewGradebook.RowHeadersWidth = 51;
@@ -171,20 +172,20 @@
             this.logoutToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-			this.systemToolStripMenuItem.Size = new System.Drawing.Size(65, 22);
+			this.systemToolStripMenuItem.Size = new System.Drawing.Size(68, 22);
 			this.systemToolStripMenuItem.Text = "System";
 			// 
 			// logoutToolStripMenuItem
 			// 
 			this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-			this.logoutToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.logoutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.logoutToolStripMenuItem.Text = "Logout";
 			this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -194,20 +195,20 @@
             this.changeTasksToolStripMenuItem,
             this.plansToolStripMenuItem});
 			this.gradebookToolStripMenuItem.Name = "gradebookToolStripMenuItem";
-			this.gradebookToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+			this.gradebookToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
 			this.gradebookToolStripMenuItem.Text = "Gradebook";
 			// 
 			// changeTasksToolStripMenuItem
 			// 
 			this.changeTasksToolStripMenuItem.Name = "changeTasksToolStripMenuItem";
-			this.changeTasksToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.changeTasksToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
 			this.changeTasksToolStripMenuItem.Text = "Change tasks";
 			this.changeTasksToolStripMenuItem.Click += new System.EventHandler(this.changeTasksToolStripMenuItem_Click);
 			// 
 			// plansToolStripMenuItem
 			// 
 			this.plansToolStripMenuItem.Name = "plansToolStripMenuItem";
-			this.plansToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.plansToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
 			this.plansToolStripMenuItem.Text = "Educational plans";
 			this.plansToolStripMenuItem.Click += new System.EventHandler(this.plansToolStripMenuItem_Click);
 			// 
@@ -222,6 +223,19 @@
 			this.labelSubject.TabIndex = 7;
 			this.labelSubject.Text = "Subject";
 			// 
+			// checkBoxColorMark
+			// 
+			this.checkBoxColorMark.AutoSize = true;
+			this.checkBoxColorMark.BackColor = System.Drawing.Color.Transparent;
+			this.checkBoxColorMark.Font = new System.Drawing.Font("Arcon", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxColorMark.Location = new System.Drawing.Point(1252, 59);
+			this.checkBoxColorMark.Name = "checkBoxColorMark";
+			this.checkBoxColorMark.Size = new System.Drawing.Size(120, 27);
+			this.checkBoxColorMark.TabIndex = 9;
+			this.checkBoxColorMark.Text = "Color mark";
+			this.checkBoxColorMark.UseVisualStyleBackColor = false;
+			this.checkBoxColorMark.CheckedChanged += new System.EventHandler(this.checkBoxColorMark_CheckedChanged);
+			// 
 			// FormGradebook
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -230,6 +244,7 @@
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1384, 761);
+			this.Controls.Add(this.checkBoxColorMark);
 			this.Controls.Add(this.labelSubject);
 			this.Controls.Add(this.statusStripStatus);
 			this.Controls.Add(this.menuStripGradebook);
@@ -269,5 +284,6 @@
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelUser;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCountStudens;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCountTasks;
+		private System.Windows.Forms.CheckBox checkBoxColorMark;
 	}
 }

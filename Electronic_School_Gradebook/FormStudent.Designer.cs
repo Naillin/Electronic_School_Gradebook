@@ -45,6 +45,7 @@
 			this.notifyIconInfoUser = new System.Windows.Forms.NotifyIcon(this.components);
 			this.statusStripStatus = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabelUser = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabelAVG = new System.Windows.Forms.ToolStripStatusLabel();
 			this.textBoxSearch = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudentGradebook)).BeginInit();
 			this.menuStripStudentGradebook.SuspendLayout();
@@ -185,7 +186,8 @@
 			// 
 			this.statusStripStatus.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.statusStripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelUser});
+            this.toolStripStatusLabelUser,
+            this.toolStripStatusLabelAVG});
 			this.statusStripStatus.Location = new System.Drawing.Point(0, 736);
 			this.statusStripStatus.Name = "statusStripStatus";
 			this.statusStripStatus.Size = new System.Drawing.Size(1384, 25);
@@ -201,6 +203,13 @@
 			this.toolStripStatusLabelUser.Name = "toolStripStatusLabelUser";
 			this.toolStripStatusLabelUser.Size = new System.Drawing.Size(181, 20);
 			this.toolStripStatusLabelUser.Text = "toolStripStatusLabelUser";
+			// 
+			// toolStripStatusLabelAVG
+			// 
+			this.toolStripStatusLabelAVG.Font = new System.Drawing.Font("Arcon", 11.25F);
+			this.toolStripStatusLabelAVG.Name = "toolStripStatusLabelAVG";
+			this.toolStripStatusLabelAVG.Size = new System.Drawing.Size(21, 20);
+			this.toolStripStatusLabelAVG.Text = "@";
 			// 
 			// textBoxSearch
 			// 
@@ -231,6 +240,7 @@
 			this.Text = "Gradebook";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormStudent_FormClosing);
 			this.Load += new System.EventHandler(this.FormStudent_Load);
+			this.SizeChanged += new System.EventHandler(this.FormStudent_SizeChanged);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudentGradebook)).EndInit();
 			this.menuStripStudentGradebook.ResumeLayout(false);
 			this.menuStripStudentGradebook.PerformLayout();
@@ -257,5 +267,6 @@
 		private System.Windows.Forms.StatusStrip statusStripStatus;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelUser;
 		private System.Windows.Forms.TextBox textBoxSearch;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelAVG;
 	}
 }

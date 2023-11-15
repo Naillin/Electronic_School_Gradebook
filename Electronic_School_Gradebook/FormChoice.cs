@@ -203,10 +203,12 @@ namespace Electronic_School_Gradebook
 					FormGradebook.rowConnects[i].columnIndex_dgvGradebook = -1; //есть очень тяжело уловимый баг (выход за пределы массива). происходит когда что то поменяешь в плане и начнешь редачить отображение.
 				}
 			}
-			
+
 			//заполение dgvGradebook студентами
 			object[,] dataStudents = dBTools.executeSelectTable($"SELECT ID_Student, Name_Student, Surname_Student FROM Students join Users on Users.ID_User = Students.ID_User WHERE Students.ID_Class = {listBoxClasses.SelectedValue} and Users.LifeStatus = 1;");
 			FormGradebook.studentRowConnects = new StudentRowConnect[dataStudents.GetLength(0)]; //массив структуры связи строк и id
+			object[,] dataStudentsHigh = dBTools.executeSelectTable($"EXECUTE dbo.PerfectGradeStudents @ID_Class = {listBoxClasses.SelectedValue};"); //поиск медалистов
+			object[,] dataStudentsLow = dBTools.executeSelectTable($"EXECUTE dbo.LowGradeStudents @ID_Class = {listBoxClasses.SelectedValue}, @ID_Subject = {listBoxSubjects.SelectedValue}, @Coefficient = {3.0};"); //поиск неуспевающих
 			for (int i = 0; i < dataStudents.GetLength(0); i++)
 			{
 				dataGridViewGradebookReciver.Rows.Add(dataStudents[i, 2] + " " + dataStudents[i, 1]);
@@ -221,6 +223,15 @@ namespace Electronic_School_Gradebook
 				else
 				{
 					dataGridViewGradebookReciver.Rows[i].DefaultCellStyle.BackColor = Color.LimeGreen;
+				}
+
+				for (int j = 0; j < dataStudentsHigh.GetLength(0); j++) //выделение медалистов
+				{
+					if ((int)dataStudentsHigh[j, 0] == (int)dataStudents[i, 0]) dataGridViewGradebookReciver.Rows[i].Cells[0].Style.BackColor = Color.Gold;
+				}
+				for (int j = 0; j < dataStudentsLow.GetLength(0); j++) //выделение неуспевающих
+				{
+					if ((int)dataStudentsLow[j, 0] == (int)dataStudents[i, 0]) dataGridViewGradebookReciver.Rows[i].Cells[0].Style.BackColor = Color.OrangeRed;
 				}
 			}
 			dataGridViewGradebookReciver.Columns[0].Width = 150;

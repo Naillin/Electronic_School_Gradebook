@@ -93,7 +93,17 @@ namespace Electronic_School_Gradebook
 			toolStripStatusLabelUser.Text = "Active user: " + UserInfo;
 			toolStripStatusLabelCountStudens.Text = "Count students: " + studentRowConnects.Length.ToString() + " | Select student: " + dataGridViewGradebook.Rows[0].Cells[0].Value.ToString();
 			toolStripStatusLabelCountTasks.Text = "Count tasks: " + rowConnects.Length.ToString();
-        }
+
+			//заполнение цветами ячеек
+			CellsColors = new Color[dataGridViewGradebook.RowCount, dataGridViewGradebook.ColumnCount];
+			for (int i = 0; i < CellsColors.GetLength(0); i++)
+			{
+				for (int j = 0; j < CellsColors.GetLength(1); j++)
+				{
+					CellsColors[i, j] = dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor;
+				}
+			}
+		}
 
 		//запоминание координат ячейки
 		int selectRow = 0;
@@ -201,6 +211,49 @@ namespace Electronic_School_Gradebook
 			{
 				e.Handled = true; // Отмена ввода символа
 				if (realTimeWriting != "") realTimeWriting = realTimeWriting.Remove(realTimeWriting.Length - 1);
+			}
+		}
+
+		//переключение цветов в dgv
+		Color[,] CellsColors = null; 
+		private void checkBoxColorMark_CheckedChanged(object sender, EventArgs e)
+		{
+			if (checkBoxColorMark.Checked)
+			{
+				for (int i = 0; i < CellsColors.GetLength(0); i++)
+				{
+					for (int j = 0; j < CellsColors.GetLength(1); j++)
+					{
+						switch(dataGridViewGradebook.Rows[i].Cells[j].Value)
+						{
+							case 2:
+								dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor = Color.Red;
+								break;
+							case 3:
+								dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor = Color.Orange;
+								break;
+							case 4:
+								dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
+								break;
+							case 5:
+								dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor = Color.LimeGreen;
+								break;
+							default:
+								dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor = Color.White;
+								break;
+						}
+					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < CellsColors.GetLength(0); i++)
+				{
+					for (int j = 0; j < CellsColors.GetLength(1); j++)
+					{
+						dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor = CellsColors[i, j];
+					}
+				}
 			}
 		}
 

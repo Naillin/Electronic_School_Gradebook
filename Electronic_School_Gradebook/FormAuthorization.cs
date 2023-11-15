@@ -113,34 +113,32 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		static public string sqlConnection = @"Server=LAPTOP-Q7QIC61G;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-		//static public string sqlConnection = @"Server=SPEEDADEPT;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-		//static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
-		//static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
 		//static public string sqlConnection = @"Server=127.0.0.1;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
         private void FormAuthorization_Load(object sender, EventArgs e)
 		{
-		//	string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
-		//	// This text is added only once to the file.
-		//	if (!File.Exists(path)) //если не существует файла
-		//	{
-		//		// Create a file to write to.
-		//		string[] createText = { "Data Source=192.168.1.46;", "Initial Catalog=DB_Electronic_School_Gradebook;", "User Id=connection_user;", "Password=543211234555;" };
-		//		File.WriteAllLines(path, createText);
-		//	}
+			string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
+			// This text is added only once to the file.
+			if (!File.Exists(path)) //если не существует файла
+			{
+				// Create a file to write to.
+				string[] createText = { "Data Source=192.168.1.46;", "Initial Catalog=DB_Electronic_School_Gradebook;", "User Id=connection_user;", "Password=543211234555;" };
+				File.WriteAllLines(path, createText);
+			}
 
-		//	//Open the file to read from.
-		//	string[] DB_Info = File.ReadAllLines(path);
-		//	DB_Info[0] = DB_Info[0].Remove(0, 12);
-		//	DB_Info[0] = DB_Info[0].Remove(DB_Info[0].Length - 1, 1);
-		//	DB_Info[1] = DB_Info[1].Remove(0, 16);
-		//	DB_Info[1] = DB_Info[1].Remove(DB_Info[1].Length - 1, 1);
-		//	DB_Info[2] = DB_Info[2].Remove(0, 8);
-		//	DB_Info[2] = DB_Info[2].Remove(DB_Info[2].Length - 1, 1);
-		//	DB_Info[3] = DB_Info[3].Remove(0, 9);
-		//	DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
+			//Open the file to read from.
+			string[] DB_Info = File.ReadAllLines(path);
+			DB_Info[0] = DB_Info[0].Remove(0, 12);
+			DB_Info[0] = DB_Info[0].Remove(DB_Info[0].Length - 1, 1);
+			DB_Info[1] = DB_Info[1].Remove(0, 16);
+			DB_Info[1] = DB_Info[1].Remove(DB_Info[1].Length - 1, 1);
+			DB_Info[2] = DB_Info[2].Remove(0, 8);
+			DB_Info[2] = DB_Info[2].Remove(DB_Info[2].Length - 1, 1);
+			DB_Info[3] = DB_Info[3].Remove(0, 9);
+			DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
 
-		//	sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
+			if (DB_Info[2] == "" || DB_Info[3] == "") sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};Trusted_Connection=True;";
+			else sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
 		}
 
 		static public int ID_User; //глобальная переменная id пользователя
