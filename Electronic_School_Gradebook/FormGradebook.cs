@@ -80,7 +80,7 @@ namespace Electronic_School_Gradebook
 			//заполнение labelClass и labelSubject
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
 			labelClass.Text = "Selected class: " + dBTools.executeAnySqlScalar($"select Name_Class from Classes where ID_Class = {ID_Class}");
-			labelSubject.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Class}");
+			labelSubject.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Subject}");
 
 			//заполнение notifyIconInfoUser
 			string UserInfo = dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString();
