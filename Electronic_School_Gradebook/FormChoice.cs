@@ -207,8 +207,8 @@ namespace Electronic_School_Gradebook
 			//заполение dgvGradebook студентами
 			object[,] dataStudents = dBTools.executeSelectTable($"SELECT ID_Student, Name_Student, Surname_Student FROM Students join Users on Users.ID_User = Students.ID_User WHERE Students.ID_Class = {listBoxClasses.SelectedValue} and Users.LifeStatus = 1;");
 			FormGradebook.studentRowConnects = new StudentRowConnect[dataStudents.GetLength(0)]; //массив структуры связи строк и id
-			object[,] dataStudentsHigh = dBTools.executeSelectTable($"EXECUTE dbo.PerfectGradeStudents @ID_Class = {listBoxClasses.SelectedValue};"); //поиск медалистов
-			object[,] dataStudentsLow = dBTools.executeSelectTable($"EXECUTE dbo.LowGradeStudents @ID_Class = {listBoxClasses.SelectedValue}, @ID_Subject = {listBoxSubjects.SelectedValue}, @Coefficient = {3.0};"); //поиск неуспевающих
+			object[,] dataStudentsHigh = dBTools.executeSelectTable($"EXECUTE dbo.PerfectGradeStudents @ID_Class = {listBoxClasses.SelectedValue}, @coefficient = 4.5;"); //поиск медалистов
+			object[,] dataStudentsLow = dBTools.executeSelectTable($"EXECUTE dbo.LowGradeStudents @ID_Class = {listBoxClasses.SelectedValue}, @ID_Subject = {listBoxSubjects.SelectedValue}, @Coefficient = 3.0;"); //поиск неуспевающих
 			for (int i = 0; i < dataStudents.GetLength(0); i++)
 			{
 				dataGridViewGradebookReciver.Rows.Add(dataStudents[i, 2] + " " + dataStudents[i, 1]);

@@ -112,8 +112,8 @@ namespace Electronic_School_Gradebook
 					dbTools.executeInsert("Users", studentsValuesUser);
 					
 					string[] studentsValues = new string[8];
-					studentsValues[0] = "'Фамилия'";
-					studentsValues[1] = "'Имя'";
+					studentsValues[0] = "'Имя'";
+					studentsValues[1] = "'Шапошников'";
 					studentsValues[2] = "'Отчество'";
 					studentsValues[3] = "'(000) 000-00-00'";
 					studentsValues[4] = "'Адрес'";
@@ -124,8 +124,8 @@ namespace Electronic_School_Gradebook
 					break;
 				case "Parents":
 					string[] parentsValues = new string[6];
-					parentsValues[0] = "'Фамилия'";
-					parentsValues[1] = "'Имя'";
+					parentsValues[0] = "'Имя'";
+					parentsValues[1] = "'Фамилия'";
 					parentsValues[2] = "'Отчество'";
 					parentsValues[3] = "'(000) 000-00-00'";
 					parentsValues[4] = "'Адрес'";
@@ -141,8 +141,8 @@ namespace Electronic_School_Gradebook
 					dbTools.executeInsert("Users", teachersValuesUser);
 
 					string[] teachersValues = new string[8];
-					teachersValues[0] = "'Фамилия'";
-					teachersValues[1] = "'Имя'";
+					teachersValues[0] = "'Имя'";
+					teachersValues[1] = "'Фамилия'";
 					teachersValues[2] = "'Отчество'";
 					teachersValues[3] = "'(000) 000-00-00'";
 					teachersValues[4] = "'Адрес'";

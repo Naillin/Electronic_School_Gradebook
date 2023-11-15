@@ -176,7 +176,8 @@ namespace Electronic_School_Gradebook
 			object ID_TeachToClass = dBTools.executeAnySqlScalar($"select TeachToClass.ID_TeachToClass from TeachToClass join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue};");
 			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 
-			string[] values = { "'" + dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString() + "'", "'" + dateFormatBD + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[selectRow].Cells[2].Value.ToString() };
+			string nameWork = (dataGridViewTasks.Rows[selectRow].Cells[0].Value == null ? "New Work" : dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString());
+			string[] values = { "'" + nameWork + "'", "'" + dateFormatBD + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[selectRow].Cells[2].Value.ToString() };
 			dBTools.executeUpdate("TeacherPlan", values, $"where ID_Work = {dataTasks[selectRow, 0].ToString()}");
 
 			labelSelectedWork.Text = "Selected work: " + dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString();
