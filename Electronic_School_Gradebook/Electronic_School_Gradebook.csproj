@@ -52,6 +52,7 @@
     <Compile Include="CustomTextBox.Designer.cs">
       <DependentUpon>CustomTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExcelTools.cs" />
     <Compile Include="FormAdminPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +73,12 @@
     </Compile>
     <Compile Include="FormChoice.Designer.cs">
       <DependentUpon>FormChoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDistinctiveStudents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDistinctiveStudents.Designer.cs">
+      <DependentUpon>FormDistinctiveStudents.cs</DependentUpon>
     </Compile>
     <Compile Include="FormEducationalPlanRedactor.cs">
       <SubType>Form</SubType>
@@ -107,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormChoice.resx">
       <DependentUpon>FormChoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDistinctiveStudents.resx">
+      <DependentUpon>FormDistinctiveStudents.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEducationalPlanRedactor.resx">
       <DependentUpon>FormEducationalPlanRedactor.cs</DependentUpon>

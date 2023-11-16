@@ -226,13 +226,11 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-		private DBFormsTools.RowConnect[] usersRowConnect;
 		private DBFormsTools.RowConnect[] classesRowConnect;
 		private DBFormsTools.RowConnect[] studentsRowConnect;
 		private DBFormsTools.RowConnect[] parentsRowConnect;
 		private DBFormsTools.RowConnect[] teachersRowConnect;
 		private DBFormsTools.RowConnect[] subjectsRowConnect;
-
 		private void FillDataGridViews()
 		{
 			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);

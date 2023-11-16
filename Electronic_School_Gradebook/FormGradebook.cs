@@ -11,7 +11,7 @@ using System.Diagnostics;
 //MS_Sql
 using DatabaseTools_MSSQL;
 //Excel
-//using Excel1 = Microsoft.Office.Interop.Excel;
+//using ExcelLib = Microsoft.Office.Interop.Excel;
 using System.Reflection;
 using System.IO;
 //Media
@@ -96,9 +96,9 @@ namespace Electronic_School_Gradebook
 
 			//заполнение цветами ячеек
 			CellsColors = new Color[dataGridViewGradebook.RowCount, dataGridViewGradebook.ColumnCount];
-			for (int i = 0; i < CellsColors.GetLength(0); i++)
+			for (int i = 0; i < dataGridViewGradebook.RowCount; i++)
 			{
-				for (int j = 0; j < CellsColors.GetLength(1); j++)
+				for (int j = 0; j < dataGridViewGradebook.ColumnCount; j++)
 				{
 					CellsColors[i, j] = dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor;
 				}
@@ -215,14 +215,14 @@ namespace Electronic_School_Gradebook
 		}
 
 		//переключение цветов в dgv
-		Color[,] CellsColors = null; 
+		public static Color[,] CellsColors = null;
 		private void checkBoxColorMark_CheckedChanged(object sender, EventArgs e)
 		{
 			if (checkBoxColorMark.Checked)
 			{
-				for (int i = 0; i < CellsColors.GetLength(0); i++)
+				for (int i = 0; i < dataGridViewGradebook.RowCount; i++)
 				{
-					for (int j = 0; j < CellsColors.GetLength(1); j++)
+					for (int j = 0; j < dataGridViewGradebook.ColumnCount; j++)
 					{
 						switch(dataGridViewGradebook.Rows[i].Cells[j].Value)
 						{
@@ -247,9 +247,9 @@ namespace Electronic_School_Gradebook
 			}
 			else
 			{
-				for (int i = 0; i < CellsColors.GetLength(0); i++)
+				for (int i = 0; i < dataGridViewGradebook.RowCount; i++)
 				{
-					for (int j = 0; j < CellsColors.GetLength(1); j++)
+					for (int j = 0; j < dataGridViewGradebook.ColumnCount; j++)
 					{
 						dataGridViewGradebook.Rows[i].Cells[j].Style.BackColor = CellsColors[i, j];
 					}
@@ -260,6 +260,8 @@ namespace Electronic_School_Gradebook
 		//форма настройка плана
 		private void plansToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			checkBoxColorMark.Checked = false;
+
 			SoundPlayer sndWhu = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 41, 41) + @"\Res\sound\Whu.wav"));
 			sndWhu.Play();
 
@@ -282,6 +284,8 @@ namespace Electronic_School_Gradebook
 		//открытие формы задачек
 		private void changeTasksToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			checkBoxColorMark.Checked = false;
+
 			//запуск формы выбора класс и работы
 			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref formGradebook); //передача ссылки на объект dgv
 			formChoice.ShowDialog();
@@ -289,6 +293,73 @@ namespace Electronic_School_Gradebook
 			//заполнение toolStripStatus
 			toolStripStatusLabelCountStudens.Text = "Count students: " + studentRowConnects.Length.ToString() + " | Select student: " + dataGridViewGradebook.Rows[0].Cells[0].Value.ToString();
 			toolStripStatusLabelCountTasks.Text = "Количество задач:" + rowConnects.Length.ToString();
+		}
+
+		//медалисты
+		private void distinctiveStudentsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FormDistinctiveStudents formDistinctiveStudents = new FormDistinctiveStudents(ID_Class, ID_Subject);
+			formDistinctiveStudents.ShowDialog();
+		}
+
+		//составление отчета
+		private void formationEducationalReportToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//подготовка данных к отчету
+			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+
+			string ClassExc = dBTools.executeAnySqlScalar($"select Name_Class from Classes where ID_Class = {ID_Class}").ToString();
+			string SubjectExc = dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Subject}").ToString();
+			string TeacherExc = dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString();
+			DateTime today = DateTime.Today; string dateTodayExc = today.ToString("yyyy-MM-dd");
+
+			//создане дока
+			ExcelTools excelTools = new ExcelTools();
+			excelTools.Visible = true;
+			excelTools.NewDocument();
+
+			//подготовка формы дока
+			excelTools.SetValue("A1", "Класс:");
+			excelTools.SetValue("B1", ClassExc);
+			excelTools.SetValue("A2", "Дисциплина:");
+			excelTools.SetValue("B2", SubjectExc);
+			excelTools.SetValue("A3", "Преподаватель:");
+			excelTools.SetValue("B3", TeacherExc);
+			excelTools.SetValue("A4", "Дата:");
+			excelTools.SetValue("B4", dateTodayExc);
+
+			//ввод имён в док
+			excelTools.SetValue("A6", "Имена\\Задачи");
+			for(int i = 0, j = 1; i < dataGridViewGradebook.RowCount; i++, j++)
+			{
+				excelTools.SetValue("A" + (6 + j).ToString(), dataGridViewGradebook.Rows[i].Cells[0].Value.ToString());
+			}
+
+			//Алфавит Excel
+			string[] AlphaExc = "A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|AA|AB|AC|AD|AE|AF".Split('|');
+			//вставка задач
+			for (int i = 0; i < dataGridViewGradebook.ColumnCount; i++)
+			{
+				excelTools.SetValue(AlphaExc[i] + "6", dataGridViewGradebook.Columns[i].HeaderText);
+			}
+
+			//вставка оценок в док списанием их из проги
+			foreach (DataGridViewRow row in dataGridViewGradebook.Rows)
+			{
+				for (int j = 0; j < dataGridViewGradebook.ColumnCount; j++)
+				{
+					if (dataGridViewGradebook.Rows[row.Index].Cells[j].Value != null)
+					{
+						string Coord = AlphaExc[j] + (row.Index + 7).ToString();
+						string ValueExc = dataGridViewGradebook.Rows[row.Index].Cells[j].Value.ToString();
+						excelTools.SetValue(Coord, ValueExc);
+					}
+				}
+			}
+
+			//Save Excel
+			//string name_doc = "Repot_" + ClassExc + "_" + dateTodayExc + ".xlsx";
+			//excelTools.SaveDocument(name_doc);
 		}
 
 		//заполнение toolStripStatusLabelCountStudens

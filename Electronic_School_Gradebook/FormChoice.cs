@@ -207,7 +207,7 @@ namespace Electronic_School_Gradebook
 			//заполение dgvGradebook студентами
 			object[,] dataStudents = dBTools.executeSelectTable($"SELECT ID_Student, Name_Student, Surname_Student FROM Students join Users on Users.ID_User = Students.ID_User WHERE Students.ID_Class = {listBoxClasses.SelectedValue} and Users.LifeStatus = 1;");
 			FormGradebook.studentRowConnects = new StudentRowConnect[dataStudents.GetLength(0)]; //массив структуры связи строк и id
-			object[,] dataStudentsHigh = dBTools.executeSelectTable($"EXECUTE dbo.PerfectGradeStudents @ID_Class = {listBoxClasses.SelectedValue}, @coefficient = 4.5;"); //поиск медалистов
+			object[,] dataStudentsHigh = dBTools.executeSelectTable($"EXECUTE dbo.PerfectGradeStudents @ID_Class = {listBoxClasses.SelectedValue}, @Сoefficient = 4.5;"); //поиск медалистов
 			object[,] dataStudentsLow = dBTools.executeSelectTable($"EXECUTE dbo.LowGradeStudents @ID_Class = {listBoxClasses.SelectedValue}, @ID_Subject = {listBoxSubjects.SelectedValue}, @Coefficient = 3.0;"); //поиск неуспевающих
 			for (int i = 0; i < dataStudents.GetLength(0); i++)
 			{
@@ -265,6 +265,16 @@ namespace Electronic_School_Gradebook
 				if(columnIndex > 0)
 				{
 					dataGridViewGradebookReciver.Rows[rowIndex].Cells[columnIndex].Value = dataGradebook[z, 1];
+				}
+			}
+
+			//заполнение цветами ячеек
+			FormGradebook.CellsColors = new Color[dataGridViewGradebookReciver.RowCount, dataGridViewGradebookReciver.ColumnCount];
+			for (int i = 0; i < dataGridViewGradebookReciver.RowCount; i++)
+			{
+				for (int j = 0; j < dataGridViewGradebookReciver.ColumnCount; j++)
+				{
+					FormGradebook.CellsColors[i, j] = dataGridViewGradebookReciver.Rows[i].Cells[j].Style.BackColor;
 				}
 			}
 

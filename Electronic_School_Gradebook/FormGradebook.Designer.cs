@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGradebook));
 			this.dataGridViewGradebook = new System.Windows.Forms.DataGridView();
 			this.labelClass = new System.Windows.Forms.Label();
@@ -46,8 +46,10 @@
 			this.gradebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.changeTasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.plansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.distinctiveStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelSubject = new System.Windows.Forms.Label();
 			this.checkBoxColorMark = new System.Windows.Forms.CheckBox();
+			this.formationEducationalReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGradebook)).BeginInit();
 			this.statusStripStatus.SuspendLayout();
 			this.menuStripGradebook.SuspendLayout();
@@ -60,23 +62,23 @@
 			this.dataGridViewGradebook.AllowUserToResizeRows = false;
 			this.dataGridViewGradebook.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewGradebook.BackgroundColor = System.Drawing.Color.White;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridViewGradebook.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle13.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
+			dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridViewGradebook.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
 			this.dataGridViewGradebook.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dataGridViewGradebook.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle14.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
+			dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridViewGradebook.DefaultCellStyle = dataGridViewCellStyle14;
 			this.dataGridViewGradebook.Location = new System.Drawing.Point(12, 92);
 			this.dataGridViewGradebook.Name = "dataGridViewGradebook";
 			this.dataGridViewGradebook.RowHeadersWidth = 51;
@@ -193,7 +195,9 @@
 			// 
 			this.gradebookToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeTasksToolStripMenuItem,
-            this.plansToolStripMenuItem});
+            this.plansToolStripMenuItem,
+            this.distinctiveStudentsToolStripMenuItem,
+            this.formationEducationalReportToolStripMenuItem});
 			this.gradebookToolStripMenuItem.Name = "gradebookToolStripMenuItem";
 			this.gradebookToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
 			this.gradebookToolStripMenuItem.Text = "Gradebook";
@@ -201,16 +205,23 @@
 			// changeTasksToolStripMenuItem
 			// 
 			this.changeTasksToolStripMenuItem.Name = "changeTasksToolStripMenuItem";
-			this.changeTasksToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.changeTasksToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
 			this.changeTasksToolStripMenuItem.Text = "Change tasks";
 			this.changeTasksToolStripMenuItem.Click += new System.EventHandler(this.changeTasksToolStripMenuItem_Click);
 			// 
 			// plansToolStripMenuItem
 			// 
 			this.plansToolStripMenuItem.Name = "plansToolStripMenuItem";
-			this.plansToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.plansToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
 			this.plansToolStripMenuItem.Text = "Educational plans";
 			this.plansToolStripMenuItem.Click += new System.EventHandler(this.plansToolStripMenuItem_Click);
+			// 
+			// distinctiveStudentsToolStripMenuItem
+			// 
+			this.distinctiveStudentsToolStripMenuItem.Name = "distinctiveStudentsToolStripMenuItem";
+			this.distinctiveStudentsToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
+			this.distinctiveStudentsToolStripMenuItem.Text = "Distinctive students";
+			this.distinctiveStudentsToolStripMenuItem.Click += new System.EventHandler(this.distinctiveStudentsToolStripMenuItem_Click);
 			// 
 			// labelSubject
 			// 
@@ -235,6 +246,13 @@
 			this.checkBoxColorMark.Text = "Color mark";
 			this.checkBoxColorMark.UseVisualStyleBackColor = false;
 			this.checkBoxColorMark.CheckedChanged += new System.EventHandler(this.checkBoxColorMark_CheckedChanged);
+			// 
+			// formationEducationalReportToolStripMenuItem
+			// 
+			this.formationEducationalReportToolStripMenuItem.Name = "formationEducationalReportToolStripMenuItem";
+			this.formationEducationalReportToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
+			this.formationEducationalReportToolStripMenuItem.Text = "Formation educational report";
+			this.formationEducationalReportToolStripMenuItem.Click += new System.EventHandler(this.formationEducationalReportToolStripMenuItem_Click);
 			// 
 			// FormGradebook
 			// 
@@ -285,5 +303,7 @@
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCountStudens;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCountTasks;
 		private System.Windows.Forms.CheckBox checkBoxColorMark;
+		private System.Windows.Forms.ToolStripMenuItem distinctiveStudentsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem formationEducationalReportToolStripMenuItem;
 	}
 }
