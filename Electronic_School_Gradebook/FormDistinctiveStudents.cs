@@ -61,6 +61,14 @@ namespace Electronic_School_Gradebook
 			string strStudentsLow = string.Join(", ", dataStudentsLow.Cast<int>().ToArray());
 			//fileds = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student" };
 			studentsLowRowConnect = dBFormsTools.FillDGVWithRowConnect(ref dataGridViewPoorStudetns, "Students", fileds, $"where ID_Student in ({strStudentsLow})");
+
+			foreach(DataGridViewRow row in dataGridViewPoorStudetns.Rows)
+			{
+				object[,] dataSubjectsLow = dBTools.executeSelectTable($"EXECUTE dbo.LowAverageGradeSubjects @ID_Student = {studentsLowRowConnect[row.Index].idDataBase}, @Coefficient = 3.0;"); //поиск предметов неуспевающих учеников
+				dataSubjectsLow = dBTools.executeSelectTable($"select Name_Subject from Subjects where ID_Subject in ({string.Join(", ", dataSubjectsLow.Cast<int>().ToArray())})"); //поиск предметов неуспевающих учеников
+				string strSubjectsLow = string.Join(", ", dataSubjectsLow.Cast<string>().ToArray());
+				row.Cells[6].Value = strSubjectsLow;
+			}
 		}
 
 		//выбрали двоечника
