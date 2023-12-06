@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DatabaseTools_MSSQL.DBTools">
+    <Position X="6.5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABAAAIAAAAAAAIACAAABAAAAAAAAgAAABIAAI=</HashCode>
+      <FileName>DBTools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DatabaseTools_MSSQL.DBBase">
+    <Position X="3.5" Y="3" Width="2.25" />
+    <NestedTypes>
+      <Struct Name="DatabaseTools_MSSQL.DBBase.ColumnsNames" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DBBase.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAABCAAAAAAAAAAAAAAIAAEAAAAAAAIAA=</HashCode>
+      <FileName>DBBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Object">
+    <Position X="1" Y="3" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DatabaseTools_MSSQL.DBFormsTools">
+    <Position X="0.5" Y="6.5" Width="3" />
+    <NestedTypes>
+      <Struct Name="DatabaseTools_MSSQL.DBFormsTools.RowConnect" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DBFormsTools.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAJAAAABAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>DBFormsTools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DatabaseTools_MSSQL.IDBBase">
+    <Position X="3.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABCAAAAAAAAAAAAAAIAAEAAAAAAAIAA=</HashCode>
+      <FileName>IDBBase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

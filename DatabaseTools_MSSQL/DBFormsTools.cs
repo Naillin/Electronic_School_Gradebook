@@ -16,7 +16,7 @@ namespace DatabaseTools_MSSQL
 	/// </summary>
 	public class DBFormsTools
 	{
-		static string connectionStringReceiver;
+		static private string connectionStringReceiver { get; set; }
 		/// <summary>
 		/// Набор инструментов для функционирования элементов Windows Forms и MS SQL.
 		/// </summary>
