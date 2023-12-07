@@ -9,11 +9,14 @@ using System.Windows.Forms;
 
 namespace DatabaseTools_MSSQL
 {
+	/// <summary>
+	/// Базовый набор инструментов для работы с базой данных MS SQL.
+	/// </summary>
 	abstract public class DBBase : IDBBase
 	{
 		static private string connectionStringReceiver { get; set; }
 		/// <summary>
-		/// Набор инструментов для работы с базой данных MS SQL.
+		/// Инициализирует новый экземпляр класса DBBase.
 		/// </summary>
 		/// <param name="connectionString">Строка подключения к целевой базе данных.</param>
 		public DBBase(string connectionString)
@@ -21,7 +24,6 @@ namespace DatabaseTools_MSSQL
 			connectionStringReceiver = connectionString;
 		}
 
-		// вынести в отдельный класс работы с целевой таблицей
 		/// <summary>
 		/// Выполнение SQL-функции COUNT(*) без условий и возвратом количества строк.
 		/// </summary>
@@ -30,8 +32,8 @@ namespace DatabaseTools_MSSQL
 		public int countRows(string table)
 		{
 			int count = -1;
-			try
-			{
+			//try
+			//{
 				string sql = $"select count(*) from {table};";
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
@@ -42,18 +44,17 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return count;
 		}
 
-		// вынести в отдельный класс работы с целевой таблицей
 		/// <summary>
 		/// Выполнение SQL-функции COUNT(*) с условием и возвратом количества строк.
 		/// </summary>
@@ -63,8 +64,8 @@ namespace DatabaseTools_MSSQL
 		public int countRows(string table, string conditions)
 		{
 			int count = 0;
-			try
-			{
+			//try
+			//{
 				string sql = $"select count(*) from {table} {conditions};";
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
@@ -75,62 +76,27 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return count;
 		}
 
-		// вынести в отдельный класс работы с целевой таблицей
-		/// <summary>
-		/// Структура хранения информации о полях таблицы.
-		/// </summary>
-		public struct ColumnsNames
-		{
-			/// <summary>
-			/// Типы ключей базы данных.
-			/// </summary>
-			public enum BDKeys
-			{
-				NONE = 0, PK = 1, FK = 2
-			}
-
-			public string Name;
-			public string LongName;
-			public BDKeys Key;
-			public string FkParent;
-
-			/// <summary>
-			/// Структура хранения информации о полях таблицы.
-			/// </summary>
-			/// <param name="name">Имя таблицы.</param>
-			/// <param name="longName">Полное имя таблицы.</param>
-			/// <param name="key">Тип ключа.</param>
-			/// <param name="fkParent">Родительская таблица.</param>
-			public ColumnsNames(string name = null, string longName = null, BDKeys key = BDKeys.NONE, string fkParent = null)
-			{
-				this.Name = name;
-				this.LongName = longName;
-				this.Key = key;
-				this.FkParent = fkParent;
-			}
-		}
 		/// <summary>
 		/// Возвращает массив информации о всех стлбцах таблицы.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
-		/// <param name="flag">Включение или отвключение отображения в строке родителя.</param>
 		/// <returns></returns>
 		public ColumnsNames[] columnsNames(string table)
 		{
 			ColumnsNames[] result = null;
-			try
-			{
+			//try
+			//{
 				// запрос для имена столбцов таблицы
 				string sql = $"select top (1) * from {table};";
 				string sql1 = $"SELECT COL_NAME(fc.parent_object_id, fc.parent_column_id) AS 'Поле', OBJECT_NAME (f.referenced_object_id) AS 'Связанная таблица' FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE OBJECT_NAME(f.parent_object_id) = '{table}';";
@@ -182,18 +148,17 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
 
-		// вынести в отдельный класс работы с целевой таблицей
 		/// <summary>
 		/// Возвращает массив имен всех таблиц базы данных.
 		/// </summary>
@@ -203,8 +168,8 @@ namespace DatabaseTools_MSSQL
 		public string[] tableNames(string database, bool flag)
 		{
 			string[] result = null;
-			try
-			{
+			//try
+			//{
 				string sql = $"SELECT TABLE_NAME FROM {database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME != 'sysdiagrams';";
 				string strUser = currentUser();
 
@@ -232,18 +197,17 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
 
-		// вынести в отдельный класс работы с целевой таблицей
 		/// <summary>
 		/// Возвращает имя текущего пользователя базы данных.
 		/// </summary>
@@ -251,8 +215,8 @@ namespace DatabaseTools_MSSQL
 		public string currentUser()
 		{
 			string result = string.Empty;
-			try
-			{
+			//try
+			//{
 				string sql = $"SELECT (CURRENT_USER);";
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
@@ -263,18 +227,17 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
 
-		// вынести в отдельный класс работы с целевой таблицей
 		/// <summary>
 		/// Возвращает название базы данных используемой в данный момент.
 		/// </summary>
@@ -282,8 +245,8 @@ namespace DatabaseTools_MSSQL
 		public string datebaseName()
 		{
 			string result = string.Empty;
-			try
-			{
+			//try
+			//{
 				string sql = $"select db_name(dbid) from master.dbo.sysprocesses where spid = @@spid;";
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
@@ -294,13 +257,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}

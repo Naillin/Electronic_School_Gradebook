@@ -68,10 +68,10 @@ namespace Electronic_School_Gradebook
 				dataGridViewTasks.Rows.Clear();
 
 				//заполнение dgvTasks задачами
-				dataTasks = dBTools.executeSelectTable($"SELECT ID_Work, Text_Work, Date_WorkFixation, Tasks.Name_Task FROM TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
+				dataTasks = dBTools.executeSelectTable($"SELECT ID_Work, Text_Work, Date_WorkFixation, Date_WorkSubmission, Tasks.Name_Task FROM TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
 				for (int i = 0; i < dataTasks.GetLength(0); i++)
 				{
-					dataGridViewTasks.Rows.Add(false, dataTasks[i, 1].ToString(), dataTasks[i, 2].ToString(), dataTasks[i, 3].ToString());
+					dataGridViewTasks.Rows.Add(false, dataTasks[i, 1].ToString(), dataTasks[i, 2].ToString(), dataTasks[i, 3].ToString(), dataTasks[i, 4].ToString());
 					for (int j = 1; j < dataGridViewTasks.ColumnCount; j++)
 					{
 						dataGridViewTasks.Rows[i].Cells[j].ReadOnly = true;
@@ -136,11 +136,11 @@ namespace Electronic_School_Gradebook
 
 			//заполнение dgvTasks задачами
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-			dataTasks = dBTools.executeSelectTable($"SELECT ID_Work, Text_Work, Date_WorkFixation, Tasks.Name_Task FROM TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
+			dataTasks = dBTools.executeSelectTable($"SELECT ID_Work, Text_Work, Date_WorkFixation, Date_WorkSubmission, Tasks.Name_Task FROM TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
 			FormGradebook.rowConnects = new TaskRowConnect[dataTasks.GetLength(0)];
 			for (int i = 0; i < dataTasks.GetLength(0); i++)
 			{
-				dataGridViewTasks.Rows.Add(false, dataTasks[i, 1].ToString(), dataTasks[i, 2].ToString(), dataTasks[i, 3].ToString());
+				dataGridViewTasks.Rows.Add(false, dataTasks[i, 1].ToString(), dataTasks[i, 2].ToString(), dataTasks[i, 3].ToString(), dataTasks[i, 4].ToString());
 				for (int j = 1; j < dataGridViewTasks.ColumnCount; j++)
 				{
 					dataGridViewTasks.Rows[i].Cells[j].ReadOnly = true;
@@ -184,7 +184,6 @@ namespace Electronic_School_Gradebook
             DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
 			for (int i = 0, j = 1; i < dataGridViewTasks.RowCount; i++)
 			{
-				bool ddd = (bool)dataGridViewTasks.Rows[i].Cells[0].Value;
 				if ((bool)dataGridViewTasks.Rows[i].Cells[0].Value) //если галочка стоит 
 				{
 					string ColumnText = dataGridViewTasks.Rows[i].Cells[1].Value.ToString();

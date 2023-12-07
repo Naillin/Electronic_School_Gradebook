@@ -4,21 +4,14 @@
     <Position X="6.5" Y="3" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAABAABAAAIAAAAAAAIACAAABAAAAAAAAgAAABIAAI=</HashCode>
-      <FileName>DBTools.cs</FileName>
+      <FileName>Core\DBTools.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DatabaseTools_MSSQL.DBBase">
     <Position X="3.5" Y="3" Width="2.25" />
-    <NestedTypes>
-      <Struct Name="DatabaseTools_MSSQL.DBBase.ColumnsNames" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>DBBase.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Struct>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAABCAAAAAAAAAAAAAAIAAEAAAAAAAIAA=</HashCode>
-      <FileName>DBBase.cs</FileName>
+      <FileName>Core\DBBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -27,24 +20,38 @@
     <TypeIdentifier />
   </Class>
   <Class Name="DatabaseTools_MSSQL.DBFormsTools">
-    <Position X="0.5" Y="6.5" Width="3" />
+    <Position X="0.5" Y="6" Width="3" />
     <NestedTypes>
       <Struct Name="DatabaseTools_MSSQL.DBFormsTools.RowConnect" Collapsed="true">
         <TypeIdentifier>
-          <NewMemberFileName>DBFormsTools.cs</NewMemberFileName>
+          <NewMemberFileName>Core\DBFormsTools.cs</NewMemberFileName>
         </TypeIdentifier>
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAJAAAABAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>DBFormsTools.cs</FileName>
+      <HashCode>AAJAAAABAAAAAAAAAAAAgAAAABAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Core\DBFormsTools.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Struct Name="DatabaseTools_MSSQL.ColumnsNames">
+    <Position X="3.75" Y="6" Width="1.75" />
+    <NestedTypes>
+      <Enum Name="DatabaseTools_MSSQL.ColumnsNames.BDKeys" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ColumnNames.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAEAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ColumnNames.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
   <Interface Name="DatabaseTools_MSSQL.IDBBase">
     <Position X="3.5" Y="0.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABCAAAAAAAAAAAAAAIAAEAAAAAAAIAA=</HashCode>
-      <FileName>IDBBase.cs</FileName>
+      <FileName>Core\IDBBase.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

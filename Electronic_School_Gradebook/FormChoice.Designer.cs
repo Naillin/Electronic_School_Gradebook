@@ -43,6 +43,7 @@
 			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
 			this.SuspendLayout();
@@ -89,6 +90,7 @@
             this.Column1,
             this.Column2,
             this.Column3,
+            this.Column5,
             this.Column4});
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -108,7 +110,7 @@
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.dataGridViewTasks.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-			this.dataGridViewTasks.Size = new System.Drawing.Size(640, 349);
+			this.dataGridViewTasks.Size = new System.Drawing.Size(875, 349);
 			this.dataGridViewTasks.TabIndex = 4;
 			// 
 			// buttonAccept
@@ -120,7 +122,7 @@
 			this.buttonAccept.ForeColor = System.Drawing.Color.Transparent;
 			this.buttonAccept.Location = new System.Drawing.Point(12, 432);
 			this.buttonAccept.Name = "buttonAccept";
-			this.buttonAccept.Size = new System.Drawing.Size(1153, 43);
+			this.buttonAccept.Size = new System.Drawing.Size(1388, 43);
 			this.buttonAccept.TabIndex = 5;
 			this.buttonAccept.Text = "Accept";
 			this.buttonAccept.UseVisualStyleBackColor = false;
@@ -193,9 +195,14 @@
 			// Column3
 			// 
 			this.Column3.FillWeight = 101.5229F;
-			this.Column3.HeaderText = "Date create";
+			this.Column3.HeaderText = "Date fixation";
 			this.Column3.Name = "Column3";
 			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column5
+			// 
+			this.Column5.HeaderText = "Date submission";
+			this.Column5.Name = "Column5";
 			// 
 			// Column4
 			// 
@@ -211,7 +218,7 @@
 			this.BackColor = System.Drawing.Color.White;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(1177, 494);
+			this.ClientSize = new System.Drawing.Size(1412, 494);
 			this.Controls.Add(this.buttonSelectAll);
 			this.Controls.Add(this.labelSubjects);
 			this.Controls.Add(this.listBoxSubjects);
@@ -243,6 +250,7 @@
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
 	}
 }

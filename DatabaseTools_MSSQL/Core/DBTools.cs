@@ -13,13 +13,13 @@ using System.Windows.Forms;
 namespace DatabaseTools_MSSQL
 {
 	/// <summary>
-	/// Набор инструментов для работы с базой данных MS SQL.
+	/// Набор инструментов для изменения данных в базе данных MS SQL.
 	/// </summary>
 	public class DBTools : DBBase
 	{
 		static private string connectionStringReceiver { get; set; }
 		/// <summary>
-		/// Набор инструментов для работы с базой данных MS SQL.
+		/// Инициализирует новый экземпляр класса DBTools.
 		/// </summary>
 		/// <param name="connectionString">Строка подключения к целевой базе данных.</param>
 		public DBTools(string connectionString) : base(connectionString) //передача 
@@ -35,8 +35,8 @@ namespace DatabaseTools_MSSQL
 		public int executeAnySql(string sql)
 		{
 			int result = -1;
-			try
-			{
+			//try
+			//{
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
@@ -46,13 +46,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -65,8 +65,8 @@ namespace DatabaseTools_MSSQL
 		public object executeAnySqlScalar(string sql)
 		{
 			object result = null;
-			try
-			{
+			//try
+			//{
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
@@ -76,13 +76,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -98,8 +98,8 @@ namespace DatabaseTools_MSSQL
 
 			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
-				try
-				{
+				//try
+				//{
 					DataTable data = new DataTable();
 					data.Clear();
 					using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -123,13 +123,13 @@ namespace DatabaseTools_MSSQL
 						}
 					}
 					data.Clear();
-				}
-				catch (Exception ex)
-				{
-					//искуственное исключение
-					ConsoleHandler consoleHandler = new ConsoleHandler();
-					MessageBox.Show(ex.Message, "Warning!");
-				}
+				//}
+				//catch (Exception ex)
+				//{
+				//	//искуственное исключение
+				//	ConsoleHandler consoleHandler = new ConsoleHandler();
+				//	MessageBox.Show(ex.Message, "Warning!");
+				//}
 			}
 			else
 			{
@@ -152,8 +152,8 @@ namespace DatabaseTools_MSSQL
 
 			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
-				try
-				{
+				//try
+				//{
 					result.Clear();
 					using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 					{
@@ -165,13 +165,13 @@ namespace DatabaseTools_MSSQL
 
 						sqlConnection.Close();
 					}
-				}
-				catch (Exception ex)
-				{
-					//искуственное исключение
-					ConsoleHandler consoleHandler = new ConsoleHandler();
-					MessageBox.Show(ex.Message, "Warning!");
-				}
+				//}
+				//catch (Exception ex)
+				//{
+				//	//искуственное исключение
+				//	ConsoleHandler consoleHandler = new ConsoleHandler();
+				//	MessageBox.Show(ex.Message, "Warning!");
+				//}
 			}
 			else
 			{
@@ -191,8 +191,8 @@ namespace DatabaseTools_MSSQL
 		public DataSet takeDatabase(string database)
 		{
 			DataSet result = null;
-			try
-			{
+			//try
+			//{
 				string[] tableNamesMassive = tableNames(database, true);
 				SqlDataAdapter[] adapterMass = new SqlDataAdapter[tableNamesMassive.Length];
 				result = new DataSet();
@@ -211,13 +211,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -229,8 +229,8 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает массив значений.</param>
 		public void executeInsert(string table, string[] value)
 		{
-			try
-			{
+			//try
+			//{
 				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
 				string columns = string.Empty;
 				for (int i = 1; i < columnsNamesMassive.Length; i++)
@@ -251,13 +251,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 		}
 
 		/// <summary>
@@ -267,8 +267,8 @@ namespace DatabaseTools_MSSQL
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "column1=value1;column2=value2;column3=value3;".</param>
 		public void executeInsert(string table, string value)
 		{
-			try
-			{
+			//try
+			//{
 				if (value.Substring(value.Length - 1) == ";")
 				{
 					value = value.Remove(value.Length - 1);
@@ -297,13 +297,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 		}
 
 		/// <summary>
@@ -316,8 +316,8 @@ namespace DatabaseTools_MSSQL
 		public int executeUpdate(string table, string[] value, string conditions)
 		{
 			int result = -1;
-			try
-			{
+			//try
+			//{
 				string strValues = string.Empty;
 				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
 				for (int i = 1; i <= value.Length; i++)
@@ -336,13 +336,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -356,8 +356,8 @@ namespace DatabaseTools_MSSQL
 		public int executeUpdate(string table, string[] value)
 		{
 			int result = -1;
-			try
-			{
+			//try
+			//{
 				string strValues = string.Empty;
 
 				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
@@ -377,13 +377,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -398,8 +398,8 @@ namespace DatabaseTools_MSSQL
 		public int executeUpdate(string table, string value, string conditions)
 		{
 			int result = -1;
-			try
-			{
+			//try
+			//{
 				if (value.Substring(value.Length - 1) == ";")
 				{
 					value = value.Remove(value.Length - 1);
@@ -416,13 +416,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -436,8 +436,8 @@ namespace DatabaseTools_MSSQL
 		public int executeUpdate(string table, string value)
 		{
 			int result = -1;
-			try
-			{
+			//try
+			//{
 				if (value.Substring(value.Length - 1) == ";")
 				{
 					value = value.Remove(value.Length - 1);
@@ -454,13 +454,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -474,8 +474,8 @@ namespace DatabaseTools_MSSQL
 		public int executeDelete(string table, string conditions)
 		{
 			int result = -1;
-			try
-			{
+			//try
+			//{
 				string sql = $"delete {table} {conditions};";
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
@@ -486,13 +486,13 @@ namespace DatabaseTools_MSSQL
 
 					sqlConnection.Close();
 				}
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}
@@ -507,8 +507,8 @@ namespace DatabaseTools_MSSQL
 		public object[] searchRecord(string table, string column, string value)
 		{
 			object[] result = { -1 };
-			try
-			{
+			//try
+			//{
 				string sql = $"select top (1) * from {table} where {column} = {value};";
 
 				DataTable data = new DataTable();
@@ -531,13 +531,13 @@ namespace DatabaseTools_MSSQL
 					result[i] = data.Rows[0][i];
 				}
 				data.Clear();
-			}
-			catch (Exception ex)
-			{
-				//искуственное исключение
-				ConsoleHandler consoleHandler = new ConsoleHandler();
-				MessageBox.Show(ex.Message, "Warning!");
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
 
 			return result;
 		}

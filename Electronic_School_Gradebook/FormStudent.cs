@@ -87,11 +87,11 @@ namespace Electronic_School_Gradebook
 			textBoxSearch.Enabled = true;
 
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-			object[,] dataGrades = dBTools.executeSelectTable($"SELECT TeacherPlan.ID_Work, Tasks.Name_Task, TeacherPlan.Text_Work, Gradebook.Mark, Students.Surname_Student FROM TeacherPlan JOIN Tasks ON Tasks.ID_Task = TeacherPlan.ID_Task JOIN TeachToSubj ON TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj JOIN TeachToClass ON TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass JOIN Students ON Students.ID_Class = TeachToClass.ID_Class JOIN Users ON Users.ID_User = Students.ID_User LEFT JOIN Gradebook ON Gradebook.ID_Work = TeacherPlan.ID_Work and Gradebook.ID_Student = Students.ID_Student WHERE TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue.ToString()} AND Users.ID_User = {FormAuthorization.ID_User.ToString()};");
+			object[,] dataGrades = dBTools.executeSelectTable($"SELECT TeacherPlan.ID_Work, Tasks.Name_Task, TeacherPlan.Text_Work, TeacherPlan.Date_WorkSubmission, Gradebook.Mark, Students.Surname_Student FROM TeacherPlan JOIN Tasks ON Tasks.ID_Task = TeacherPlan.ID_Task JOIN TeachToSubj ON TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj JOIN TeachToClass ON TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass JOIN Students ON Students.ID_Class = TeachToClass.ID_Class JOIN Users ON Users.ID_User = Students.ID_User LEFT JOIN Gradebook ON Gradebook.ID_Work = TeacherPlan.ID_Work and Gradebook.ID_Student = Students.ID_Student WHERE TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue.ToString()} AND Users.ID_User = {FormAuthorization.ID_User.ToString()};");
 
 			for (int i = 0; i < dataGrades.GetLength(0); i++)
 			{
-				dataGridViewStudentGradebook.Rows.Add(dataGrades[i, 1], dataGrades[i, 2], dataGrades[i, 3]);
+				dataGridViewStudentGradebook.Rows.Add(dataGrades[i, 1], dataGrades[i, 2], dataGrades[i, 3], dataGrades[i, 4]);
 
 				//цвета
 				if (i % 2 == 0)
@@ -119,11 +119,11 @@ namespace Electronic_School_Gradebook
 			if (textBoxSearch.Text != "")
 			{
 				DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-				object[,] dataGrades = dBTools.executeSelectTable($"SELECT TeacherPlan.ID_Work, Tasks.Name_Task, TeacherPlan.Text_Work, Gradebook.Mark, Students.Surname_Student FROM TeacherPlan JOIN Tasks ON Tasks.ID_Task = TeacherPlan.ID_Task JOIN TeachToSubj ON TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj JOIN TeachToClass ON TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass JOIN Students ON Students.ID_Class = TeachToClass.ID_Class JOIN Users ON Users.ID_User = Students.ID_User LEFT JOIN Gradebook ON Gradebook.ID_Work = TeacherPlan.ID_Work and Gradebook.ID_Student = Students.ID_Student WHERE TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue.ToString()} AND Users.ID_User = {FormAuthorization.ID_User.ToString()} and TeacherPlan.Text_Work like '{textBoxSearch.Text}%'");
+				object[,] dataGrades = dBTools.executeSelectTable($"SELECT TeacherPlan.ID_Work, Tasks.Name_Task, TeacherPlan.Text_Work, TeacherPlan.Date_WorkSubmission, Gradebook.Mark, Students.Surname_Student FROM TeacherPlan JOIN Tasks ON Tasks.ID_Task = TeacherPlan.ID_Task JOIN TeachToSubj ON TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj JOIN TeachToClass ON TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass JOIN Students ON Students.ID_Class = TeachToClass.ID_Class JOIN Users ON Users.ID_User = Students.ID_User LEFT JOIN Gradebook ON Gradebook.ID_Work = TeacherPlan.ID_Work and Gradebook.ID_Student = Students.ID_Student WHERE TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue.ToString()} AND Users.ID_User = {FormAuthorization.ID_User.ToString()} and TeacherPlan.Text_Work like '{textBoxSearch.Text}%'");
 
 				for (int i = 0; i < dataGrades.GetLength(0); i++)
 				{
-					dataGridViewStudentGradebook.Rows.Add(dataGrades[i, 1], dataGrades[i, 2], dataGrades[i, 3]);
+					dataGridViewStudentGradebook.Rows.Add(dataGrades[i, 1], dataGrades[i, 2], dataGrades[i, 3], dataGrades[i, 4]);
 
 					//цвета
 					if (i % 2 == 0)
@@ -141,11 +141,11 @@ namespace Electronic_School_Gradebook
 				dataGridViewStudentGradebook.Rows.Clear();
 
 				DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-				object[,] dataGrades = dBTools.executeSelectTable($"SELECT TeacherPlan.ID_Work, Tasks.Name_Task, TeacherPlan.Text_Work, Gradebook.Mark, Students.Surname_Student FROM TeacherPlan JOIN Tasks ON Tasks.ID_Task = TeacherPlan.ID_Task JOIN TeachToSubj ON TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj JOIN TeachToClass ON TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass JOIN Students ON Students.ID_Class = TeachToClass.ID_Class JOIN Users ON Users.ID_User = Students.ID_User LEFT JOIN Gradebook ON Gradebook.ID_Work = TeacherPlan.ID_Work and Gradebook.ID_Student = Students.ID_Student WHERE TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue.ToString()} AND Users.ID_User = {FormAuthorization.ID_User.ToString()};");
+				object[,] dataGrades = dBTools.executeSelectTable($"SELECT TeacherPlan.ID_Work, Tasks.Name_Task, TeacherPlan.Text_Work, TeacherPlan.Date_WorkSubmission, Gradebook.Mark, Students.Surname_Student FROM TeacherPlan JOIN Tasks ON Tasks.ID_Task = TeacherPlan.ID_Task JOIN TeachToSubj ON TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj JOIN TeachToClass ON TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass JOIN Students ON Students.ID_Class = TeachToClass.ID_Class JOIN Users ON Users.ID_User = Students.ID_User LEFT JOIN Gradebook ON Gradebook.ID_Work = TeacherPlan.ID_Work and Gradebook.ID_Student = Students.ID_Student WHERE TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue.ToString()} AND Users.ID_User = {FormAuthorization.ID_User.ToString()};");
 
 				for (int i = 0; i < dataGrades.GetLength(0); i++)
 				{
-					dataGridViewStudentGradebook.Rows.Add(dataGrades[i, 1], dataGrades[i, 2], dataGrades[i, 3]);
+					dataGridViewStudentGradebook.Rows.Add(dataGrades[i, 1], dataGrades[i, 2], dataGrades[i, 3], dataGrades[i, 4]);
 
 					//цвета
 					if (i % 2 == 0)

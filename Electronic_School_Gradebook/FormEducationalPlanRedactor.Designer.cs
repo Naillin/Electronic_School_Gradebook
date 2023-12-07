@@ -36,6 +36,7 @@
 			this.dataGridViewTasks = new System.Windows.Forms.DataGridView();
 			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.listBoxSubjects = new System.Windows.Forms.ListBox();
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.buttonDelete = new System.Windows.Forms.Button();
@@ -61,6 +62,7 @@
 			this.dataGridViewTasks.AllowUserToDeleteRows = false;
 			this.dataGridViewTasks.AllowUserToResizeRows = false;
 			this.dataGridViewTasks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewTasks.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
 			this.dataGridViewTasks.BackgroundColor = System.Drawing.Color.White;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -73,7 +75,8 @@
 			this.dataGridViewTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewTasks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column2});
+            this.Column2,
+            this.Column3});
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle2.Font = new System.Drawing.Font("Franklin Gothic Medium", 11.25F, System.Drawing.FontStyle.Italic);
@@ -92,7 +95,7 @@
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.dataGridViewTasks.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-			this.dataGridViewTasks.Size = new System.Drawing.Size(557, 340);
+			this.dataGridViewTasks.Size = new System.Drawing.Size(767, 340);
 			this.dataGridViewTasks.TabIndex = 5;
 			this.dataGridViewTasks.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTasks_CellBeginEdit);
 			this.dataGridViewTasks.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTasks_CellEndEdit);
@@ -100,16 +103,21 @@
 			// 
 			// Column1
 			// 
-			this.Column1.HeaderText = "Задача";
+			this.Column1.HeaderText = "Task";
 			this.Column1.Name = "Column1";
 			this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// Column2
 			// 
-			this.Column2.HeaderText = "Дата создания";
+			this.Column2.HeaderText = "Date fixation";
 			this.Column2.Name = "Column2";
 			this.Column2.ReadOnly = true;
 			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// Column3
+			// 
+			this.Column3.HeaderText = "Date submission";
+			this.Column3.Name = "Column3";
 			// 
 			// listBoxSubjects
 			// 
@@ -145,7 +153,7 @@
 			this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.buttonDelete.Font = new System.Drawing.Font("Arcon", 15.75F, System.Drawing.FontStyle.Italic);
 			this.buttonDelete.ForeColor = System.Drawing.Color.Transparent;
-			this.buttonDelete.Location = new System.Drawing.Point(654, 393);
+			this.buttonDelete.Location = new System.Drawing.Point(864, 393);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(225, 37);
 			this.buttonDelete.TabIndex = 9;
@@ -171,7 +179,7 @@
 			this.BackColor = System.Drawing.Color.White;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(891, 450);
+			this.ClientSize = new System.Drawing.Size(1101, 450);
 			this.Controls.Add(this.labelSelectedWork);
 			this.Controls.Add(this.buttonDelete);
 			this.Controls.Add(this.buttonAdd);
@@ -193,10 +201,11 @@
 		private System.Windows.Forms.ListBox listBoxClasses;
 		private System.Windows.Forms.DataGridView dataGridViewTasks;
 		private System.Windows.Forms.ListBox listBoxSubjects;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.Button buttonAdd;
 		private System.Windows.Forms.Button buttonDelete;
 		private System.Windows.Forms.Label labelSelectedWork;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 	}
 }

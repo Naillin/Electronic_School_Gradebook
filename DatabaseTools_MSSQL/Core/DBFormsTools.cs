@@ -8,17 +8,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Data.SqlTypes;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Data.Common;
+using System.Globalization;
 
 namespace DatabaseTools_MSSQL
 {
 	/// <summary>
-	/// Набор инструментов для функционирования элементов Windows Forms и MS SQL.
+	/// Набор инструментов для взаимодействия платформы Windows Forms и MS SQL.
 	/// </summary>
 	public class DBFormsTools
 	{
 		static private string connectionStringReceiver { get; set; }
 		/// <summary>
-		/// Набор инструментов для функционирования элементов Windows Forms и MS SQL.
+		/// Инициализирует новый экземпляр класса DBFormsTools.
 		/// </summary>
 		/// <param name="connectionString">Строка подкулючения к целевой базе данных.</param>
 		public DBFormsTools(string connectionString)
@@ -61,7 +64,7 @@ namespace DatabaseTools_MSSQL
 				dataGridView.Rows.Clear();
 
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = string.Empty;
 				for (int i = 0; i < columnsNames.Length; i++)
 				{
@@ -111,7 +114,7 @@ namespace DatabaseTools_MSSQL
 				dataGridView.Rows.Clear();
 
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = string.Empty;
 				for (int i = 0; i < columnsNames.Length; i++)
 				{
@@ -161,7 +164,7 @@ namespace DatabaseTools_MSSQL
 				dataGridView.Rows.Clear();
 
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = columnsNames[0].LongName + ", " + string.Join(", ", fields);
 
 				string sql = $"select {columns} from {table};";
@@ -207,7 +210,7 @@ namespace DatabaseTools_MSSQL
 				dataGridView.Rows.Clear();
 
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNames = dBTools.columnsNames(table);
+				ColumnsNames[] columnsNames = dBTools.columnsNames(table);
 				string columns = columnsNames[0].LongName + ", " + string.Join(", ", fields);
 
 				string sql = $"select {columns} from {table} {conditions};";
@@ -379,7 +382,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -419,7 +422,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -461,7 +464,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -502,7 +505,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -543,7 +546,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -583,7 +586,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -625,7 +628,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -666,7 +669,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -707,7 +710,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -748,7 +751,7 @@ namespace DatabaseTools_MSSQL
 			try
 			{
 				DBTools dBTools = new DBTools(connectionStringReceiver);
-				DBTools.ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
+				ColumnsNames[] columnsNamesMassive = dBTools.columnsNames(table); // имена столбцов
 				string sql = $"select {columnsNamesMassive[0].LongName}, {column} from {table} {conditions};";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
@@ -775,6 +778,30 @@ namespace DatabaseTools_MSSQL
 			return ds;
 		}
 
-		//метод для формирования диаграммы относительно данных из бд
+		/// <summary>
+		/// Заполняет Series всеми данными указанной таблицы.
+		/// </summary>
+		/// <param name="name">Имя ряда.</param>
+		/// <param name="table">Наименование таблицы хранящеся в базе данных.</param>
+		/// <param name="column_X">Столбец таблицы, данные которого будут размещенны по оси X.</param>
+		/// <param name="column_Y">Столбец таблицы, данные которого будут размещенны по оси Y.</param>
+		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
+		/// <returns></returns>
+		public Series FillSeries(string name, string table, string column_X, string column_Y, string conditions)
+		{
+			Series series = new Series(name);
+
+			DBTools dBTools = new DBTools(connectionStringReceiver);
+			string sql = $"select {column_X}, {column_Y} from {table} {conditions};";
+			object[,] data = dBTools.executeSelectTable(sql);
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				//DateTime DateItem = DateTime.ParseExact(data[i, 0].ToString(), "dd.MM.yyyy", CultureInfo.InvariantCulture);
+				series.Points.AddXY(data[i, 0], (double)data[i, 1]);
+			}
+
+			return series;
+		}
 	}
 }

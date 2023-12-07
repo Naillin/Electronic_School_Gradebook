@@ -44,11 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColumnNames.cs" />
     <Compile Include="ConsoleHandler.cs" />
-    <Compile Include="DBBase.cs" />
-    <Compile Include="DBFormsTools.cs" />
-    <Compile Include="DBTools.cs" />
-    <Compile Include="IDBBase.cs" />
+    <Compile Include="Core\DBBase.cs" />
+    <Compile Include="Core\DBFormsTools.cs" />
+    <Compile Include="Core\DBTools.cs" />
+    <Compile Include="Core\IDBBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

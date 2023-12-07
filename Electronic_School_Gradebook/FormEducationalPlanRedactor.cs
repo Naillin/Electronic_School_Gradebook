@@ -84,7 +84,7 @@ namespace Electronic_School_Gradebook
 			dataGridViewTasks.Rows.Clear();
 			if (flagDeleteComboBoxColumn)
 			{
-				dataGridViewTasks.Columns.RemoveAt(2);
+				dataGridViewTasks.Columns.RemoveAt(3);
 			}
 			else
 			{
@@ -97,10 +97,10 @@ namespace Electronic_School_Gradebook
 
 			//сделать заполение из массива object и реализовать комбобоксовое изменение
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.Date_WorkSubmission, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 			for (int i = 0; i < dataTasks.GetLength(0); i++)
 			{
-				dataGridViewTasks.Rows.Add(dataTasks[i, 1].ToString(), dataTasks[i, 2].ToString());
+				dataGridViewTasks.Rows.Add(dataTasks[i, 1].ToString(), dataTasks[i, 2].ToString(), dataTasks[i, 3].ToString());
 
 				//цвета
 				if (i % 2 == 0)
@@ -116,10 +116,10 @@ namespace Electronic_School_Gradebook
 			DataGridViewComboBoxColumn comboBox = new DataGridViewComboBoxColumn();
 			dBFormsTools.FillComboBox(ref comboBox, "Tasks", "Name_Task");
 			dataGridViewTasks.Columns.Add(comboBox);
-			dataGridViewTasks.Columns[2].HeaderText = "Тип задачи";
+			dataGridViewTasks.Columns[3].HeaderText = "Type";
 			for (int i = 0; i < dataTasks.GetLength(0); i++)
 			{
-				dataGridViewTasks.Rows[i].Cells[2].Value = (int)dataTasks[i, 5];
+				dataGridViewTasks.Rows[i].Cells[3].Value = (int)dataTasks[i, 6];
 			}
 
 			//настройка
@@ -145,10 +145,13 @@ namespace Electronic_School_Gradebook
 		}
 
 		//запоминание координат ячейки
+		string oldRecord = string.Empty;
 		int selectRow = 0;
 		int selectColumn = 0;
 		private void dataGridViewTasks_Click(object sender, EventArgs e)
 		{
+			oldRecord = dataGridViewTasks.SelectedCells[0].Value.ToString();
+
 			selectRow = dataGridViewTasks.SelectedCells[0].RowIndex;
 			selectColumn = dataGridViewTasks.SelectedCells[0].ColumnIndex;
 
@@ -156,6 +159,8 @@ namespace Electronic_School_Gradebook
 		}
 		private void dataGridViewTasks_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
 		{
+			oldRecord = dataGridViewTasks.SelectedCells[0].Value.ToString();
+
 			selectRow = dataGridViewTasks.SelectedCells[0].RowIndex;
 			selectColumn = dataGridViewTasks.SelectedCells[0].ColumnIndex;
 
@@ -166,19 +171,28 @@ namespace Electronic_School_Gradebook
 		private void dataGridViewTasks_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
 			DateTime today = DateTime.Today;
-			string dateFormatBD = today.ToString("yyyy-MM-dd HH:mm:ss");
-			string dateFormatDGV = today.ToString("dd/MM/yyyy H:mm:ss");
-			dataGridViewTasks.Rows[selectRow].Cells[1].Value = dateFormatDGV;
+			string dateFormatBDFixation = today.ToString("yyyy-MM-dd HH:mm:ss");
+			string dateFormatDGVFixation = today.ToString("dd/MM/yyyy H:mm:ss");
+			dataGridViewTasks.Rows[selectRow].Cells[1].Value = dateFormatBDFixation;
 
 			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.Date_WorkSubmission, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 
 			object ID_TeachToClass = dBTools.executeAnySqlScalar($"select TeachToClass.ID_TeachToClass from TeachToClass join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue};");
 			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 
 			string nameWork = (dataGridViewTasks.Rows[selectRow].Cells[0].Value == null ? "New Work" : dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString());
-			string[] values = { "'" + nameWork + "'", "'" + dateFormatBD + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[selectRow].Cells[2].Value.ToString() };
-			dBTools.executeUpdate("TeacherPlan", values, $"where ID_Work = {dataTasks[selectRow, 0].ToString()}");
+			string[] values = { "'" + nameWork + "'", "'" + dateFormatDGVFixation + "'", "'" + dataGridViewTasks.Rows[selectRow].Cells[2].Value.ToString() + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[selectRow].Cells[3].Value.ToString() };
+
+			try
+			{
+				dBTools.executeUpdate("TeacherPlan", values, $"where ID_Work = {dataTasks[selectRow, 0].ToString()}");
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Warning!");
+				dataGridViewTasks.SelectedCells[0].Value = oldRecord;
+			}
 
 			labelSelectedWork.Text = "Selected work: " + dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString();
 		}
@@ -187,9 +201,10 @@ namespace Electronic_School_Gradebook
 		private void buttonAdd_Click(object sender, EventArgs e)
 		{
 			DateTime today = DateTime.Today;
-			string dateFormatBD = today.ToString("yyyy-MM-dd HH:mm:ss");
-			string dateFormatDGV = today.ToString("dd/MM/yyyy H:mm:ss");
-			dataGridViewTasks.Rows.Add("New Work" + dataGridViewTasks.RowCount.ToString(), dateFormatDGV, 1);//сделать триггер на автоматическую установку сегодняшенего времени
+			string dateFormatBDFixation = today.ToString("yyyy-MM-dd HH:mm:ss");
+			string dateFormatDGVFixation = today.ToString("dd/MM/yyyy H:mm:ss");
+			string dateFormatDGVSubmission = today.AddDays(7).ToString("dd/MM/yyyy H:mm:ss");
+			dataGridViewTasks.Rows.Add("New Work" + dataGridViewTasks.RowCount.ToString(), dateFormatDGVFixation, dateFormatDGVSubmission, 1);//сделать триггер на автоматическую установку сегодняшенего времени
 			int lastRow = dataGridViewTasks.RowCount - 1;
 			dataGridViewTasks.Rows[lastRow].DefaultCellStyle.BackColor = Color.Orange;
 
@@ -197,7 +212,7 @@ namespace Electronic_School_Gradebook
 			object ID_TeachToClass = dBTools.executeAnySqlScalar($"select TeachToClass.ID_TeachToClass from TeachToClass join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue};");
 			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 			
-			string[] values = { "'" + dataGridViewTasks.Rows[lastRow].Cells[0].Value.ToString() + "'", "'" + dateFormatBD + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[lastRow].Cells[2].Value.ToString() };
+			string[] values = { "'" + dataGridViewTasks.Rows[lastRow].Cells[0].Value.ToString() + "'", "'" + dateFormatBDFixation + "'", "'" + dateFormatDGVSubmission + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[lastRow].Cells[3].Value.ToString() };
 			dBTools.executeInsert("TeacherPlan", values);
 
 			//настройка
