@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\DataGridViewBuilder.cs" />
+    <Compile Include="Admin\NodeConnect.cs" />
     <Compile Include="Res\CustomTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

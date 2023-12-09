@@ -16,6 +16,7 @@ using System.IO;
 //Media
 using System.Media;
 using System.Diagnostics;
+using Electronic_School_Gradebook.Admin;
 
 namespace Electronic_School_Gradebook
 {
@@ -46,32 +47,7 @@ namespace Electronic_School_Gradebook
 			///-----------------------------------------ГАЗИЗОВА САБИНА|КОНЕЦ-----------------------------------------
 		}
 
-
 		///-----------------------------------------ГАЗИЗОВА САБИНА|НАЧАЛО-----------------------------------------
-		//структура для хранения связи узлов с элементами бд
-		struct NodeConnect //вынести в отдельный файл-класс
-		{
-			public enum Types
-			{
-				NONE = 0,
-				TEACHER = 1,
-				STUDENT = 2,
-				CLASS = 3,
-				SUBJECT = 4,
-				PARENT = 5
-			}
-
-			public TreeNode node;
-			public int id;
-			public Types type;
-
-			public NodeConnect(TreeNode node = null, int id = -1, Types type = Types.NONE)
-			{
-				this.node = node;
-				this.id = id;
-				this.type = type;
-			}
-		}
 		public struct InfRowConnect
 		{
 			public int id;
@@ -80,7 +56,7 @@ namespace Electronic_School_Gradebook
 
 		InfRowConnect[] rowConnectDgvInf;
 
-		NodeConnect[] nodeConnects; 
+		NodeConnect[] nodeConnects;
 		private void FormAdminPanel_Load(object sender, EventArgs e)
 		{
 			treeViewMainCommunications.Nodes.Clear();
@@ -110,7 +86,7 @@ namespace Electronic_School_Gradebook
 						object[,] dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Name_Parent, A.Surname_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {dataStudents[j,0]}");
 						TreeNode[] treeParent = new TreeNode[dataParent.GetLength(0)];
 
-						for (int k = 0, z=countClasses+countStudents+koeffPar; k < dataParent.GetLength(0);z++, k++)
+						for (int k = 0, z=countClasses+countStudents+koeffPar; k < dataParent.GetLength(0); z++, k++)
 						{
 							treeParent[k] = new TreeNode((dataParent[k, 2] + " " + dataParent[k, 1]).ToString()); treeParent[k].ImageIndex = 3;
 							nodeConnects[z].node = treeParent[k];
@@ -132,8 +108,6 @@ namespace Electronic_School_Gradebook
 					nodeConnects[i].type = NodeConnect.Types.CLASS;
 					treeViewMainCommunications.Nodes.Add(treeClasses[i]);
 				}
-
-
 			}
 			else
 			{
@@ -146,28 +120,28 @@ namespace Electronic_School_Gradebook
 				int koeffTeach = 0;
 				//int koeffSubj = 0;
 
-				nodeConnects = new NodeConnect[countClasses + countTeachers+ countSubj + countClassss + countSubjjjj];
+				nodeConnects = new NodeConnect[countClasses + countTeachers + countSubj + countClassss + countSubjjjj];
 				for (int i = 0;  i < treeClasses.Length;i++)
 				{
 					object[,] dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher, A.Name_Teacher, A.Surname_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {data[i, 0]}");
 
 					TreeNode[] treeTeach = new TreeNode[dataTeachers.GetLength(0)];
 
-                    for (int j = 0, l = countClasses + koeffTeach; j < dataTeachers.GetLength(0); l++, j++)
-                    {
-                        //                   object[,] dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject WHERE B.ID_Teacher = {dataTeachers[j, 0]}");
-                        //                   TreeNode[] treeSubj = new TreeNode[dataSubj.GetLength(0)];
-                        //                   for (int k = 0, z = countClasses + countTeachers + koeffSubj; k < dataSubj.GetLength(0); z++, k++)
-                        //                   {
-                        //                       treeSubj[k] = new TreeNode((dataSubj[k, 1]).ToString());
-                        //                       nodeConnects[z].node = treeSubj[k];
-                        //                       nodeConnects[z].id = (int)dataSubj[k, 0];
-                        //                       nodeConnects[z].type = NodeConnect.Types.SUBJECT;
-                        //                       koeffSubj++;
-                        //                   }
+					for (int j = 0, l = countClasses + koeffTeach; j < dataTeachers.GetLength(0); l++, j++)
+					{
+						//                   object[,] dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject WHERE B.ID_Teacher = {dataTeachers[j, 0]}");
+						//                   TreeNode[] treeSubj = new TreeNode[dataSubj.GetLength(0)];
+						//                   for (int k = 0, z = countClasses + countTeachers + koeffSubj; k < dataSubj.GetLength(0); z++, k++)
+						//                   {
+						//                       treeSubj[k] = new TreeNode((dataSubj[k, 1]).ToString());
+						//                       nodeConnects[z].node = treeSubj[k];
+						//                       nodeConnects[z].id = (int)dataSubj[k, 0];
+						//                       nodeConnects[z].type = NodeConnect.Types.SUBJECT;
+						//                       koeffSubj++;
+						//                   }
 
-                        //treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString(), treeSubj);
-                        treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString()); treeTeach[j].ImageIndex = 0;
+						//treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString(), treeSubj);
+						treeTeach[j] = new TreeNode((dataTeachers[j, 2] + " " + dataTeachers[j, 1]).ToString()); treeTeach[j].ImageIndex = 0;
 						nodeConnects[l].node = treeTeach[j];
 						nodeConnects[l].id = (int)dataTeachers[j, 0];
 						nodeConnects[l].type = NodeConnect.Types.TEACHER;
@@ -208,7 +182,6 @@ namespace Electronic_School_Gradebook
 			FormAdminPanel_Load(sender, e);
 		}
 
-
 		NodeConnect.Types tableType = NodeConnect.Types.NONE;
 		private void dataGridViewInformationFill()
 		{
@@ -221,71 +194,69 @@ namespace Electronic_School_Gradebook
 				{
 					BDid = nodeConnects[i].id;
 					tableType = nodeConnects[i].type;
-
 				}
 			}
-
 
 			rowConnectDgvInf = null;
 			dataGridViewInformation.Rows.Clear();
 			dataGridViewInformation.Columns.Clear();
-			DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
-			dataGridViewCheckBoxColumn.HeaderText = "On";
-			dataGridViewCheckBoxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
-			dataGridViewCheckBoxColumn.Width = 70;
-			dataGridViewInformation.Columns.Add(dataGridViewCheckBoxColumn);
+			//DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+			//dataGridViewCheckBoxColumn.HeaderText = "On";
+			//dataGridViewCheckBoxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+			//dataGridViewCheckBoxColumn.Width = 70;
+			dataGridViewInformation.Columns.Add(ColumnCreator.CreateColumn(width: 70));
 			
 			//switch case (по типу таблицы)
 			switch (tableType)
 			{
 				case NodeConnect.Types.CLASS:
+					
+					DataGridViewBuilder dataGridViewBuilder = new DataGridViewBuilder(ref dataGridViewInformation, new string[] { "Surname", "Name", "Third Name", "Number", "Address", "Email" });
+					dataGridViewBuilder.FillingOfColumns();
+
+					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudSurname = new DataGridViewTextBoxColumn();
+					//dataGridViewTextBoxColumnStudSurname.HeaderText = "Surname";
+					//dataGridViewTextBoxColumnStudSurname.SortMode = DataGridViewColumnSortMode.NotSortable;
+					//dataGridViewTextBoxColumnStudSurname.ReadOnly = true;
+
+					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudName = new DataGridViewTextBoxColumn();
+					//dataGridViewTextBoxColumnStudName.HeaderText = "Name";
+					//dataGridViewTextBoxColumnStudName.SortMode = DataGridViewColumnSortMode.NotSortable;
+					//dataGridViewTextBoxColumnStudName.ReadOnly = true;
+
+					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudThirdName = new DataGridViewTextBoxColumn();
+					//dataGridViewTextBoxColumnStudThirdName.HeaderText = "Third Name";
+					//dataGridViewTextBoxColumnStudThirdName.SortMode = DataGridViewColumnSortMode.NotSortable;
+					//dataGridViewTextBoxColumnStudThirdName.ReadOnly = true;
+
+					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudNumber = new DataGridViewTextBoxColumn();
+					//dataGridViewTextBoxColumnStudNumber.HeaderText = "Number";
+					//dataGridViewTextBoxColumnStudNumber.SortMode = DataGridViewColumnSortMode.NotSortable;
+					//dataGridViewTextBoxColumnStudNumber.ReadOnly = true;
+
+					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudAddress = new DataGridViewTextBoxColumn();
+					//dataGridViewTextBoxColumnStudAddress.HeaderText = "Address";
+					//dataGridViewTextBoxColumnStudAddress.SortMode = DataGridViewColumnSortMode.NotSortable;
+					//dataGridViewTextBoxColumnStudAddress.ReadOnly = true;
+
+					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudEmail = new DataGridViewTextBoxColumn();
+					//dataGridViewTextBoxColumnStudEmail.HeaderText = "Email";
+					//dataGridViewTextBoxColumnStudEmail.SortMode = DataGridViewColumnSortMode.NotSortable;
+					//dataGridViewTextBoxColumnStudEmail.ReadOnly = true;
+
+					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudSurname);
+					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudName);
+					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudThirdName);
+					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudNumber);
+					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudAddress);
+					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudEmail);
+
+					//dataGridViewCheckBoxColumn.Width = 50;
 
 					if (radioButtonStudents.Checked)
 					{
-
 						object[,] dataStudents = null;
 						object[,] dataStudentsAll = null;
-
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudSurname = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnStudSurname.HeaderText = "Surname";
-						dataGridViewTextBoxColumnStudSurname.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnStudSurname.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudName = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnStudName.HeaderText = "Name";
-						dataGridViewTextBoxColumnStudName.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnStudName.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudThirdName = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnStudThirdName.HeaderText = "Third Name";
-						dataGridViewTextBoxColumnStudThirdName.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnStudThirdName.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudNumber = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnStudNumber.HeaderText = "Number";
-						dataGridViewTextBoxColumnStudNumber.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnStudNumber.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudAddress = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnStudAddress.HeaderText = "Address";
-						dataGridViewTextBoxColumnStudAddress.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnStudAddress.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudEmail = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnStudEmail.HeaderText = "Email";
-						dataGridViewTextBoxColumnStudEmail.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnStudEmail.ReadOnly = true;
-
-
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudSurname);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudName);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudThirdName);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudNumber);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudAddress);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudEmail);
-
-						dataGridViewCheckBoxColumn.Width = 50;
 
 						if (textBoxSearch.Text == "")
 						{
@@ -297,6 +268,7 @@ namespace Electronic_School_Gradebook
 							dataStudents = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class = {BDid} and Surname_Student like '{textBoxSearch.Text}%'");
 							dataStudentsAll = dBTools.executeSelectTable($"select ID_Student,Surname_Student, Name_Student,  Thirdname_Student, Number_Student, Address_Student, Email_Student from Students where ID_Class is null and Surname_Student like '{textBoxSearch.Text}%'");
 						}
+
 						rowConnectDgvInf = new InfRowConnect[dataStudents.GetLength(0) + dataStudentsAll.GetLength(0)];
 						if (checkBoxOnlyRelated.Checked)
 						{
@@ -329,50 +301,13 @@ namespace Electronic_School_Gradebook
 						object[,] dataTeachers = null;
 						object[,] dataTeachersAll = null;
 
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachSurname = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnTeachSurname.HeaderText = "Surname";
-						dataGridViewTextBoxColumnTeachSurname.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnTeachSurname.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachName = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnTeachName.HeaderText = "Name";
-						dataGridViewTextBoxColumnTeachName.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnTeachName.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachThirdName = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnTeachThirdName.HeaderText = "Third Name";
-						dataGridViewTextBoxColumnTeachThirdName.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnTeachThirdName.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachNumber = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnTeachNumber.HeaderText = "Number";
-						dataGridViewTextBoxColumnTeachNumber.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnTeachNumber.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachAddress = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnTeachAddress.HeaderText = "Address";
-						dataGridViewTextBoxColumnTeachAddress.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnTeachAddress.ReadOnly = true;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachEmail = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnTeachEmail.HeaderText = "Email";
-						dataGridViewTextBoxColumnTeachEmail.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnTeachEmail.ReadOnly = true;
-
 						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachType = new DataGridViewTextBoxColumn();
 						dataGridViewTextBoxColumnTeachType.HeaderText = "Type";
 						dataGridViewTextBoxColumnTeachType.SortMode = DataGridViewColumnSortMode.NotSortable;
 						dataGridViewTextBoxColumnTeachType.ReadOnly = true;
-
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachSurname);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachName);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachThirdName);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachNumber);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachAddress);
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachEmail);
 						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachType);
 
-						dataGridViewCheckBoxColumn.Width = 50;
+						//dataGridViewCheckBoxColumn.Width = 50;
 
 						if (textBoxSearch.Text == "")
 						{
@@ -384,6 +319,7 @@ namespace Electronic_School_Gradebook
 							dataTeachers = dBTools.executeSelectTable($"SELECT A.ID_Teacher,A.Surname_Teacher, A.Name_Teacher,  A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher from Teachers A JOIN TeachToClass B on A.ID_Teacher = B.ID_Teacher join Classes C on B.ID_Class = C.ID_Class where C.ID_Class = {BDid} and A.Surname_Teacher like '{textBoxSearch.Text}%'");
 							dataTeachersAll = dBTools.executeSelectTable($" SELECT DISTINCT A.Surname_Teacher, A.ID_Teacher, A.Name_Teacher, A.Thirdname_Teacher, A.Number_Teacher, A.Address_Teacher, A.Email_Teacher, A.Type_Of_Teacher FROM Teachers A LEFT JOIN TeachToClass B ON A.ID_Teacher = B.ID_Teacher AND B.ID_Class = {BDid} WHERE A.Surname_Teacher LIKE '{textBoxSearch.Text}%' AND B.ID_Teacher IS NULL");
 						}
+
 						rowConnectDgvInf = new InfRowConnect[dataTeachers.GetLength(0) + dataTeachersAll.GetLength(0)];
 						if (checkBoxOnlyRelated.Checked)
 						{
@@ -437,7 +373,6 @@ namespace Electronic_School_Gradebook
 							}
 						}
 					}
-
 					break;
 
 				case NodeConnect.Types.STUDENT:
@@ -479,7 +414,7 @@ namespace Electronic_School_Gradebook
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParAddress);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParEmail);
 
-					dataGridViewCheckBoxColumn.Width = 50;
+					//dataGridViewCheckBoxColumn.Width = 50;
 
 					object[,] dataParent = null;
 					object[,] dataParentAll = null;
@@ -493,6 +428,7 @@ namespace Electronic_School_Gradebook
 						dataParent = dBTools.executeSelectTable($"SELECT A.ID_Parent,A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent  from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where C.ID_Student = {BDid} and A.Surname_Parent LIKE '{textBoxSearch.Text}%'");
 						dataParentAll = dBTools.executeSelectTable($"SELECT A.ID_Parent, A.Surname_Parent, A.Name_Parent, A.Thirdname_Parent, A.Number_Parent, A.Address_Parent, A.Email_Parent from Parents A JOIN ParentToStud B on A.ID_Parent = B.ID_ParentToStud join Students C on B.ID_Student = C.ID_Student where NOT C.ID_Student = {BDid} and A.Surname_Parent LIKE '{textBoxSearch.Text}%'");
 					}
+
 					rowConnectDgvInf = new InfRowConnect[dataParent.GetLength(0) + dataParentAll.GetLength(0)];
 					if (checkBoxOnlyRelated.Checked)
 					{
@@ -511,6 +447,7 @@ namespace Electronic_School_Gradebook
 							rowConnectDgvInf[i].id = (int)dataParent[i, 0];
 							rowConnectDgvInf[i].rowIndex_dgvInf = i;
 						}
+
 						for (int i = dataParent.GetLength(0), j=0; i < dataParent.GetLength(0) + dataParentAll.GetLength(0);j++, i++)
 						{
 							dataGridViewInformation.Rows.Add(false, dataParentAll[j, 1], dataParentAll[j, 2], dataParentAll[j, 3], dataParentAll[j, 4], dataParentAll[j, 5], dataParentAll[j, 6]);
@@ -518,7 +455,6 @@ namespace Electronic_School_Gradebook
 							rowConnectDgvInf[i].rowIndex_dgvInf = i;
 						}
 					}
-
 					break;
 
 				case NodeConnect.Types.TEACHER:
@@ -537,8 +473,6 @@ namespace Electronic_School_Gradebook
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjName);
 					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjType);
 
-					dataGridViewCheckBoxColumn.Width = 50;
-
 					object[,] dataSubj = null;
 					object[,] dataSubjAll = null;
 
@@ -549,6 +483,7 @@ namespace Electronic_School_Gradebook
 							dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject,A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {BDid} AND D.ID_Class = {data[i, 0]}");
 							if (dataSubj.GetLength(0) != 0) break;
 						}
+
 						dataSubjAll = dBTools.executeSelectTable($"  select  distinct (A.Name_Subject), A.ID_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject WHERE B.ID_Teacher != {BDid} AND B.ID_Subject NOT IN(SELECT ID_Subject from TeachToSubj D WHERE D.ID_Teacher = {BDid})");
 					}
 					else
@@ -558,8 +493,10 @@ namespace Electronic_School_Gradebook
 							dataSubj = dBTools.executeSelectTable($"select A.ID_Subject, A.Name_Subject,A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject JOIN Teachers C ON B.ID_Teacher = C.ID_Teacher JOIN TeachToClass D ON C.ID_Teacher = D.ID_Teacher join Classes E on D.ID_Class = E.ID_Class WHERE C.ID_Teacher = {BDid} AND D.ID_Class = {data[i, 0]} and A.Name_Subject like '{textBoxSearch.Text}%'");
 							if (dataSubj.GetLength(0) != 0) break;
 						}
+
 						dataSubjAll = dBTools.executeSelectTable($"  select  distinct (A.Name_Subject), A.ID_Subject, A.Type_Of_Subject from Subjects A join TeachToSubj B on A.ID_Subject = B.ID_Subject WHERE B.ID_Teacher != {BDid} and A.Name_Subject like '{textBoxSearch.Text}%' AND B.ID_Subject NOT IN(SELECT ID_Subject from TeachToSubj D WHERE D.ID_Teacher = {BDid})");
 					}
+
 					rowConnectDgvInf = new InfRowConnect[dataSubj.GetLength(0) + dataSubjAll.GetLength(0)];
 					if (checkBoxOnlyRelated.Checked)
 					{
@@ -571,6 +508,7 @@ namespace Electronic_School_Gradebook
 								rowConnectDgvInf[j].id = (int)dataSubj[j, 0];
 								rowConnectDgvInf[j].rowIndex_dgvInf = j;
 							}
+
 							else if ((bool)dataSubj[j, 2] == true)
 							{
 								dataGridViewInformation.Rows.Add(true, dataSubj[j, 1], "старшая школа");
@@ -597,6 +535,7 @@ namespace Electronic_School_Gradebook
 								rowConnectDgvInf[j].rowIndex_dgvInf = j;
 							}
 						}
+
 						for (int j = 0, z= dataSubj.GetLength(0); z < dataSubj.GetLength(0) + dataSubjAll.GetLength(0); z++, j++)
 						{
 							if ((bool)dataSubjAll[j, 2] == false)
@@ -611,11 +550,8 @@ namespace Electronic_School_Gradebook
 								rowConnectDgvInf[z].id = (int)dataSubjAll[j, 1];
 								rowConnectDgvInf[z].rowIndex_dgvInf = z;
 							}
-
 						}
-
 					}
-
 
 					break;
 				case NodeConnect.Types.SUBJECT:
@@ -635,6 +571,7 @@ namespace Electronic_School_Gradebook
 
 			}
 		}
+
 		private void treeViewMainCommunications_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			textBoxSearch.Enabled = true;
@@ -661,8 +598,8 @@ namespace Electronic_School_Gradebook
 				case NodeConnect.Types.CLASS:
 					if (radioButtonStudents.Checked)
 					{
-                        if ((bool)dataGridViewInformation.SelectedCells[0].Value)
-                        {
+						if ((bool)dataGridViewInformation.SelectedCells[0].Value)
+						{
 							for (int i = 0; i < nodeConnects.Length; i++)
 							{
 								if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
@@ -684,7 +621,7 @@ namespace Electronic_School_Gradebook
 							dBTools.executeUpdate("Students", $"ID_Class = {BDid.ToString()}", $"where ID_Student = {ID_Student.ToString()}");
 						}
 						else
-                        {
+						{
 							int ID_Student = 0;
 							for (int i = 0; i < rowConnectDgvInf.Length; i++)
 							{
@@ -726,13 +663,13 @@ namespace Electronic_School_Gradebook
 								string[] valuesTeach = { ID_Teacher.ToString(), BDid.ToString() };
 								dBTools.executeInsert("TeachToClass", valuesTeach);
 							}
-                            catch
-                            {
+							catch
+							{
 								dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value = false;
 							}
 						}
-                        else
-                        {
+						else
+						{
 							for (int i = 0; i < nodeConnects.Length; i++)
 							{
 								if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
@@ -756,7 +693,7 @@ namespace Electronic_School_Gradebook
 					break;
 
 				case NodeConnect.Types.STUDENT:
-                    if ((bool)dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value)
+					if ((bool)dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value)
 					{
 						
 						for (int i = 0; i < nodeConnects.Length; i++)
@@ -775,18 +712,18 @@ namespace Electronic_School_Gradebook
 								break;
 							}
 						}
-                        try
-                        {   //insert
-                            string[] values = { BDid.ToString(), ID_Parent.ToString() };
-                            dBTools.executeInsert("ParentToStud", values);
-                        }
-                        catch
-                        {
+						try
+						{   //insert
+							string[] values = { BDid.ToString(), ID_Parent.ToString() };
+							dBTools.executeInsert("ParentToStud", values);
+						}
+						catch
+						{
 							dataGridViewInformation.Rows[dataGridViewInformation.SelectedCells[0].RowIndex].Cells[0].Value = false;
-                        }
-                    }
-                    else
-                    {
+						}
+					}
+					else
+					{
 						for(int i = 0; i < nodeConnects.Length; i++)
 						{
 							if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
@@ -831,8 +768,8 @@ namespace Electronic_School_Gradebook
 						string[] values1 = { BDid.ToString(), ID_Subject.ToString() };
 						dBTools.executeInsert("TeachToSubj", values1);
 					}
-                    else
-                    {
+					else
+					{
 						for(int i = 0; i < nodeConnects.Length; i++)
 						{
 							if (treeViewMainCommunications.SelectedNode == nodeConnects[i].node)
@@ -882,22 +819,22 @@ namespace Electronic_School_Gradebook
 			Environment.Exit(0);
 		}
 
-        ///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
+		///-----------------------------------------ХАСИЯТУЛИН КАМИЛЬ|КОНЕЦ-----------------------------------------
 
-        ///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|НАЧАЛО----------------------------------------
+		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|НАЧАЛО----------------------------------------
 
-        int selectRow = -1;
-        int selectColumn = -1;
-        object oldWriting = null;
-        private void buttonAddRecord_Click(object sender, EventArgs e)
-        {
-            buttonAddRecordClick();
-        }
+		int selectRow = -1;
+		int selectColumn = -1;
+		object oldWriting = null;
+		private void buttonAddRecord_Click(object sender, EventArgs e)
+		{
+			buttonAddRecordClick();
+		}
 
-        private void buttonRemoveRecord_Click(object sender, EventArgs e)
-        {
-            buttonRemoveRecordClick();
-        }
+		private void buttonRemoveRecord_Click(object sender, EventArgs e)
+		{
+			buttonRemoveRecordClick();
+		}
 																			
 		private void dataGridViewClasses_Click(object sender, EventArgs e) 
 		{
@@ -908,158 +845,158 @@ namespace Electronic_School_Gradebook
 			labelSelectedRecord.Text = "Selected record: " + dataGridViewClasses.Rows[selectRow].Cells[0].Value.ToString();
 		}
 
-        private void dataGridViewStudents_Click(object sender, EventArgs e)
-        {
-            selectRow = dataGridViewStudents.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewStudents.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value;
+		private void dataGridViewStudents_Click(object sender, EventArgs e)
+		{
+			selectRow = dataGridViewStudents.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewStudents.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value;
 
-            labelSelectedRecord.Text = "Selected record: " + dataGridViewStudents.Rows[selectRow].Cells[1].Value.ToString();
-        }
+			labelSelectedRecord.Text = "Selected record: " + dataGridViewStudents.Rows[selectRow].Cells[1].Value.ToString();
+		}
 
-        private void dataGridViewParents_Click(object sender, EventArgs e)
-        {
-            selectRow = dataGridViewParents.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewParents.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewParents.Rows[selectRow].Cells[selectColumn].Value;
+		private void dataGridViewParents_Click(object sender, EventArgs e)
+		{
+			selectRow = dataGridViewParents.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewParents.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewParents.Rows[selectRow].Cells[selectColumn].Value;
 
-            labelSelectedRecord.Text = "Selected record: " + dataGridViewParents.Rows[selectRow].Cells[1].Value.ToString();
-        }
+			labelSelectedRecord.Text = "Selected record: " + dataGridViewParents.Rows[selectRow].Cells[1].Value.ToString();
+		}
 
-        private void dataGridViewTeachers_Click(object sender, EventArgs e)
-        {
-            selectRow = dataGridViewTeachers.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewTeachers.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value;
+		private void dataGridViewTeachers_Click(object sender, EventArgs e)
+		{
+			selectRow = dataGridViewTeachers.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewTeachers.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value;
 
-            labelSelectedRecord.Text = "Selected record: " + dataGridViewTeachers.Rows[selectRow].Cells[1].Value.ToString();
-        }
+			labelSelectedRecord.Text = "Selected record: " + dataGridViewTeachers.Rows[selectRow].Cells[1].Value.ToString();
+		}
 
-        private void dataGridViewSubjects_Click(object sender, EventArgs e)
-        {
-            selectRow = dataGridViewSubjects.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewSubjects.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewSubjects.Rows[selectRow].Cells[selectColumn].Value;
+		private void dataGridViewSubjects_Click(object sender, EventArgs e)
+		{
+			selectRow = dataGridViewSubjects.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewSubjects.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewSubjects.Rows[selectRow].Cells[selectColumn].Value;
 
-            labelSelectedRecord.Text = "Selected record: " + dataGridViewSubjects.Rows[selectRow].Cells[0].Value.ToString();
-        }
+			labelSelectedRecord.Text = "Selected record: " + dataGridViewSubjects.Rows[selectRow].Cells[0].Value.ToString();
+		}
 
-        private void dataGridViewClasses_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            selectRow = dataGridViewClasses.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewClasses.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewClasses.Rows[selectRow].Cells[selectColumn].Value;
-        }
+		private void dataGridViewClasses_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			selectRow = dataGridViewClasses.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewClasses.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewClasses.Rows[selectRow].Cells[selectColumn].Value;
+		}
 
-        private void dataGridViewClasses_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
+		private void dataGridViewClasses_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
 			dataGridViewClassesCellEndEdit();
-        }
+		}
 
-        private void dataGridViewStudents_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            selectRow = dataGridViewStudents.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewStudents.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value;
-        }
+		private void dataGridViewStudents_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			selectRow = dataGridViewStudents.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewStudents.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value;
+		}
 
-        private void dataGridViewStudents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            dataGridViewStudentsCellEndEdit();
-        }
+		private void dataGridViewStudents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			dataGridViewStudentsCellEndEdit();
+		}
 
-        private void dataGridViewParents_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            selectRow = dataGridViewParents.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewParents.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewParents.Rows[selectRow].Cells[selectColumn].Value;
-        }
+		private void dataGridViewParents_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			selectRow = dataGridViewParents.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewParents.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewParents.Rows[selectRow].Cells[selectColumn].Value;
+		}
 
-        private void dataGridViewParents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            dataGridViewParentsCellEndEdit();
-        }
+		private void dataGridViewParents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			dataGridViewParentsCellEndEdit();
+		}
 
-        private void dataGridViewTeachers_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            selectRow = dataGridViewTeachers.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewTeachers.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value;
-        }
+		private void dataGridViewTeachers_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			selectRow = dataGridViewTeachers.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewTeachers.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value;
+		}
 
-        private void dataGridViewTeachers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            dataGridViewTeachersCellEndEdit();
-        }
+		private void dataGridViewTeachers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			dataGridViewTeachersCellEndEdit();
+		}
 
-        private void dataGridViewSubjects_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            selectRow = dataGridViewSubjects.SelectedCells[0].RowIndex;
-            selectColumn = dataGridViewSubjects.SelectedCells[0].ColumnIndex;
-            oldWriting = dataGridViewSubjects.Rows[selectRow].Cells[selectColumn].Value;
-        }
+		private void dataGridViewSubjects_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			selectRow = dataGridViewSubjects.SelectedCells[0].RowIndex;
+			selectColumn = dataGridViewSubjects.SelectedCells[0].ColumnIndex;
+			oldWriting = dataGridViewSubjects.Rows[selectRow].Cells[selectColumn].Value;
+		}
 
-        private void dataGridViewSubjects_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            dataGridViewSubjectsCellEndEdit();
-        }
+		private void dataGridViewSubjects_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			dataGridViewSubjectsCellEndEdit();
+		}
 
-        private void tabControlAtoms_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            TabPage selectedTabPage = tabControlAtoms.SelectedTab;
+		private void tabControlAtoms_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			TabPage selectedTabPage = tabControlAtoms.SelectedTab;
 
-            if (selectedTabPage == tabPageClasses ||
-                selectedTabPage == tabPageStudents ||
-                selectedTabPage == tabPageParents ||
-                selectedTabPage == tabPageTeachers ||
-                selectedTabPage == tabPageSubjects)
-            {
-                StartFillDataGridViews(selectedTabPage);
-            }
-        }
+			if (selectedTabPage == tabPageClasses ||
+				selectedTabPage == tabPageStudents ||
+				selectedTabPage == tabPageParents ||
+				selectedTabPage == tabPageTeachers ||
+				selectedTabPage == tabPageSubjects)
+			{
+				StartFillDataGridViews(selectedTabPage);
+			}
+		}
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            TabPage selectedTabConrolPage = tabControl1.SelectedTab;
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			TabPage selectedTabConrolPage = tabControl1.SelectedTab;
 
-            if (selectedTabConrolPage == tabPageAtoms)
-            {
-                StartFillDataGridViews(selectedTabConrolPage);
-            }
-        }
+			if (selectedTabConrolPage == tabPageAtoms)
+			{
+				StartFillDataGridViews(selectedTabConrolPage);
+			}
+		}
 
-        private void tabControlAtoms_Selecting(object sender, TabControlCancelEventArgs e)
-        {
+		private void tabControlAtoms_Selecting(object sender, TabControlCancelEventArgs e)
+		{
 			TabPage selectingTabPage = tabControlAtoms.SelectedTab;
 
-            tabControlAtomsSelecting(selectingTabPage);
-        }
+			tabControlAtomsSelecting(selectingTabPage);
+		}
 
-        private void textBoxSearchClass_TextChanged(object sender, EventArgs e)
-        {
+		private void textBoxSearchClass_TextChanged(object sender, EventArgs e)
+		{
 			SearchDataClass(textBoxSearchClass.Text);
-        }
+		}
 
-        private void textBoxSearchStudent_TextChanged(object sender, EventArgs e)
-        {
-            SearchDataStudent(textBoxSearchStudent.Text);
-        }
+		private void textBoxSearchStudent_TextChanged(object sender, EventArgs e)
+		{
+			SearchDataStudent(textBoxSearchStudent.Text);
+		}
 
-        private void textBoxSearchParent_TextChanged(object sender, EventArgs e)
-        {
-            SearchDataParent(textBoxSearchParent.Text);
-        }
+		private void textBoxSearchParent_TextChanged(object sender, EventArgs e)
+		{
+			SearchDataParent(textBoxSearchParent.Text);
+		}
 
-        private void textBoxSearchTeacher_TextChanged(object sender, EventArgs e)
-        {
-            SearchDataTeacher(textBoxSearchTeacher.Text);
-        }
+		private void textBoxSearchTeacher_TextChanged(object sender, EventArgs e)
+		{
+			SearchDataTeacher(textBoxSearchTeacher.Text);
+		}
 
-        private void textBoxSearchSubject_TextChanged(object sender, EventArgs e)
-        {
-            SearchDataSubject(textBoxSearchSubject.Text);
-        }
+		private void textBoxSearchSubject_TextChanged(object sender, EventArgs e)
+		{
+			SearchDataSubject(textBoxSearchSubject.Text);
+		}
 
-        ///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
-    }
+		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------
+	}
 }
