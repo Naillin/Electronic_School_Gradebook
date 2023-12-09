@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Electronic_School_Gradebook.Res.ExcelTools.ExcelBase">
+    <Position X="3.5" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAgAAAABAAAQCAAAAAAAAAAAECAEAAAIAAAAACQAEAA=</HashCode>
+      <FileName>Res\ExcelTools\ExcelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Electronic_School_Gradebook.ExcelTools">
+    <Position X="6.25" Y="3.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAIAAAAgAAAAAAAAAAAAAABAEAAAAgEBAAAAA=</HashCode>
+      <FileName>Res\ExcelTools\ExcelTools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Electronic_School_Gradebook.Res.ExcelTools.IExcelBase">
+    <Position X="3.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAQAAAAAAAAAAAAEAAEAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Res\ExcelTools\IExcelBase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

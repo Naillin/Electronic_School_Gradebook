@@ -17,12 +17,11 @@ namespace DatabaseTools_MSSQL
 	/// </summary>
 	public class DBTools : DBBase
 	{
-		static private string connectionStringReceiver { get; set; }
 		/// <summary>
 		/// Инициализирует новый экземпляр класса DBTools.
 		/// </summary>
 		/// <param name="connectionString">Строка подключения к целевой базе данных.</param>
-		public DBTools(string connectionString) : base(connectionString) //передача 
+		public DBTools(string connectionString) : base(connectionString) //передача в старший класс
 		{
 			connectionStringReceiver = connectionString;
 		}

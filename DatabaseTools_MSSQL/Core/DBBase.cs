@@ -14,7 +14,7 @@ namespace DatabaseTools_MSSQL
 	/// </summary>
 	abstract public class DBBase : IDBBase
 	{
-		static private string connectionStringReceiver { get; set; }
+		protected string connectionStringReceiver { get; set; }
 		/// <summary>
 		/// Инициализирует новый экземпляр класса DBBase.
 		/// </summary>

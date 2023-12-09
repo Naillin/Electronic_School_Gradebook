@@ -10,7 +10,7 @@ namespace DatabaseTools_MSSQL
 	/// <summary>
 	/// Интерфейс базового набора инструментов для работы с базой данных MS SQL.
 	/// </summary>
-	public interface IDBBase
+	internal interface IDBBase
 	{
 		/// <summary>
 		/// Выполнение SQL-функции COUNT(*) без условий и возвратом количества строк.

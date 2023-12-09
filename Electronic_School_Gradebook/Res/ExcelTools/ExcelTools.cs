@@ -5,76 +5,19 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-//using ExcelLib = Microsoft.Office.Interop.Excel;
+using Electronic_School_Gradebook.Res.ExcelTools;
 
 namespace Electronic_School_Gradebook
 {
-	internal class ExcelTools
+	internal class ExcelTools : ExcelBase
 	{
-		public const string UID = "Excel.Application";
-		object oExcel = null;
-		object WorkBooks, WorkBook, WorkSheets, WorkSheet, Range, Interior;
-
 		//КОНСТРУКТОР КЛАССА
-		public ExcelTools()
+		public ExcelTools() : base()
 		{
 			oExcel = Activator.CreateInstance(Type.GetTypeFromProgID(UID));
 		}
 
-		//ВИДИМОСТЬ EXCEL - СВОЙСТВО КЛАССА
-		public bool Visible
-		{
-			set
-			{
-				if (false == value)
-					oExcel.GetType().InvokeMember("Visible", BindingFlags.SetProperty,
-						null, oExcel, new object[] { false });
-
-				else
-					oExcel.GetType().InvokeMember("Visible", BindingFlags.SetProperty,
-						null, oExcel, new object[] { true });
-			}
-		}
-
-
-		//ОТКРЫТЬ ДОКУМЕНТ
-		public void OpenDocument(string name)
-		{
-			WorkBooks = oExcel.GetType().InvokeMember("Workbooks", BindingFlags.GetProperty, null, oExcel, null);
-			WorkBook = WorkBooks.GetType().InvokeMember("Open", BindingFlags.InvokeMethod, null, WorkBooks, new object[] { name, true });
-			WorkSheets = WorkBook.GetType().InvokeMember("Worksheets", BindingFlags.GetProperty, null, WorkBook, null);
-			WorkSheet = WorkSheets.GetType().InvokeMember("Item", BindingFlags.GetProperty, null, WorkSheets, new object[] { 1 });
-			// Range = WorkSheet.GetType().InvokeMember("Range",BindingFlags.GetProperty,null,WorkSheet,new object[1] { "A1" });
-		}
-
-		// НОВЫЙ ДОКУМЕНТ
-		public void NewDocument()
-		{
-			WorkBooks = oExcel.GetType().InvokeMember("Workbooks", BindingFlags.GetProperty, null, oExcel, null);
-			WorkBook = WorkBooks.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, WorkBooks, null);
-			WorkSheets = WorkBook.GetType().InvokeMember("Worksheets", BindingFlags.GetProperty, null, WorkBook, null);
-			WorkSheet = WorkSheets.GetType().InvokeMember("Item", BindingFlags.GetProperty, null, WorkSheets, new object[] { 1 });
-			Range = WorkSheet.GetType().InvokeMember("Range", BindingFlags.GetProperty, null, WorkSheet, new object[1] { "A1" });
-		}
-
-		//ЗАКРЫТЬ ДОКУМЕНТ
-		public void CloseDocument()
-		{
-			WorkBook.GetType().InvokeMember("Close", BindingFlags.InvokeMethod, null, WorkBook, new object[] { true });
-		}
-
-		//СОХРАНИТЬ ДОКУМЕНТ
-		public void SaveDocument(string name)
-		{
-			if (File.Exists(name))
-				WorkBook.GetType().InvokeMember("Save", BindingFlags.InvokeMethod, null,
-					WorkBook, null);
-			else
-				WorkBook.GetType().InvokeMember("SaveAs", BindingFlags.InvokeMethod, null,
-					WorkBook, new object[] { name });
-		}
-
-		// ЗАПИСАТЬ ЗНАЧЕНИЕ В ЯЧЕЙКУ
+		//ЗАПИСАТЬ ЗНАЧЕНИЕ В ЯЧЕЙКУ
 		public void SetValue(string range, string value)
 		{
 			Range = WorkSheet.GetType().InvokeMember("Range", BindingFlags.GetProperty,
@@ -83,7 +26,7 @@ namespace Electronic_School_Gradebook
 		}
 
 		//ОБЪЕДЕНИТЬ ЯЧЕЙКИ 
-		// Alignment - ВЫРАВНИВАНИЕ В ОБЪЕДИНЕННЫХ ЯЧЕЙКАХ
+		//Alignment - ВЫРАВНИВАНИЕ В ОБЪЕДИНЕННЫХ ЯЧЕЙКАХ
 		public void SetMerge(string range, int Alignment)
 		{
 			Range = WorkSheet.GetType().InvokeMember("Range", BindingFlags.GetProperty,

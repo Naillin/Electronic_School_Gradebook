@@ -19,7 +19,7 @@ namespace DatabaseTools_MSSQL
 	/// </summary>
 	public class DBFormsTools
 	{
-		static private string connectionStringReceiver { get; set; }
+		protected string connectionStringReceiver { get; set; }
 		/// <summary>
 		/// Инициализирует новый экземпляр класса DBFormsTools.
 		/// </summary>

@@ -46,20 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomTextBox.cs">
+    <Compile Include="Res\CustomTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomTextBox.Designer.cs">
+    <Compile Include="Res\CustomTextBox.Designer.cs">
       <DependentUpon>CustomTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExcelTools.cs" />
-    <Compile Include="FormAdminPanel.cs">
+    <Compile Include="Res\ExcelTools\ExcelBase.cs" />
+    <Compile Include="Res\ExcelTools\ExcelTools.cs" />
+    <Compile Include="Admin\FormAdminPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAdminPanel.Designer.cs">
+    <Compile Include="Admin\FormAdminPanel.Designer.cs">
       <DependentUpon>FormAdminPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormAdminPanel.Sergey.cs">
+    <Compile Include="Admin\FormAdminPanel.Sergey.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormAuthorization.cs">
@@ -68,28 +69,29 @@
     <Compile Include="FormAuthorization.Designer.cs">
       <DependentUpon>FormAuthorization.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormChoice.cs">
+    <Compile Include="Res\ExcelTools\IExcelBase.cs" />
+    <Compile Include="Teacher\FormChoice.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormChoice.Designer.cs">
+    <Compile Include="Teacher\FormChoice.Designer.cs">
       <DependentUpon>FormChoice.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormDistinctiveStudents.cs">
+    <Compile Include="Teacher\FormDistinctiveStudents.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDistinctiveStudents.Designer.cs">
+    <Compile Include="Teacher\FormDistinctiveStudents.Designer.cs">
       <DependentUpon>FormDistinctiveStudents.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEducationalPlanRedactor.cs">
+    <Compile Include="Teacher\FormEducationalPlanRedactor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEducationalPlanRedactor.Designer.cs">
+    <Compile Include="Teacher\FormEducationalPlanRedactor.Designer.cs">
       <DependentUpon>FormEducationalPlanRedactor.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormGradebook.cs">
+    <Compile Include="Teacher\FormGradebook.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormGradebook.Designer.cs">
+    <Compile Include="Teacher\FormGradebook.Designer.cs">
       <DependentUpon>FormGradebook.cs</DependentUpon>
     </Compile>
     <Compile Include="FormOptions.cs">
@@ -98,36 +100,36 @@
     <Compile Include="FormOptions.Designer.cs">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormStudent.cs">
+    <Compile Include="Student\FormStudent.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormStudent.Designer.cs">
+    <Compile Include="Student\FormStudent.Designer.cs">
       <DependentUpon>FormStudent.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormAdminPanel.resx">
+    <EmbeddedResource Include="Admin\FormAdminPanel.resx">
       <DependentUpon>FormAdminPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAuthorization.resx">
       <DependentUpon>FormAuthorization.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormChoice.resx">
+    <EmbeddedResource Include="Teacher\FormChoice.resx">
       <DependentUpon>FormChoice.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDistinctiveStudents.resx">
+    <EmbeddedResource Include="Teacher\FormDistinctiveStudents.resx">
       <DependentUpon>FormDistinctiveStudents.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEducationalPlanRedactor.resx">
+    <EmbeddedResource Include="Teacher\FormEducationalPlanRedactor.resx">
       <DependentUpon>FormEducationalPlanRedactor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormGradebook.resx">
+    <EmbeddedResource Include="Teacher\FormGradebook.resx">
       <DependentUpon>FormGradebook.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStudent.resx">
+    <EmbeddedResource Include="Student\FormStudent.resx">
       <DependentUpon>FormStudent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -149,6 +151,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Res\ExcelTools.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -188,8 +191,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Res\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
