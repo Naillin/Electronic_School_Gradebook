@@ -94,16 +94,16 @@ namespace Electronic_School_Gradebook
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
-			switch (tabControlAtoms.SelectedTab.Text)
+			switch (tabControlAtoms.SelectedTab.Name)
 			{
-				case "Classes":
+				case "tabPageClasses":
 					string[] classValues = new string[3];
 					classValues[0] = "'Новый класс'";
 					classValues[1] = "'0'";
 					classValues[2] = "'0'";
 					dbTools.executeInsert("Classes", classValues);
 					break;
-				case "Students":
+				case "tabPageStudents":
 					string[] studentsValuesUser = new string[4];
 					studentsValuesUser[0] = "'Роль'";
 					studentsValuesUser[1] = "'Логин'";
@@ -113,7 +113,7 @@ namespace Electronic_School_Gradebook
 					
 					string[] studentsValues = new string[8];
 					studentsValues[0] = "'Имя'";
-					studentsValues[1] = "'Шапошников'";
+					studentsValues[1] = "'Фамилия'";
 					studentsValues[2] = "'Отчество'";
 					studentsValues[3] = "'(000) 000-00-00'";
 					studentsValues[4] = "'Адрес'";
@@ -122,7 +122,7 @@ namespace Electronic_School_Gradebook
 					studentsValues[7] = dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString();
 					dbTools.executeInsert("Students", studentsValues);
 					break;
-				case "Parents":
+				case "tabPageParents":
 					string[] parentsValues = new string[6];
 					parentsValues[0] = "'Имя'";
 					parentsValues[1] = "'Фамилия'";
@@ -132,7 +132,7 @@ namespace Electronic_School_Gradebook
 					parentsValues[5] = "'email@example.com'";
 					dbTools.executeInsert("Parents", parentsValues);
 					break;
-				case "Teachers":
+				case "tabPageTeachers":
 					string[] teachersValuesUser = new string[4];
 					teachersValuesUser[0] = "'Роль'";
 					teachersValuesUser[1] = "'Логин'";
@@ -151,7 +151,7 @@ namespace Electronic_School_Gradebook
 					teachersValues[7] = dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString();
 					dbTools.executeInsert("Teachers", teachersValues);
 					break;
-				case "Subjects":
+				case "tabPageSubjects":
 					string[] subjectsValues = new string[2];
 					subjectsValues[0] = "'Новая дисциплина'";
 					subjectsValues[1] = "'0'";
@@ -166,9 +166,9 @@ namespace Electronic_School_Gradebook
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
 
-			switch (tabControlAtoms.SelectedTab.Text)
+			switch (tabControlAtoms.SelectedTab.Name)
 			{
-				case "Classes":
+				case "tabPageClasses":
 					if (dataGridViewClasses.RowCount > 0)
 					{
 						DialogResult result = MessageBox.Show("Are you sure you want to delete this class?", "Confirmation", MessageBoxButtons.YesNo);
@@ -179,7 +179,7 @@ namespace Electronic_School_Gradebook
 						}
 					}
 					break;
-				case "Students":
+				case "tabPageStudents":
 					if (dataGridViewStudents.RowCount > 0)
 					{
 						DialogResult result = MessageBox.Show("Are you sure you want to delete this student?", "Confirmation", MessageBoxButtons.YesNo);
@@ -190,7 +190,7 @@ namespace Electronic_School_Gradebook
 						}
 					}
 					break;
-				case "Parents":
+				case "tabPageParents":
 					if (dataGridViewParents.RowCount > 0)
 					{
 						DialogResult result = MessageBox.Show("Are you sure you want to delete this parent?", "Confirmation", MessageBoxButtons.YesNo);
@@ -201,7 +201,7 @@ namespace Electronic_School_Gradebook
 						}
 					}
 					break;
-				case "Teachers":
+				case "tabPageTeachers":
 					if (dataGridViewTeachers.RowCount > 0)
 					{
 						DialogResult result = MessageBox.Show("Are you sure you want to delete this teacher?", "Confirmation", MessageBoxButtons.YesNo);
@@ -212,7 +212,7 @@ namespace Electronic_School_Gradebook
 						}
 					}
 					break;
-				case "Subjects":
+				case "tabPageSubjects":
 					if (dataGridViewSubjects.RowCount > 0)
 					{
 						DialogResult result = MessageBox.Show("Are you sure you want to delete this subject?", "Confirmation", MessageBoxButtons.YesNo);
@@ -235,30 +235,29 @@ namespace Electronic_School_Gradebook
 		{
 			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
 
-			switch (tabControlAtoms.SelectedTab.Text)
+			switch (tabControlAtoms.SelectedTab.Name)
 			{
-				case "Classes":
+				case "tabPageClasses":
 					classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
 					break;
-				case "Students":
+				case "tabPageStudents":
 					string[] fieldsStudents = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student", "Login_User", "Password_User", "LifeStatus" };
 					studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students", fieldsStudents, $"join Users on Users.ID_User = Students.ID_User");
 					break;
-				case "Parents":
+				case "tabPageParents":
 					parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
 					break;
-				case "Teachers":
-					//string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Login_User", "Password_User", "LifeStatus" };
+				case "tabPageTeachers":
 					string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Type_Of_Teacher", "Login_User", "Password_User", "LifeStatus" };
 					teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers", fieldsTeachers, $"join Users on Users.ID_User = Teachers.ID_User");
 					break;
-				case "Subjects":
+				case "tabPageSubjects":
 					subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
 					break;
 			}
 		}
 
-		private void StartFillDataGridViews(TabPage tabPage)
+		private void FillDataGridViews(TabPage tabPage)
 		{
 			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
 
@@ -352,26 +351,6 @@ namespace Electronic_School_Gradebook
 						break;
 				}
 			}
-		}
-
-		private int GetUserIdByTeacherId(int teacherId)
-		{
-			int userId = -1;
-			string query = $"SELECT ID_User FROM Teachers WHERE ID_Teacher = {teacherId}";
-
-			using (SqlConnection connection = new SqlConnection(FormAuthorization.sqlConnection))
-			using (SqlCommand command = new SqlCommand(query, connection))
-			{
-				connection.Open();
-				SqlDataReader reader = command.ExecuteReader();
-				if (reader.HasRows)
-				{
-					reader.Read();
-					userId = reader.GetInt32(0);
-				}
-			}
-
-			return userId;
 		}
 
 		private void dataGridViewTeachersCellEndEdit()

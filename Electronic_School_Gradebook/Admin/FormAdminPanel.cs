@@ -951,7 +951,7 @@ namespace Electronic_School_Gradebook
 				selectedTabPage == tabPageTeachers ||
 				selectedTabPage == tabPageSubjects)
 			{
-				StartFillDataGridViews(selectedTabPage);
+				FillDataGridViews(selectedTabPage);
 			}
 		}
 
@@ -961,7 +961,7 @@ namespace Electronic_School_Gradebook
 
 			if (selectedTabConrolPage == tabPageAtoms)
 			{
-				StartFillDataGridViews(selectedTabConrolPage);
+				FillDataGridViews(selectedTabConrolPage);
 			}
 		}
 
