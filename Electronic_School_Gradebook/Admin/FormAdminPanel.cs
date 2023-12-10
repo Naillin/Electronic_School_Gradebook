@@ -943,25 +943,14 @@ namespace Electronic_School_Gradebook
 
 		private void tabControlAtoms_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			TabPage selectedTabPage = tabControlAtoms.SelectedTab;
-
-			if (selectedTabPage == tabPageClasses ||
-				selectedTabPage == tabPageStudents ||
-				selectedTabPage == tabPageParents ||
-				selectedTabPage == tabPageTeachers ||
-				selectedTabPage == tabPageSubjects)
-			{
-				FillDataGridViews(selectedTabPage);
-			}
+			FillDataGridViews();
 		}
 
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			TabPage selectedTabConrolPage = tabControl1.SelectedTab;
-
-			if (selectedTabConrolPage == tabPageAtoms)
+			if (tabPageAtoms == tabControl1.SelectedTab)
 			{
-				FillDataGridViews(selectedTabConrolPage);
+				FillDataGridViews();
 			}
 		}
 

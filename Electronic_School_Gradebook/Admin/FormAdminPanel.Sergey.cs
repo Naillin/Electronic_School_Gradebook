@@ -12,84 +12,6 @@ namespace Electronic_School_Gradebook
 {
 	public partial class FormAdminPanel
 	{
-		struct UsersRowConnect
-		{
-			public int id;
-			public int rowIndex;
-
-			UsersRowConnect(int id = -1, int rowIndex = -1)
-			{
-				this.id = id;
-				this.rowIndex = rowIndex;
-			}
-		}
-
-		struct ClassesRowConnect
-		{
-			public int id;
-			public int rowIndex;
-
-			ClassesRowConnect(int id = -1, int rowIndex = -1)
-			{
-				this.id = id;
-				this.rowIndex = rowIndex;
-			}
-		}
-
-		struct StudentsRowConnect
-		{
-			public int id;
-			public int rowIndex;
-			public int idclass;
-			public int iduser;
-
-			StudentsRowConnect(int id = -1, int rowIndex = -1, int idclass = -1, int iduser = -1)
-			{
-				this.id = id;
-				this.rowIndex = rowIndex;
-				this.idclass = idclass;
-				this.iduser = iduser;
-			}
-		}
-
-		struct ParentsRowConnect
-		{
-			public int id;
-			public int rowIndex;
-
-			ParentsRowConnect(int id = -1, int rowIndex = -1)
-			{
-				this.id = id;
-				this.rowIndex = rowIndex;
-			}
-		}
-
-		struct TeachersRowConnect
-		{
-			public int id;
-			public int iduser;
-			public int rowIndex;
-
-			TeachersRowConnect(int id = -1, int rowIndex = -1, int iduser = -1)
-			{
-				this.id = id;
-				this.rowIndex = rowIndex;
-				this.iduser = iduser;
-			}
-		}
-
-		struct SubjectsRowConnect
-		{
-			public int id;
-			public int rowIndex;
-
-			SubjectsRowConnect(int id = -1, int rowIndex = -1)
-			{
-				this.id = id;
-				this.rowIndex = rowIndex;
-			}
-		}
-
 		private void buttonAddRecordClick()
 		{
 			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
@@ -97,65 +19,21 @@ namespace Electronic_School_Gradebook
 			switch (tabControlAtoms.SelectedTab.Name)
 			{
 				case "tabPageClasses":
-					string[] classValues = new string[3];
-					classValues[0] = "'Новый класс'";
-					classValues[1] = "'0'";
-					classValues[2] = "'0'";
-					dbTools.executeInsert("Classes", classValues);
+					dbTools.executeInsert("Classes", new string[] { "'Новый класс'", "'0'", "'0'" });
 					break;
 				case "tabPageStudents":
-					string[] studentsValuesUser = new string[4];
-					studentsValuesUser[0] = "'Роль'";
-					studentsValuesUser[1] = "'Логин'";
-					studentsValuesUser[2] = "'Пароль'";
-					studentsValuesUser[3] = "'1'";
-					dbTools.executeInsert("Users", studentsValuesUser);
-					
-					string[] studentsValues = new string[8];
-					studentsValues[0] = "'Имя'";
-					studentsValues[1] = "'Фамилия'";
-					studentsValues[2] = "'Отчество'";
-					studentsValues[3] = "'(000) 000-00-00'";
-					studentsValues[4] = "'Адрес'";
-					studentsValues[5] = "'email@example.com'";
-					studentsValues[6] = "null";
-					studentsValues[7] = dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString();
-					dbTools.executeInsert("Students", studentsValues);
+					dbTools.executeInsert("Users", new string[] { "'Роль'", "'Логин'", "'Пароль'", "'1'" });
+					dbTools.executeInsert("Students", new string[] { "'Имя'", "'Фамилия'", "'Отчество'", "'(000) 000-00-00'", "'Адрес'", "'email@example.com'", "null", dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString() });
 					break;
 				case "tabPageParents":
-					string[] parentsValues = new string[6];
-					parentsValues[0] = "'Имя'";
-					parentsValues[1] = "'Фамилия'";
-					parentsValues[2] = "'Отчество'";
-					parentsValues[3] = "'(000) 000-00-00'";
-					parentsValues[4] = "'Адрес'";
-					parentsValues[5] = "'email@example.com'";
-					dbTools.executeInsert("Parents", parentsValues);
+					dbTools.executeInsert("Parents", new string[] { "'Имя'", "'Фамилия'", "'Отчество'", "'(000) 000-00-00'", "'Адрес'", "'email@example.com'"});
 					break;
 				case "tabPageTeachers":
-					string[] teachersValuesUser = new string[4];
-					teachersValuesUser[0] = "'Роль'";
-					teachersValuesUser[1] = "'Логин'";
-					teachersValuesUser[2] = "'Пароль'";
-					teachersValuesUser[3] = "'1'";
-					dbTools.executeInsert("Users", teachersValuesUser);
-
-					string[] teachersValues = new string[8];
-					teachersValues[0] = "'Имя'";
-					teachersValues[1] = "'Фамилия'";
-					teachersValues[2] = "'Отчество'";
-					teachersValues[3] = "'(000) 000-00-00'";
-					teachersValues[4] = "'Адрес'";
-					teachersValues[5] = "'email@example.com'";
-					teachersValues[6] = "'1'";
-					teachersValues[7] = dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString();
-					dbTools.executeInsert("Teachers", teachersValues);
+					dbTools.executeInsert("Users", new string[] { "'Роль'", "'Логин'", "'Пароль'", "'1'" });
+					dbTools.executeInsert("Teachers", new string[] { "'Имя'", "'Фамилия'", "'Отчество'", "'(000) 000-00-00'", "'Адрес'", "'email@example.com'", "'1'", dbTools.executeAnySqlScalar($"SELECT TOP (1) ID_User FROM Users ORDER BY ID_User DESC;").ToString() });
 					break;
 				case "tabPageSubjects":
-					string[] subjectsValues = new string[2];
-					subjectsValues[0] = "'Новая дисциплина'";
-					subjectsValues[1] = "'0'";
-					dbTools.executeInsert("Subjects", subjectsValues);
+					dbTools.executeInsert("Subjects", new string[] { "'Новая дисциплина'", "'0'" });
 					break;
 			}
 
@@ -237,36 +115,6 @@ namespace Electronic_School_Gradebook
 
 			switch (tabControlAtoms.SelectedTab.Name)
 			{
-				case "tabPageClasses":
-					classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
-					break;
-				case "tabPageStudents":
-					string[] fieldsStudents = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student", "Login_User", "Password_User", "LifeStatus" };
-					studentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewStudents, "Students", fieldsStudents, $"join Users on Users.ID_User = Students.ID_User");
-					break;
-				case "tabPageParents":
-					parentsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents");
-					break;
-				case "tabPageTeachers":
-					string[] fieldsTeachers = { "Name_Teacher", "Surname_Teacher", "Thirdname_Teacher", "Number_Teacher", "Address_Teacher", "Email_Teacher", "Type_Of_Teacher", "Login_User", "Password_User", "LifeStatus" };
-					teachersRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewTeachers, "Teachers", fieldsTeachers, $"join Users on Users.ID_User = Teachers.ID_User");
-					break;
-				case "tabPageSubjects":
-					subjectsRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewSubjects, "Subjects");
-					break;
-			}
-		}
-
-		private void FillDataGridViews(TabPage tabPage)
-		{
-			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
-
-
-			switch (tabPage.Name)
-			{
-				case "tabPageAtoms":
-					classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
-					break;
 				case "tabPageClasses":
 					classesRowConnect = dbFormsTools.FillDGVWithRowConnect(ref dataGridViewClasses, "Classes");
 					break;
@@ -470,6 +318,11 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
+
+		//в отдельный класс все ниже что ниже-----------------------------------------
+		//в отдельный класс все ниже что ниже-----------------------------------------
+		//в отдельный класс все ниже что ниже-----------------------------------------
+		//в отдельный класс все ниже что ниже-----------------------------------------
 		private void SearchDataClass(string searchText)
 		{
 			string columnNameToSearch = "Name_Class";
@@ -524,5 +377,10 @@ namespace Electronic_School_Gradebook
 				row.Visible = match;
 			}
 		}
+		//в отдельный класс все ниже что выше-----------------------------------------
+		//в отдельный класс все ниже что выше-----------------------------------------
+		//в отдельный класс все ниже что выше-----------------------------------------
+		//в отдельный класс все ниже что выше-----------------------------------------
+		//в отдельный класс все ниже что выше-----------------------------------------
 	}
 }
