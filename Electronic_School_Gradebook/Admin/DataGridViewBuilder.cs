@@ -7,49 +7,90 @@ using System.Windows.Forms;
 
 namespace Electronic_School_Gradebook.Admin
 {
+	internal struct ColumnUnit
+    {
+		internal string headerText;
+		internal ColumnTypes columnType;
+
+		public enum ColumnTypes
+        {
+			TEXTBOX = 0,
+			CHECKBOX = 1,
+			COMBOBOX = 2,
+			LINK = 3,
+			IMAGE = 4,
+			BUTTON = 5
+        }
+		internal ColumnUnit(string headerText, ColumnTypes columnType)
+        {
+			this.headerText = headerText;
+			this.columnType = columnType;
+        }
+    }
 	internal class DataGridViewBuilder
 	{
-		protected string[] Scheme { get; set; }
+		protected ColumnUnit[] Scheme { get; set; }
 		protected DataGridView dataGridViewGradebookReciver;
 
-		public DataGridViewBuilder(ref DataGridView dataGridView, string[] TableScheme)
+		internal DataGridViewBuilder(ref DataGridView dataGridView, params ColumnUnit[] TableScheme)
 		{
 			dataGridViewGradebookReciver = dataGridView;
 			Scheme = TableScheme;
 		}
 
 		//по идее это обявляется в наследуемом классе как override (сделал в OperatorsForColumns)
-		public static int operator +(DataGridViewBuilder builder, DataGridViewColumn column)
-		{
-			builder.dataGridViewGradebookReciver.Columns.Add(column);
-			return builder.dataGridViewGradebookReciver.Columns.Count;
-		}
+		//public static int operator +(DataGridViewBuilder builder, DataGridViewColumn column)
+		//{
+		//	builder.dataGridViewGradebookReciver.Columns.Add(column);
+		//	return builder.dataGridViewGradebookReciver.Columns.Count;
+		//}
 
-		public static int operator +(DataGridViewColumn column, DataGridViewBuilder builder)
-		{
-			builder.dataGridViewGradebookReciver.Columns.Add(column);
-			return builder.dataGridViewGradebookReciver.Columns.Count;
-		}
+		//public static int operator +(DataGridViewColumn column, DataGridViewBuilder builder)
+		//{
+		//	builder.dataGridViewGradebookReciver.Columns.Add(column);
+		//	return builder.dataGridViewGradebookReciver.Columns.Count;
+		//}
 
-		public static int operator -(DataGridViewBuilder builder, DataGridViewColumn column)
-		{
-			builder.dataGridViewGradebookReciver.Columns.Remove(column);
-			return builder.dataGridViewGradebookReciver.Columns.Count;
-		}
+		//public static int operator -(DataGridViewBuilder builder, DataGridViewColumn column)
+		//{
+		//	builder.dataGridViewGradebookReciver.Columns.Remove(column);
+		//	return builder.dataGridViewGradebookReciver.Columns.Count;
+		//}
 
-		public static int operator -(DataGridViewColumn column, DataGridViewBuilder builder)
-		{
-			builder.dataGridViewGradebookReciver.Columns.Remove(column);
-			return builder.dataGridViewGradebookReciver.Columns.Count;
-		}
+		//public static int operator -(DataGridViewColumn column, DataGridViewBuilder builder)
+		//{
+		//	builder.dataGridViewGradebookReciver.Columns.Remove(column);
+		//	return builder.dataGridViewGradebookReciver.Columns.Count;
+		//}
 
 		public void FillingOfColumns()
 		{
-			dataGridViewGradebookReciver.Columns.Clear();
+			//dataGridViewGradebookReciver.Columns.Clear();
 
 			for (int i = 0; i < Scheme.Length; i++)
             {
-				dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumn(Scheme[i], readOnly: true));
+                switch (Scheme[i].columnType)
+                {
+					case ColumnUnit.ColumnTypes.TEXTBOX:
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnTextBox(Scheme[i].headerText, readOnly: true));
+					    break;
+					case ColumnUnit.ColumnTypes.CHECKBOX:
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnCheckBox(Scheme[i].headerText));
+						break;
+					case ColumnUnit.ColumnTypes.BUTTON:
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnButton(Scheme[i].headerText));
+						break;
+					case ColumnUnit.ColumnTypes.IMAGE:
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnImage(Scheme[i].headerText));
+						break;
+					case ColumnUnit.ColumnTypes.COMBOBOX:
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnComboBox(Scheme[i].headerText));
+						break;
+					case ColumnUnit.ColumnTypes.LINK:
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnLink(Scheme[i].headerText));
+						break;
+				}
+				
             }
         }
 	}
@@ -91,7 +132,7 @@ namespace Electronic_School_Gradebook.Admin
 
 	internal class ColumnCreator
 	{
-		static public DataGridViewTextBoxColumn CreateColumn(string headerText = "Name", DataGridViewColumnSortMode sortMode = DataGridViewColumnSortMode.NotSortable, bool readOnly = false)
+		static public DataGridViewTextBoxColumn CreateColumnTextBox(string headerText = "Name", DataGridViewColumnSortMode sortMode = DataGridViewColumnSortMode.NotSortable, bool readOnly = false)
 		{
 			DataGridViewTextBoxColumn result = new DataGridViewTextBoxColumn();
 			result.HeaderText = headerText;
@@ -101,7 +142,39 @@ namespace Electronic_School_Gradebook.Admin
 			return result;
 		}
 
-		static public DataGridViewCheckBoxColumn CreateColumn(string headerText = "On", DataGridViewColumnSortMode sortMode = DataGridViewColumnSortMode.NotSortable, int width = 70)
+		static public DataGridViewButtonColumn CreateColumnButton(string headerText = "Name")
+		{
+			DataGridViewButtonColumn result = new DataGridViewButtonColumn();
+			result.HeaderText = headerText;
+
+			return result;
+		}
+
+		static public DataGridViewComboBoxColumn CreateColumnComboBox(string headerText = "Name")
+		{
+			DataGridViewComboBoxColumn result = new DataGridViewComboBoxColumn();
+			result.HeaderText = headerText;
+
+			return result;
+		}
+
+		static public DataGridViewLinkColumn CreateColumnLink(string headerText = "Name")
+		{
+			DataGridViewLinkColumn result = new DataGridViewLinkColumn();
+			result.HeaderText = headerText;
+
+			return result;
+		}
+
+		static public DataGridViewImageColumn CreateColumnImage(string headerText = "Name")
+		{
+			DataGridViewImageColumn result = new DataGridViewImageColumn();
+			result.HeaderText = headerText;
+
+			return result;
+		}
+
+		static public DataGridViewCheckBoxColumn CreateColumnCheckBox(string headerText = "On", DataGridViewColumnSortMode sortMode = DataGridViewColumnSortMode.NotSortable, int width = 70)
 		{
 			DataGridViewCheckBoxColumn result = new DataGridViewCheckBoxColumn();
 			result.HeaderText = headerText;
@@ -110,5 +183,6 @@ namespace Electronic_School_Gradebook.Admin
 
 			return result;
 		}
+
 	}
 }

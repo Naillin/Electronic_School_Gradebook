@@ -78,7 +78,7 @@ namespace Electronic_School_Gradebook
 			formChoice.ShowDialog();
 
 			//заполнение labelClass и labelSubject
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 			labelClass.Text = "Selected class: " + dBTools.executeAnySqlScalar($"select Name_Class from Classes where ID_Class = {ID_Class}");
 			labelSubject.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Subject}");
 
@@ -132,7 +132,7 @@ namespace Electronic_School_Gradebook
 			//string dateFormatBD = today.ToString("yyyy-MM-dd HH:mm:ss");
 			string dateFormatBD = today.ToString("yyyy-MM-dd");
 
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {FormGradebook.ID_Subject};");
 
 			int ID_Work = -1;
@@ -306,7 +306,7 @@ namespace Electronic_School_Gradebook
 		private void formationEducationalReportToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			//подготовка данных к отчету
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 
 			string ClassExc = dBTools.executeAnySqlScalar($"select Name_Class from Classes where ID_Class = {ID_Class}").ToString();
 			string SubjectExc = dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Subject}").ToString();

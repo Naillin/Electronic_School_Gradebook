@@ -74,8 +74,10 @@ namespace Electronic_School_Gradebook
 			DB_Info[3] = DB_Info[3].Remove(0, 9);
 			DB_Info[3] = DB_Info[3].Remove(DB_Info[3].Length - 1, 1);
 
-			if (DB_Info[2] == "" || DB_Info[3] == "") FormAuthorization.sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};Trusted_Connection=True;";
-			else FormAuthorization.sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
+			
+
+			if (DB_Info[2] == "" || DB_Info[3] == "") FormAuthorization.setConnection($"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};Trusted_Connection=True;");
+			else FormAuthorization.setConnection($"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};");
 
 			MessageBox.Show("Настройки сохранены", "Готово!");
 		}

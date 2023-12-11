@@ -14,7 +14,7 @@ namespace Electronic_School_Gradebook
 	{
 		private void buttonAddRecordClick()
 		{
-			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dbTools = new DBTools(FormAuthorization.getConnection());
 
 			switch (tabControlAtoms.SelectedTab.Name)
 			{
@@ -42,7 +42,7 @@ namespace Electronic_School_Gradebook
 
 		private void buttonRemoveRecordClick()
 		{
-			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dbTools = new DBTools(FormAuthorization.getConnection());
 
 			switch (tabControlAtoms.SelectedTab.Name)
 			{
@@ -111,7 +111,7 @@ namespace Electronic_School_Gradebook
 		private DBFormsTools.RowConnect[] subjectsRowConnect;
 		private void FillDataGridViews()
 		{
-			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
+			DBFormsTools dbFormsTools = new DBFormsTools(FormAuthorization.getConnection());
 
 			switch (tabControlAtoms.SelectedTab.Name)
 			{
@@ -137,7 +137,7 @@ namespace Electronic_School_Gradebook
 
 		private void dataGridViewClassesCellEndEdit()
 		{
-			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dbTools = new DBTools(FormAuthorization.getConnection());
 
 			object newWriting = dataGridViewClasses.Rows[selectRow].Cells[selectColumn].Value;
 			string columnName = dataGridViewClasses.Columns[selectColumn].Name;
@@ -166,7 +166,7 @@ namespace Electronic_School_Gradebook
 
 		private void dataGridViewStudentsCellEndEdit()
 		{
-			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dbTools = new DBTools(FormAuthorization.getConnection());
 
 			object newWriting = dataGridViewStudents.Rows[selectRow].Cells[selectColumn].Value;
 			string columnName = dataGridViewStudents.Columns[selectColumn].Name;
@@ -203,7 +203,7 @@ namespace Electronic_School_Gradebook
 
 		private void dataGridViewTeachersCellEndEdit()
 		{
-			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dbTools = new DBTools(FormAuthorization.getConnection());
 
 			object newWriting = dataGridViewTeachers.Rows[selectRow].Cells[selectColumn].Value;
 			string columnName = dataGridViewTeachers.Columns[selectColumn].Name;
@@ -240,7 +240,7 @@ namespace Electronic_School_Gradebook
 
 		private void dataGridViewParentsCellEndEdit()
 		{
-			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dbTools = new DBTools(FormAuthorization.getConnection());
 
 			object newWriting = dataGridViewParents.Rows[selectRow].Cells[selectColumn].Value;
 			string columnName = dataGridViewParents.Columns[selectColumn].Name;
@@ -269,7 +269,7 @@ namespace Electronic_School_Gradebook
 
 		private void dataGridViewSubjectsCellEndEdit()
 		{
-			DBTools dbTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dbTools = new DBTools(FormAuthorization.getConnection());
 
 			object newWriting = dataGridViewSubjects.Rows[selectRow].Cells[selectColumn].Value;
 			string columnName = dataGridViewSubjects.Columns[selectColumn].Name;

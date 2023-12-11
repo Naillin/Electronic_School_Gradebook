@@ -61,7 +61,7 @@ namespace Electronic_School_Gradebook
 		{
 			treeViewMainCommunications.Nodes.Clear();
 			
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 			object[,] data = dBTools.executeSelectTable($"select ID_Class, Name_Class from Classes;");
 
 			TreeNode[] treeClasses = new TreeNode[data.GetLength(0)];
@@ -186,7 +186,7 @@ namespace Electronic_School_Gradebook
 		private void dataGridViewInformationFill()
 		{
 			int BDid = 0;
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 
 			for (int i = 0; i < nodeConnects.Length; i++)
 			{
@@ -200,61 +200,21 @@ namespace Electronic_School_Gradebook
 			rowConnectDgvInf = null;
 			dataGridViewInformation.Rows.Clear();
 			dataGridViewInformation.Columns.Clear();
-			//DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+   //         DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
 			//dataGridViewCheckBoxColumn.HeaderText = "On";
 			//dataGridViewCheckBoxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
 			//dataGridViewCheckBoxColumn.Width = 70;
-			dataGridViewInformation.Columns.Add(ColumnCreator.CreateColumn(width: 70));
+			
 			
 			//switch case (по типу таблицы)
 			switch (tableType)
 			{
 				case NodeConnect.Types.CLASS:
-					
-					DataGridViewBuilder dataGridViewBuilder = new DataGridViewBuilder(ref dataGridViewInformation, new string[] { "Surname", "Name", "Third Name", "Number", "Address", "Email" });
-					dataGridViewBuilder.FillingOfColumns();
-
-					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudSurname = new DataGridViewTextBoxColumn();
-					//dataGridViewTextBoxColumnStudSurname.HeaderText = "Surname";
-					//dataGridViewTextBoxColumnStudSurname.SortMode = DataGridViewColumnSortMode.NotSortable;
-					//dataGridViewTextBoxColumnStudSurname.ReadOnly = true;
-
-					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudName = new DataGridViewTextBoxColumn();
-					//dataGridViewTextBoxColumnStudName.HeaderText = "Name";
-					//dataGridViewTextBoxColumnStudName.SortMode = DataGridViewColumnSortMode.NotSortable;
-					//dataGridViewTextBoxColumnStudName.ReadOnly = true;
-
-					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudThirdName = new DataGridViewTextBoxColumn();
-					//dataGridViewTextBoxColumnStudThirdName.HeaderText = "Third Name";
-					//dataGridViewTextBoxColumnStudThirdName.SortMode = DataGridViewColumnSortMode.NotSortable;
-					//dataGridViewTextBoxColumnStudThirdName.ReadOnly = true;
-
-					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudNumber = new DataGridViewTextBoxColumn();
-					//dataGridViewTextBoxColumnStudNumber.HeaderText = "Number";
-					//dataGridViewTextBoxColumnStudNumber.SortMode = DataGridViewColumnSortMode.NotSortable;
-					//dataGridViewTextBoxColumnStudNumber.ReadOnly = true;
-
-					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudAddress = new DataGridViewTextBoxColumn();
-					//dataGridViewTextBoxColumnStudAddress.HeaderText = "Address";
-					//dataGridViewTextBoxColumnStudAddress.SortMode = DataGridViewColumnSortMode.NotSortable;
-					//dataGridViewTextBoxColumnStudAddress.ReadOnly = true;
-
-					//DataGridViewTextBoxColumn dataGridViewTextBoxColumnStudEmail = new DataGridViewTextBoxColumn();
-					//dataGridViewTextBoxColumnStudEmail.HeaderText = "Email";
-					//dataGridViewTextBoxColumnStudEmail.SortMode = DataGridViewColumnSortMode.NotSortable;
-					//dataGridViewTextBoxColumnStudEmail.ReadOnly = true;
-
-					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudSurname);
-					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudName);
-					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudThirdName);
-					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudNumber);
-					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudAddress);
-					//dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnStudEmail);
-
-					//dataGridViewCheckBoxColumn.Width = 50;
 
 					if (radioButtonStudents.Checked)
 					{
+						DataGridViewBuilder dataGridViewBuilderStud = new DataGridViewBuilder(ref dataGridViewInformation, new ColumnUnit("On", ColumnUnit.ColumnTypes.CHECKBOX), new ColumnUnit("Surname",ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Name",ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Third Name", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Number",ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Address", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Email", ColumnUnit.ColumnTypes.TEXTBOX));
+						dataGridViewBuilderStud.FillingOfColumns();
 						object[,] dataStudents = null;
 						object[,] dataStudentsAll = null;
 
@@ -298,16 +258,10 @@ namespace Electronic_School_Gradebook
 					}
 					if (radioButtonTeachers.Checked)
 					{
+						DataGridViewBuilder dataGridViewBuilderTeach = new DataGridViewBuilder(ref dataGridViewInformation, new ColumnUnit("On", ColumnUnit.ColumnTypes.CHECKBOX), new ColumnUnit("Surname", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Name", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Third Name", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Number", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Address", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Email", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Type", ColumnUnit.ColumnTypes.TEXTBOX));
+						dataGridViewBuilderTeach.FillingOfColumns();
 						object[,] dataTeachers = null;
 						object[,] dataTeachersAll = null;
-
-						DataGridViewTextBoxColumn dataGridViewTextBoxColumnTeachType = new DataGridViewTextBoxColumn();
-						dataGridViewTextBoxColumnTeachType.HeaderText = "Type";
-						dataGridViewTextBoxColumnTeachType.SortMode = DataGridViewColumnSortMode.NotSortable;
-						dataGridViewTextBoxColumnTeachType.ReadOnly = true;
-						dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnTeachType);
-
-						//dataGridViewCheckBoxColumn.Width = 50;
 
 						if (textBoxSearch.Text == "")
 						{
@@ -377,44 +331,8 @@ namespace Electronic_School_Gradebook
 
 				case NodeConnect.Types.STUDENT:
 
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnParSurname = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnParSurname.HeaderText = "Surname";
-					dataGridViewTextBoxColumnParSurname.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnParSurname.ReadOnly = true;
-
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnParName = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnParName.HeaderText = "Name";
-					dataGridViewTextBoxColumnParName.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnParName.ReadOnly = true;
-
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnParThirdName = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnParThirdName.HeaderText = "Third Name";
-					dataGridViewTextBoxColumnParThirdName.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnParThirdName.ReadOnly = true;
-
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnParNumber = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnParNumber.HeaderText = "Number";
-					dataGridViewTextBoxColumnParNumber.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnParNumber.ReadOnly = true;
-
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnParAddress = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnParAddress.HeaderText = "Address";
-					dataGridViewTextBoxColumnParAddress.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnParAddress.ReadOnly = true;
-
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnParEmail = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnParEmail.HeaderText = "Email";
-					dataGridViewTextBoxColumnParEmail.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnParEmail.ReadOnly = true;
-
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParSurname);
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParName);
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParThirdName);
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParNumber);
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParAddress);
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnParEmail);
-
-					//dataGridViewCheckBoxColumn.Width = 50;
+					DataGridViewBuilder dataGridViewBuilderPar = new DataGridViewBuilder(ref dataGridViewInformation, new ColumnUnit("On", ColumnUnit.ColumnTypes.CHECKBOX), new ColumnUnit("Surname", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Name", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Third Name", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Number", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Address", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Email", ColumnUnit.ColumnTypes.TEXTBOX));
+					dataGridViewBuilderPar.FillingOfColumns();
 
 					object[,] dataParent = null;
 					object[,] dataParentAll = null;
@@ -460,18 +378,8 @@ namespace Electronic_School_Gradebook
 				case NodeConnect.Types.TEACHER:
 					object[,] data = dBTools.executeSelectTable($"select ID_Class, Name_Class from Classes;");
 
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnSubjName = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnSubjName.HeaderText = "Name";
-					dataGridViewTextBoxColumnSubjName.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnSubjName.ReadOnly = true;
-
-					DataGridViewTextBoxColumn dataGridViewTextBoxColumnSubjType = new DataGridViewTextBoxColumn();
-					dataGridViewTextBoxColumnSubjType.HeaderText = "Type";
-					dataGridViewTextBoxColumnSubjType.SortMode = DataGridViewColumnSortMode.NotSortable;
-					dataGridViewTextBoxColumnSubjType.ReadOnly = true;
-
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjName);
-					dataGridViewInformation.Columns.Add(dataGridViewTextBoxColumnSubjType);
+					DataGridViewBuilder dataGridViewBuilderForTeacher = new DataGridViewBuilder(ref dataGridViewInformation, new ColumnUnit("On", ColumnUnit.ColumnTypes.CHECKBOX), new ColumnUnit("Name", ColumnUnit.ColumnTypes.TEXTBOX), new ColumnUnit("Type", ColumnUnit.ColumnTypes.TEXTBOX));
+					dataGridViewBuilderForTeacher.FillingOfColumns();
 
 					object[,] dataSubj = null;
 					object[,] dataSubjAll = null;
@@ -552,7 +460,6 @@ namespace Electronic_School_Gradebook
 							}
 						}
 					}
-
 					break;
 				case NodeConnect.Types.SUBJECT:
 					dataGridViewInformation.Rows.Clear();
@@ -568,7 +475,6 @@ namespace Electronic_School_Gradebook
 
 				default:
 					break;
-
 			}
 		}
 
@@ -589,7 +495,7 @@ namespace Electronic_School_Gradebook
 
 		private void dataGridViewInformation_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 
 			int BDid = 0;
 			

@@ -113,10 +113,30 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
-        static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
-        //static public string sqlConnection = @"Server=127.0.0.1;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-        //static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-        private void FormAuthorization_Load(object sender, EventArgs e)
+		static protected string sqlConnection { get; set; }
+		static internal string getConnection()
+        {
+			
+			return sqlConnection;
+        }
+
+		static internal int setConnection(string newConnection)
+		{
+            try 
+			{
+				sqlConnection = newConnection; 
+			}
+            catch
+			{ 
+				return -1;
+			}
+			return 1;
+		}
+
+		//static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
+		//static public string sqlConnection = @"Server=127.0.0.1;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		//static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
+		private void FormAuthorization_Load(object sender, EventArgs e)
 		{
 			string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
 			// This text is added only once to the file.
@@ -142,8 +162,10 @@ namespace Electronic_School_Gradebook
 			else sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
 		}
 
-		static public int ID_User; //глобальная переменная id пользователя
-		static public string Role_User; //глобальная переменная роль пользователя
+		static public int ID_User { get; set; } //глобальная переменная id пользователя
+		static public string Role_User { get; set; } //глобальная переменная роль пользователя
+
+
 		//выполнение входа
 		private void buttonLogin_Click(object sender, EventArgs e)
 		{

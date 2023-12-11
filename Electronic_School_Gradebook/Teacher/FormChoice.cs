@@ -51,13 +51,13 @@ namespace Electronic_School_Gradebook
 		{
 			//listBoxClasses.Items.Clear();
 
-			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
+			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
 			dBFormsTools.FillListBox(ref listBoxClasses, "Classes", "Name_Class", $"join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
 
 			//если открыли повторно
 			if (FormGradebook.rowConnects != null && FormGradebook.rowConnects.Length != 0)
 			{
-				DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+				DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 				int value = (int)dBTools.executeAnySqlScalar($"select Classes.ID_class from Classes join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join TeacherPlan on TeacherPlan.ID_TeachToClass = TeachToClass.ID_TeachToClass where TeacherPlan.ID_Work = {FormGradebook.rowConnects[0].id.ToString()} group by Classes.ID_class;");
 				dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
 				listBoxClasses.SelectedValue = FormGradebook.ID_Class;
@@ -110,7 +110,7 @@ namespace Electronic_School_Gradebook
 				return;
 			}
 
-			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
+			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
 			dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
 
 			FormGradebook.ID_Class = (int)listBoxClasses.SelectedValue;
@@ -135,7 +135,7 @@ namespace Electronic_School_Gradebook
 			flagClosing = false;
 
 			//заполнение dgvTasks задачами
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 			dataTasks = dBTools.executeSelectTable($"SELECT ID_Work, Text_Work, Date_WorkFixation, Date_WorkSubmission, Tasks.Name_Task FROM TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Subjects on Subjects.ID_Subject = TeachToSubj.ID_Subject where TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and Subjects.ID_Subject = {listBoxSubjects.SelectedValue};");
 			FormGradebook.rowConnects = new TaskRowConnect[dataTasks.GetLength(0)];
 			for (int i = 0; i < dataTasks.GetLength(0); i++)
@@ -181,7 +181,7 @@ namespace Electronic_School_Gradebook
 			dataGridViewGradebookReciver.Columns[0].ReadOnly = true;
 
             //заполение dgvGradebook задачами
-            DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
+            DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 			for (int i = 0, j = 1; i < dataGridViewTasks.RowCount; i++)
 			{
 				if ((bool)dataGridViewTasks.Rows[i].Cells[0].Value) //если галочка стоит 

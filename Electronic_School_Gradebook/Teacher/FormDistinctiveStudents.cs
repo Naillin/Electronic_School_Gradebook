@@ -47,8 +47,8 @@ namespace Electronic_School_Gradebook
 		private DBFormsTools.RowConnect[] studentsLowRowConnect;
 		private void FormDistinctiveStudents_Load(object sender, EventArgs e)
 		{
-			DBTools dBTools = new DBTools(FormAuthorization.sqlConnection);
-			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
+			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
+			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
 
 			//заполнение медалистами
 			object[,] dataStudentsHigh = dBTools.executeSelectTable($"EXECUTE dbo.PerfectGradeStudents @ID_Class = {ID_Class}, @Сoefficient = 4.5;"); //поиск медалистов
@@ -74,7 +74,7 @@ namespace Electronic_School_Gradebook
 		//выбрали двоечника
 		private void dataGridViewPoorStudetns_Click(object sender, EventArgs e)
 		{
-			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.sqlConnection);
+			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
 
 			string[] fileds = { "Name_Parent", "Surname_Parent", "Thirdname_Parent", "Number_Parent", "Address_Parent", "Email_Parent" };
 			dBFormsTools.FillDGVWithRowConnect(ref dataGridViewParents, "Parents", fileds, $"join ParentToStud on ParentToStud.ID_Parent = Parents.ID_Parent join Students on Students.ID_Student = ParentToStud.ID_Student where Students.ID_Student = {studentsLowRowConnect[dataGridViewPoorStudetns.SelectedCells[0].RowIndex].idDataBase}");
