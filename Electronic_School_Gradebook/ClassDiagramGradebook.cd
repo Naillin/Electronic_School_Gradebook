@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Electronic_School_Gradebook.FormGradebook">
-    <Position X="9.75" Y="0.5" Width="3.25" />
+    <Position X="4.5" Y="0.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>kBCYgCUgRDAgDAkEEAyAAAAigCwAAAIAAAEkIABAiGA=</HashCode>
-      <FileName>FormGradebook.cs</FileName>
+      <FileName>Teacher\FormGradebook.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="System.Windows.Forms.Form">
-    <Position X="6.5" Y="0.5" Width="2.75" />
+    <Position X="1.25" Y="0.5" Width="2.75" />
     <NestedTypes>
       <Class Name="System.Windows.Forms.Form.ControlCollection" Collapsed="true">
         <TypeIdentifier />
@@ -16,51 +19,86 @@
     </NestedTypes>
     <TypeIdentifier />
   </Class>
-  <Class Name="System.Windows.Forms.ContainerControl">
-    <Position X="3.25" Y="0.5" Width="2.75" />
-    <TypeIdentifier />
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="Electronic_School_Gradebook.FormChoice" Collapsed="true">
-    <Position X="13.5" Y="0.5" Width="1.5" />
+    <Position X="8" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>KggAAAAAICAAAAAAJCCABAAiABB4BASAAIAIAAAEAhg=</HashCode>
-      <FileName>FormChoice.cs</FileName>
+      <HashCode>KggAAAAAICAAAAAAJCCABAAiABB4BgSAAIAIAAAEAhg=</HashCode>
+      <FileName>Teacher\FormChoice.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Electronic_School_Gradebook.FormAdminPanel" Collapsed="true">
-    <Position X="15.75" Y="0.5" Width="1.5" />
+    <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>R7jdKkQKYmDhJB1aSQWy4OqHFSqvqQQBBR82pQFS1cU=</HashCode>
-      <FileName>FormAdminPanel.cs</FileName>
+      <HashCode>R7jdKkQKYmDhJB1aSQWy4OqHFSqvqQQBBR8ypQFS1cU=</HashCode>
+      <FileName>Admin\FormAdminPanel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="System.Windows.Forms.ScrollableControl">
-    <Position X="0.5" Y="0.5" Width="2.25" />
-    <NestedTypes>
-      <Class Name="System.Windows.Forms.ScrollableControl.DockPaddingEdges" Collapsed="true">
-        <TypeIdentifier />
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="System.Windows.Forms.ScrollableControl.DockPaddingEdgesConverter" Collapsed="true">
-        <TypeIdentifier />
-      </Class>
-    </NestedTypes>
+  <Class Name="Electronic_School_Gradebook.Admin.DataGridViewBuilder">
+    <Position X="12.25" Y="6.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAQAAAAAAEIAAAAAQAAAAAAAAACAA=</HashCode>
+      <FileName>Admin\DataGridViewBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Electronic_School_Gradebook.Admin.OperatorsForColumns">
+    <Position X="12.25" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAEAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Admin\DataGridViewBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Electronic_School_Gradebook.Admin.ColumnCreator">
+    <Position X="12.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAABAABAAAAAEgAQAAA=</HashCode>
+      <FileName>Admin\DataGridViewBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Windows.Forms.DataGridViewColumn">
+    <Position X="9.75" Y="2" Width="2.25" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Struct Name="Electronic_School_Gradebook.TaskRowConnect">
-    <Position X="13.5" Y="3.25" Width="1.5" />
+    <Position X="8" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAiA=</HashCode>
-      <FileName>FormGradebook.cs</FileName>
+      <FileName>Teacher\FormGradebook.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="Electronic_School_Gradebook.StudentRowConnect">
-    <Position X="13.5" Y="1.75" Width="1.5" />
+    <Position X="8" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAgA=</HashCode>
-      <FileName>FormGradebook.cs</FileName>
+      <FileName>Teacher\FormGradebook.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Electronic_School_Gradebook.Admin.ColumnUnit">
+    <Position X="16.5" Y="2" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Electronic_School_Gradebook.Admin.ColumnUnit.ColumnTypes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Admin\DataGridViewBuilder.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Admin\DataGridViewBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Electronic_School_Gradebook.Admin.NodeConnect">
+    <Position X="14.75" Y="2" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Electronic_School_Gradebook.Admin.NodeConnect.Types" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Admin\NodeConnect.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Admin\NodeConnect.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Font Name="Segoe UI" Size="9" />

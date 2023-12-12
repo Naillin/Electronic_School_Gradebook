@@ -57,7 +57,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполняет запрос и возвращает значение первого столбеца первой строки результирующего набора, возвращаемого запросом. Дополнительные столбцы или строки не обрабатываются.
+		/// Выполняет запрос и возвращает значение первого столбца первой строки результирующего набора, возвращаемого запросом. Дополнительные столбцы или строки не обрабатываются.
 		/// </summary>
 		/// <param name="sql">Запрос соотвествующий всем правилам синтаксиса SQL.</param>
 		/// <returns></returns>
@@ -87,13 +87,13 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса SELECT с возвращением двумерного массива данных.
+		/// Выполнение запроса SELECT или EXECUTE с возвращением двумерного массива данных.
 		/// </summary>
 		/// <param name="sql">Запрос SELECT соотвествующий всем правилам синтаксиса SQL.</param>
 		/// <returns></returns>
 		public object[,] executeSelectTable(string sql)
 		{
-			object[,] result = { { -1 } };
+			object[,] result = null;
 
 			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
@@ -222,7 +222,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса INSERT для заданной таблицы с укзанными данными.
+		/// Выполнение запроса INSERT для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает массив значений.</param>
@@ -260,7 +260,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса INSERT для заданной таблицы с укзанными данными.
+		/// Выполнение запроса INSERT для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "column1=value1;column2=value2;column3=value3;".</param>
@@ -306,7 +306,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса UPDATE для заданной таблицы с укзанными данными.
+		/// Выполнение запроса UPDATE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает массив значений для установки.</param>
@@ -347,7 +347,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса UPDATE для заданной таблицы с укзанными данными.
+		/// Выполнение запроса UPDATE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает массив значений для установки.</param>
@@ -388,7 +388,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса UPDATE для заданной таблицы с укзанными данными.
+		/// Выполнение запроса UPDATE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "column1=value1;column2=value2;column3=value3;".</param>
@@ -427,7 +427,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса UPDATE для заданной таблицы с укзанными данными.
+		/// Выполнение запроса UPDATE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="value">Принимает стороку значений разделенных знаком ';'. Пример: "column1=value1;column2=value2;column3=value3;".</param>
@@ -465,7 +465,7 @@ namespace DatabaseTools_MSSQL
 		}
 
 		/// <summary>
-		/// Выполнение запроса DELETE для заданной таблицы с укзанными данными.
+		/// Выполнение запроса DELETE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
@@ -505,7 +505,7 @@ namespace DatabaseTools_MSSQL
 		/// <returns></returns>
 		public object[] searchRecord(string table, string column, string value)
 		{
-			object[] result = { -1 };
+			object[] result = null;
 			//try
 			//{
 				string sql = $"select top (1) * from {table} where {column} = {value};";

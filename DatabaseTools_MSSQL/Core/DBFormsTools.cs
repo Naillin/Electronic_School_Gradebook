@@ -499,7 +499,7 @@ namespace DatabaseTools_MSSQL
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <param name="selectValue">Задает выбор элемента.</param>
 		/// <returns></returns>
-		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions, int selectValue)
+		public DataSet FillListBox(ref ListBox listBox, string table, string column, string conditions, int selectValue) //СДЕЛАТЬ conditions не обязательным аргументом и удалить лишние перегрузки с всех классов
 		{
 			DataSet ds = new DataSet();
 			try
