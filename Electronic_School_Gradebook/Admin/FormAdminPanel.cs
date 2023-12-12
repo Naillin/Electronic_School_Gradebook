@@ -869,27 +869,27 @@ namespace Electronic_School_Gradebook
 
 		private void textBoxSearchClass_TextChanged(object sender, EventArgs e)
 		{
-			SearchDataClass(textBoxSearchClass.Text);
+            SearchData(textBoxSearchClass.Text);
 		}
 
 		private void textBoxSearchStudent_TextChanged(object sender, EventArgs e)
 		{
-			SearchDataStudent(textBoxSearchStudent.Text);
+            SearchData(textBoxSearchStudent.Text);
 		}
 
 		private void textBoxSearchParent_TextChanged(object sender, EventArgs e)
 		{
-			SearchDataParent(textBoxSearchParent.Text);
+            SearchData(textBoxSearchParent.Text);
 		}
 
 		private void textBoxSearchTeacher_TextChanged(object sender, EventArgs e)
 		{
-			SearchDataTeacher(textBoxSearchTeacher.Text);
+            SearchData(textBoxSearchTeacher.Text);
 		}
 
 		private void textBoxSearchSubject_TextChanged(object sender, EventArgs e)
 		{
-			SearchDataSubject(textBoxSearchSubject.Text);
+            SearchData(textBoxSearchSubject.Text);
 		}
 
 		///-----------------------------------------ШАПОШНИКОВ СЕРГЕЙ|КОНЕЦ-----------------------------------------

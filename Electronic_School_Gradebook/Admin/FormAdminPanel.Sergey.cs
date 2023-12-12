@@ -318,69 +318,39 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
+        public static class DataSearchHelper
+        {
+            public static void SearchData(DataGridView dataGridView, string searchText, string columnNameToSearch)
+            {
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
+                    bool match = cellValue != null && cellValue.Contains(searchText);
+                    row.Visible = match;
+                }
+            }
+        }
 
-		//в отдельный класс все ниже что ниже-----------------------------------------
-		//в отдельный класс все ниже что ниже-----------------------------------------
-		//в отдельный класс все ниже что ниже-----------------------------------------
-		//в отдельный класс все ниже что ниже-----------------------------------------
-		private void SearchDataClass(string searchText)
-		{
-			string columnNameToSearch = "Name_Class";
-			foreach (DataGridViewRow row in dataGridViewClasses.Rows)
-			{
-				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
-				bool match = cellValue != null && cellValue.Contains(searchText);
-				row.Visible = match;
-			}
-		}
-
-		private void SearchDataStudent(string searchText)
-		{
-			string columnNameToSearch = "Surname_Student";
-			foreach (DataGridViewRow row in dataGridViewStudents.Rows)
-			{
-				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
-				bool match = cellValue != null && cellValue.Contains(searchText);
-				row.Visible = match;
-			}
-		}
-
-		private void SearchDataParent(string searchText)
-		{
-			string columnNameToSearch = "Surname_Parent";
-			foreach (DataGridViewRow row in dataGridViewParents.Rows)
-			{
-				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
-				bool match = cellValue != null && cellValue.Contains(searchText);
-				row.Visible = match;
-			}
-		}
-
-		private void SearchDataTeacher(string searchText)
-		{
-			string columnNameToSearch = "Surname_Teacher";
-			foreach (DataGridViewRow row in dataGridViewTeachers.Rows)
-			{
-				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
-				bool match = cellValue != null && cellValue.Contains(searchText);
-				row.Visible = match;
-			}
-		}
-
-		private void SearchDataSubject(string searchText)
-		{
-			string columnNameToSearch = "Name_Subject";
-			foreach (DataGridViewRow row in dataGridViewSubjects.Rows)
-			{
-				string cellValue = row.Cells[columnNameToSearch].Value?.ToString();
-				bool match = cellValue != null && cellValue.Contains(searchText);
-				row.Visible = match;
-			}
-		}
-		//в отдельный класс все ниже что выше-----------------------------------------
-		//в отдельный класс все ниже что выше-----------------------------------------
-		//в отдельный класс все ниже что выше-----------------------------------------
-		//в отдельный класс все ниже что выше-----------------------------------------
-		//в отдельный класс все ниже что выше-----------------------------------------
+        private void SearchData(string searchText)
+        {
+            switch (tabControlAtoms.SelectedTab.Name)
+            {
+                case "tabPageClasses":
+                    DataSearchHelper.SearchData(dataGridViewClasses, searchText, "Name_Class");
+                    break;
+                case "tabPageStudents":
+                    DataSearchHelper.SearchData(dataGridViewStudents, searchText, "Surname_Student");
+                    break;
+                case "tabPageParents":
+                    DataSearchHelper.SearchData(dataGridViewParents, searchText, "Surname_Parent");
+                    break;
+                case "tabPageTeachers":
+                    DataSearchHelper.SearchData(dataGridViewTeachers, searchText, "Surname_Teacher");
+                    break;
+                case "tabPageSubjects":
+                    DataSearchHelper.SearchData(dataGridViewSubjects, searchText, "Name_Subject");
+                    break;
+            }
+        }
 	}
 }
