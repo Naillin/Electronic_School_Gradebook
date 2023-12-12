@@ -42,8 +42,17 @@ namespace Electronic_School_Gradebook.Res.ExcelTools
 			// Range = WorkSheet.GetType().InvokeMember("Range",BindingFlags.GetProperty,null,WorkSheet,new object[1] { "A1" });
 		}
 
-		//НОВЫЙ ДОКУМЕНТ
-		public void NewDocument()
+        //Перегрузка метода OpenDocument(string name) для открытия в режиме "толлько для чтения"
+        public void OpenDocument(string name, bool readOnly)
+        {
+            WorkBooks = oExcel.GetType().InvokeMember("Workbooks", BindingFlags.GetProperty, null, oExcel, null);
+            WorkBook = WorkBooks.GetType().InvokeMember("Open", BindingFlags.InvokeMethod, null, WorkBooks, new object[] { name, readOnly });
+            WorkSheets = WorkBook.GetType().InvokeMember("Worksheets", BindingFlags.GetProperty, null, WorkBook, null);
+            WorkSheet = WorkSheets.GetType().InvokeMember("Item", BindingFlags.GetProperty, null, WorkSheets, new object[] { 1 });
+        }
+
+        //НОВЫЙ ДОКУМЕНТ
+        public void NewDocument()
 		{
 			WorkBooks = oExcel.GetType().InvokeMember("Workbooks", BindingFlags.GetProperty, null, oExcel, null);
 			WorkBook = WorkBooks.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, WorkBooks, null);
@@ -52,14 +61,34 @@ namespace Electronic_School_Gradebook.Res.ExcelTools
 			Range = WorkSheet.GetType().InvokeMember("Range", BindingFlags.GetProperty, null, WorkSheet, new object[1] { "A1" });
 		}
 
-		//ЗАКРЫТЬ ДОКУМЕНТ
-		public void CloseDocument()
+        //Перегрузка метода NewDocument() для открытия документа в режиме "по умолчанию", открывается только нужная часть
+        public void NewDocument(bool addDefaultSheet)
+        {
+            WorkBooks = oExcel.GetType().InvokeMember("Workbooks", BindingFlags.GetProperty, null, oExcel, null);
+            WorkBook = WorkBooks.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, WorkBooks, null);
+            WorkSheets = WorkBook.GetType().InvokeMember("Worksheets", BindingFlags.GetProperty, null, WorkBook, null);
+            WorkSheet = WorkSheets.GetType().InvokeMember("Item", BindingFlags.GetProperty, null, WorkSheets, new object[] { 1 });
+
+            if (addDefaultSheet)
+            {
+                Range = WorkSheet.GetType().InvokeMember("Range", BindingFlags.GetProperty, null, WorkSheet, new object[1] { "A1" });
+            }
+        }
+
+        //ЗАКРЫТЬ ДОКУМЕНТ
+        public void CloseDocument()
 		{
 			WorkBook.GetType().InvokeMember("Close", BindingFlags.InvokeMethod, null, WorkBook, new object[] { true });
 		}
 
-		//СОХРАНИТЬ ДОКУМЕНТ
-		public void SaveDocument(string name)
+        //Перегрузка метода CloseDocument() для автосохранения при закрытии документа
+        public void CloseDocument(bool saveChanges)
+        {
+            WorkBook.GetType().InvokeMember("Close", BindingFlags.InvokeMethod, null, WorkBook, new object[] { saveChanges });
+        }
+
+        //СОХРАНИТЬ ДОКУМЕНТ
+        public void SaveDocument(string name)
 		{
 			if (File.Exists(name))
 				WorkBook.GetType().InvokeMember("Save", BindingFlags.InvokeMethod, null,
@@ -68,5 +97,18 @@ namespace Electronic_School_Gradebook.Res.ExcelTools
 				WorkBook.GetType().InvokeMember("SaveAs", BindingFlags.InvokeMethod, null,
 					WorkBook, new object[] { name });
 		}
-	}
+
+        //Перегрузка метода SaveDocument(string name) для обеспечения перезаписи документа 
+        public void SaveDocument(string name, bool overwrite)
+        {
+            if (File.Exists(name) && !overwrite)
+            {
+                WorkBook.GetType().InvokeMember("Save", BindingFlags.InvokeMethod, null, WorkBook, null);
+            }
+            else
+            {
+                WorkBook.GetType().InvokeMember("SaveAs", BindingFlags.InvokeMethod, null, WorkBook, new object[] { name });
+            }
+        }
+    }
 }
