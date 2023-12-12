@@ -42,11 +42,9 @@ namespace Electronic_School_Gradebook
 		public void SetOrientation(int Orientation)
 		{
 			//Range.Interior.ColorIndex
-			object PageSetup = WorkSheet.GetType().InvokeMember("PageSetup", BindingFlags.GetProperty,
-				null, WorkSheet, null);
+			object PageSetup = WorkSheet.GetType().InvokeMember("PageSetup", BindingFlags.GetProperty, null, WorkSheet, null);
 
-			PageSetup.GetType().InvokeMember("Orientation", BindingFlags.SetProperty,
-				null, PageSetup, new object[] { Orientation });
+			PageSetup.GetType().InvokeMember("Orientation", BindingFlags.SetProperty, null, PageSetup, new object[] { Orientation });
 		}
 
 		//УСТАНОВИТЬ ШИРИНУ СТОЛБЦОВ

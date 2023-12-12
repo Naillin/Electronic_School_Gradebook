@@ -52,14 +52,14 @@ namespace Electronic_School_Gradebook
 			//listBoxClasses.Items.Clear();
 
 			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
-			dBFormsTools.FillListBox(ref listBoxClasses, "Classes", "Name_Class", $"join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
+			dBFormsTools.FillListBox(ref listBoxClasses, "Classes", "Name_Class", $"join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()}");
 
 			//если открыли повторно
 			if (FormGradebook.rowConnects != null && FormGradebook.rowConnects.Length != 0)
 			{
 				DBTools dBTools = new DBTools(FormAuthorization.getConnection());
 				int value = (int)dBTools.executeAnySqlScalar($"select Classes.ID_class from Classes join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join TeacherPlan on TeacherPlan.ID_TeachToClass = TeachToClass.ID_TeachToClass where TeacherPlan.ID_Work = {FormGradebook.rowConnects[0].id.ToString()} group by Classes.ID_class;");
-				dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
+				dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()}");
 				listBoxClasses.SelectedValue = FormGradebook.ID_Class;
 				listBoxSubjects.SelectedValue = FormGradebook.ID_Subject;
 
@@ -111,7 +111,7 @@ namespace Electronic_School_Gradebook
 			}
 
 			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
-			dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
+			dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()}");
 
 			FormGradebook.ID_Class = (int)listBoxClasses.SelectedValue;
 			dataGridViewTasks.Rows.Clear();

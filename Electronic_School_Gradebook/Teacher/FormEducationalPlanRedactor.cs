@@ -48,7 +48,7 @@ namespace Electronic_School_Gradebook
 		private void FormEducationalPlanRedactor_Load(object sender, EventArgs e)
 		{
 			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
-			dBFormsTools.FillListBox(ref listBoxClasses, "Classes", "Name_Class", $"join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
+			dBFormsTools.FillListBox(ref listBoxClasses, "Classes", "Name_Class", $"join TeachToClass on TeachToClass.ID_Class = Classes.ID_Class join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()}");
 		}
 
 		private void listBoxClasses_SelectedIndexChanged(object sender, EventArgs e)
@@ -61,7 +61,7 @@ namespace Electronic_School_Gradebook
 			}
 
 			DBFormsTools dBFormsTools = new DBFormsTools(FormAuthorization.getConnection());
-			dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User}");
+			dBFormsTools.FillListBox(ref listBoxSubjects, "Subjects", "Name_Subject", $"join TeachToSubj on TeachToSubj.ID_Subject = Subjects.ID_Subject join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()}");
 
 			dataGridViewTasks.Rows.Clear();
 			if (flagDeleteComboBoxColumn)
@@ -97,7 +97,7 @@ namespace Electronic_School_Gradebook
 
 			//сделать заполение из массива object и реализовать комбобоксовое изменение
 			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
-			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.Date_WorkSubmission, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.Date_WorkSubmission, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 			for (int i = 0; i < dataTasks.GetLength(0); i++)
 			{
 				dataGridViewTasks.Rows.Add(dataTasks[i, 1].ToString(), dataTasks[i, 2].ToString(), dataTasks[i, 3].ToString());
@@ -176,10 +176,10 @@ namespace Electronic_School_Gradebook
 			dataGridViewTasks.Rows[selectRow].Cells[1].Value = dateFormatBDFixation;
 
 			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
-			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.Date_WorkSubmission, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+			object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.Date_WorkSubmission, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 
-			object ID_TeachToClass = dBTools.executeAnySqlScalar($"select TeachToClass.ID_TeachToClass from TeachToClass join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue};");
-			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+			object ID_TeachToClass = dBTools.executeAnySqlScalar($"select TeachToClass.ID_TeachToClass from TeachToClass join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue};");
+			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 
 			string nameWork = (dataGridViewTasks.Rows[selectRow].Cells[0].Value == null ? "New Work" : dataGridViewTasks.Rows[selectRow].Cells[0].Value.ToString());
 			string[] values = { "'" + nameWork + "'", "'" + dateFormatDGVFixation + "'", "'" + dataGridViewTasks.Rows[selectRow].Cells[2].Value.ToString() + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[selectRow].Cells[3].Value.ToString() };
@@ -209,8 +209,8 @@ namespace Electronic_School_Gradebook
 			dataGridViewTasks.Rows[lastRow].DefaultCellStyle.BackColor = Color.Orange;
 
 			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
-			object ID_TeachToClass = dBTools.executeAnySqlScalar($"select TeachToClass.ID_TeachToClass from TeachToClass join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue};");
-			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+			object ID_TeachToClass = dBTools.executeAnySqlScalar($"select TeachToClass.ID_TeachToClass from TeachToClass join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue};");
+			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 			
 			string[] values = { "'" + dataGridViewTasks.Rows[lastRow].Cells[0].Value.ToString() + "'", "'" + dateFormatBDFixation + "'", "'" + dateFormatDGVSubmission + "'", ID_TeachToClass.ToString(), ID_TeachToSubj.ToString(), dataGridViewTasks.Rows[lastRow].Cells[3].Value.ToString() };
 			dBTools.executeInsert("TeacherPlan", values);
@@ -234,7 +234,7 @@ namespace Electronic_School_Gradebook
 			{
 				//удаолить из бд и перезагрущзить dgv
 				DBTools dBTools = new DBTools(FormAuthorization.getConnection());
-				object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
+				object[,] dataTasks = dBTools.executeSelectTable($"select TeacherPlan.ID_Work, TeacherPlan.Text_Work, TeacherPlan.Date_WorkFixation, TeacherPlan.ID_TeachToClass, TeacherPlan.ID_TeachToSubj, Tasks.ID_Task, Tasks.Name_Task from TeacherPlan join Tasks on Tasks.ID_Task = TeacherPlan.ID_Task join TeachToClass on TeachToClass.ID_TeachToClass = TeacherPlan.ID_TeachToClass join TeachToSubj on TeachToSubj.ID_TeachToSubj = TeacherPlan.ID_TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToClass.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToClass.ID_Class = {listBoxClasses.SelectedValue} and TeachToSubj.ID_Subject = {listBoxSubjects.SelectedValue};");
 
 				dBTools.executeDelete("TeacherPlan", $"where ID_Work = {dataTasks[selectRow, 0].ToString()}");
 

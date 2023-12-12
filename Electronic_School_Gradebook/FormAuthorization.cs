@@ -113,13 +113,25 @@ namespace Electronic_School_Gradebook
 			}
 		}
 
+		/// <summary>
+		/// Строка соединения.
+		/// </summary>
 		static protected string sqlConnection { get; set; }
+		
+		/// <summary>
+		/// Получение строки соединения.
+		/// </summary>
+		/// <returns></returns>
 		static internal string getConnection()
         {
-			
 			return sqlConnection;
         }
 
+		/// <summary>
+		/// Изменение строки соединения.
+		/// </summary>
+		/// <param name="newConnection">Новая строка соединения.</param>
+		/// <returns></returns>
 		static internal int setConnection(string newConnection)
 		{
             try 
@@ -133,9 +145,6 @@ namespace Electronic_School_Gradebook
 			return 1;
 		}
 
-		//static public string sqlConnection = @"Data Source=192.168.1.46;Initial Catalog=DB_Electronic_School_Gradebook;User Id=connection_user;Password=543211234555"; //строка соединения
-		//static public string sqlConnection = @"Server=127.0.0.1;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
-		//static public string sqlConnection = @"Server=ASUS-Shapo;Database=DB_Electronic_School_Gradebook;Trusted_Connection=True;";
 		private void FormAuthorization_Load(object sender, EventArgs e)
 		{
 			string path = Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 32, 32) + @"\config.txt";
@@ -162,8 +171,33 @@ namespace Electronic_School_Gradebook
 			else sqlConnection = $"Data Source={DB_Info[0]};Initial Catalog={DB_Info[1]};User Id={DB_Info[2]};Password={DB_Info[3]};";
 		}
 
-		static public int ID_User { get; set; } //глобальная переменная id пользователя
-		static public string Role_User { get; set; } //глобальная переменная роль пользователя
+		/// <summary>
+		/// Идендификатор вошедшего пользователя.
+		/// </summary>
+		static protected int ID_User { get; set; }
+
+		/// <summary>
+		/// Получение идендификатора вошедшего пользователя.
+		/// </summary>
+		/// <returns></returns>
+		static internal int getID_User()
+		{
+			return ID_User;
+		}
+
+		/// <summary>
+		/// Системная роль вошедшего пользователя.
+		/// </summary>
+		static protected string Role_User { get; set; }
+
+		/// <summary>
+		/// Получение роли вошедшего пользователя.
+		/// </summary>
+		/// <returns></returns>
+		static internal string getRole_User()
+		{
+			return Role_User;
+		}
 
 
 		//выполнение входа

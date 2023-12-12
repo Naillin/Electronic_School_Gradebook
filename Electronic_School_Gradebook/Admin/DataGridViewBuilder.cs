@@ -27,10 +27,17 @@ namespace Electronic_School_Gradebook.Admin
 			this.columnType = columnType;
         }
     }
+
 	internal class DataGridViewBuilder
 	{
+		//закрытые свойства класса для изменения
 		protected ColumnUnit[] Scheme { get; set; }
 		protected DataGridView dataGridViewGradebookReciver;
+
+		//доступные свойства класса для изменения
+		public DataGridViewColumnSortMode sortMode { get; set; } = DataGridViewColumnSortMode.NotSortable;
+		public bool readOnly { get; set; } = true;
+		public int width { get; set; } = 70;
 
 		internal DataGridViewBuilder(ref DataGridView dataGridView, params ColumnUnit[] TableScheme)
 		{
@@ -38,44 +45,17 @@ namespace Electronic_School_Gradebook.Admin
 			Scheme = TableScheme;
 		}
 
-		//по идее это обявляется в наследуемом классе как override (сделал в OperatorsForColumns)
-		//public static int operator +(DataGridViewBuilder builder, DataGridViewColumn column)
-		//{
-		//	builder.dataGridViewGradebookReciver.Columns.Add(column);
-		//	return builder.dataGridViewGradebookReciver.Columns.Count;
-		//}
-
-		//public static int operator +(DataGridViewColumn column, DataGridViewBuilder builder)
-		//{
-		//	builder.dataGridViewGradebookReciver.Columns.Add(column);
-		//	return builder.dataGridViewGradebookReciver.Columns.Count;
-		//}
-
-		//public static int operator -(DataGridViewBuilder builder, DataGridViewColumn column)
-		//{
-		//	builder.dataGridViewGradebookReciver.Columns.Remove(column);
-		//	return builder.dataGridViewGradebookReciver.Columns.Count;
-		//}
-
-		//public static int operator -(DataGridViewColumn column, DataGridViewBuilder builder)
-		//{
-		//	builder.dataGridViewGradebookReciver.Columns.Remove(column);
-		//	return builder.dataGridViewGradebookReciver.Columns.Count;
-		//}
-
 		public void FillingOfColumns()
 		{
-			//dataGridViewGradebookReciver.Columns.Clear();
-
 			for (int i = 0; i < Scheme.Length; i++)
             {
                 switch (Scheme[i].columnType)
                 {
 					case ColumnUnit.ColumnTypes.TEXTBOX:
-						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnTextBox(Scheme[i].headerText, readOnly: true));
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnTextBox(Scheme[i].headerText, sortMode: sortMode, readOnly: readOnly));
 					    break;
 					case ColumnUnit.ColumnTypes.CHECKBOX:
-						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnCheckBox(Scheme[i].headerText));
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnCheckBox(Scheme[i].headerText, width: width));
 						break;
 					case ColumnUnit.ColumnTypes.BUTTON:
 						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnButton(Scheme[i].headerText));
@@ -89,6 +69,9 @@ namespace Electronic_School_Gradebook.Admin
 					case ColumnUnit.ColumnTypes.LINK:
 						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnLink(Scheme[i].headerText));
 						break;
+					default:
+						dataGridViewGradebookReciver.Columns.Add(ColumnCreator.CreateColumnTextBox(Scheme[i].headerText, sortMode: sortMode, readOnly: readOnly));
+						break;
 				}
 				
             }
@@ -97,7 +80,6 @@ namespace Electronic_School_Gradebook.Admin
 
 	internal class OperatorsForColumns : DataGridViewColumn
 	{
-
 		protected DataGridView dataGridViewGradebookReciver;
 
 		public OperatorsForColumns(ref DataGridView dataGridView)
@@ -183,6 +165,5 @@ namespace Electronic_School_Gradebook.Admin
 
 			return result;
 		}
-
 	}
 }

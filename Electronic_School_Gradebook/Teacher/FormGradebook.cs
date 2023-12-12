@@ -83,7 +83,7 @@ namespace Electronic_School_Gradebook
 			labelSubject.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Subject}");
 
 			//заполнение notifyIconInfoUser
-			string UserInfo = dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString();
+			string UserInfo = dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()};").ToString();
 			notifyIconInfoUser.Text = "Active user: " + UserInfo;
 			notifyIconInfoUser.BalloonTipText = "Welcome " + UserInfo + "!";
 			notifyIconInfoUser.MouseClick += notifyIconInfoUser_MouseClick;
@@ -133,7 +133,7 @@ namespace Electronic_School_Gradebook
 			string dateFormatBD = today.ToString("yyyy-MM-dd");
 
 			DBTools dBTools = new DBTools(FormAuthorization.getConnection());
-			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User} and TeachToSubj.ID_Subject = {FormGradebook.ID_Subject};");
+			object ID_TeachToSubj = dBTools.executeAnySqlScalar($"select TeachToSubj.ID_TeachToSubj from TeachToSubj join Teachers on Teachers.ID_Teacher = TeachToSubj.ID_Teacher join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()} and TeachToSubj.ID_Subject = {FormGradebook.ID_Subject};");
 
 			int ID_Work = -1;
 			for (int i = 0; i < rowConnects.Length; i++)
@@ -310,7 +310,7 @@ namespace Electronic_School_Gradebook
 
 			string ClassExc = dBTools.executeAnySqlScalar($"select Name_Class from Classes where ID_Class = {ID_Class}").ToString();
 			string SubjectExc = dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {ID_Subject}").ToString();
-			string TeacherExc = dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.ID_User};").ToString();
+			string TeacherExc = dBTools.executeAnySqlScalar($"select Surname_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()};").ToString() + " " + dBTools.executeAnySqlScalar($"select Name_Teacher from Teachers join Users on Users.ID_User = Teachers.ID_User where Users.ID_User = {FormAuthorization.getID_User()};").ToString();
 			DateTime today = DateTime.Today; string dateTodayExc = today.ToString("yyyy-MM-dd");
 
 			//создане дока
