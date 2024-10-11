@@ -74,7 +74,7 @@ namespace Electronic_School_Gradebook
 		{
 			//запуск формы выбора класс и работы
 			formGradebook = new FormGradebook();
-			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref formGradebook); //передача ссылки на объект dgv
+			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref labelSubject, ref formGradebook); //передача ссылки на объект dgv
 			formChoice.ShowDialog();
 
 			//заполнение labelClass и labelSubject
@@ -287,7 +287,7 @@ namespace Electronic_School_Gradebook
 			checkBoxColorMark.Checked = false;
 
 			//запуск формы выбора класс и работы
-			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref formGradebook); //передача ссылки на объект dgv
+			FormChoice formChoice = new FormChoice(ref dataGridViewGradebook, ref labelSubject, ref formGradebook); //передача ссылки на объект dgv
 			formChoice.ShowDialog();
 
 			//заполнение toolStripStatus

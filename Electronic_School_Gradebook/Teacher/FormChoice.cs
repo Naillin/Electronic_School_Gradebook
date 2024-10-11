@@ -24,8 +24,9 @@ namespace Electronic_School_Gradebook
 	public partial class FormChoice : Form
 	{
 		DataGridView dataGridViewGradebookReciver;
+		Label labelSubjectGradebookReciver;
 		FormGradebook formGradebookReciver;
-		public FormChoice(ref DataGridView dataGridViewGradebook, ref FormGradebook formGradebook)
+		public FormChoice(ref DataGridView dataGridViewGradebook, ref Label labelSubjectGradebook, ref FormGradebook formGradebook)
 		{
 			InitializeComponent();
 
@@ -37,6 +38,7 @@ namespace Electronic_School_Gradebook
 			this.MinimumSize = new Size(this.Width, this.Height);
 
 			dataGridViewGradebookReciver = dataGridViewGradebook;
+			labelSubjectGradebookReciver = labelSubjectGradebook;
 			formGradebookReciver = formGradebook;
 
 			//настройка dgvTasks
@@ -276,6 +278,9 @@ namespace Electronic_School_Gradebook
 					FormGradebook.CellsColors[i, j] = dataGridViewGradebookReciver.Rows[i].Cells[j].Style.BackColor;
 				}
 			}
+
+			//заполнение предмета в журнале
+			labelSubjectGradebookReciver.Text = "Selected subject: " + dBTools.executeAnySqlScalar($"select Name_Subject from Subjects where ID_Subject = {listBoxSubjects.SelectedValue}");
 
 			SoundPlayer sndTic = new SoundPlayer((Application.ExecutablePath.Remove(Application.ExecutablePath.Length - 41, 41) + @"\Res\sound\Tic.wav"));
 			sndTic.Play();
