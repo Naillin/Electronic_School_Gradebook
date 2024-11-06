@@ -320,7 +320,7 @@ namespace Electronic_School_Gradebook
 
         public static class DataSearchHelper
         {
-            public static void SearchData(DataGridView dataGridView, string searchText, string columnNameToSearch)
+            public static void SearchData(ref DataGridView dataGridView, string searchText, string columnNameToSearch)
             {
                 foreach (DataGridViewRow row in dataGridView.Rows)
                 {
@@ -336,19 +336,19 @@ namespace Electronic_School_Gradebook
             switch (tabControlAtoms.SelectedTab.Name)
             {
                 case "tabPageClasses":
-                    DataSearchHelper.SearchData(dataGridViewClasses, searchText, "Name_Class");
+                    DataSearchHelper.SearchData(ref dataGridViewClasses, searchText, "Name_Class");
                     break;
                 case "tabPageStudents":
-                    DataSearchHelper.SearchData(dataGridViewStudents, searchText, "Surname_Student");
+                    DataSearchHelper.SearchData(ref dataGridViewStudents, searchText, "Surname_Student");
                     break;
                 case "tabPageParents":
-                    DataSearchHelper.SearchData(dataGridViewParents, searchText, "Surname_Parent");
+                    DataSearchHelper.SearchData(ref dataGridViewParents, searchText, "Surname_Parent");
                     break;
                 case "tabPageTeachers":
-                    DataSearchHelper.SearchData(dataGridViewTeachers, searchText, "Surname_Teacher");
+                    DataSearchHelper.SearchData(ref dataGridViewTeachers, searchText, "Surname_Teacher");
                     break;
                 case "tabPageSubjects":
-                    DataSearchHelper.SearchData(dataGridViewSubjects, searchText, "Name_Subject");
+                    DataSearchHelper.SearchData(ref dataGridViewSubjects, searchText, "Name_Subject");
                     break;
             }
         }
