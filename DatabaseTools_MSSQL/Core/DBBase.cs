@@ -38,10 +38,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					count = (int)command.ExecuteScalar();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						count = (int)command.ExecuteScalar();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -70,10 +70,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					count = (int)command.ExecuteScalar();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						count = (int)command.ExecuteScalar();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -102,52 +102,65 @@ namespace DatabaseTools_MSSQL
 				string sql1 = $"SELECT COL_NAME(fc.parent_object_id, fc.parent_column_id) AS 'Поле', OBJECT_NAME (f.referenced_object_id) AS 'Связанная таблица' FROM sys.foreign_keys AS f INNER JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id WHERE OBJECT_NAME(f.parent_object_id) = '{table}';";
 
 				DataTable dataForeignKeys = new DataTable();
-				dataForeignKeys.Clear();
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand commandForeignKeys = new SqlCommand(@sql1, sqlConnection);
-					SqlDataReader readerForeignKeys = commandForeignKeys.ExecuteReader();
-					dataForeignKeys.Load(readerForeignKeys);
-				
-					object[,] foreignKeys = new object[dataForeignKeys.Rows.Count, dataForeignKeys.Columns.Count]; //убрать тип object, оставить DataTable и передавить с таким типом дальше.
-					for (int i = 0; i < dataForeignKeys.Rows.Count; i++)
+					using (SqlCommand commandForeignKeys = new SqlCommand(@sql1, sqlConnection))
 					{
-						for (int j = 0; j < dataForeignKeys.Columns.Count; j++)
+						using (SqlDataReader readerForeignKeys = commandForeignKeys.ExecuteReader())
 						{
-							foreignKeys[i, j] = dataForeignKeys.Rows[i][j];
+							dataForeignKeys.Load(readerForeignKeys);
 						}
 					}
-					dataForeignKeys.Clear();
-
-					DataTable data = new DataTable();
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					SqlDataReader reader = command.ExecuteReader();
-					data.Load(reader);
-					result = new ColumnsNames[data.Columns.Count];
-					for (int i = 0; i < data.Columns.Count; i++)
-					{
-						result[i].Name = data.Columns[i].ColumnName;
-						result[i].LongName = table + "." + data.Columns[i].ColumnName;
-						if (i == 0)
-						{
-							result[i].Key = ColumnsNames.BDKeys.PK;
-						}
-
-						for (int j = 0; j < foreignKeys.GetLength(0); j++)
-						{
-							if (data.Columns[i].ColumnName == foreignKeys[j, 0].ToString())
-							{
-								result[i].Key = ColumnsNames.BDKeys.FK;
-								result[i].FkParent = foreignKeys[j, 1].ToString();
-							}
-						}
-					}
-					data.Clear();
-
 					sqlConnection.Close();
 				}
+
+				object[,] foreignKeys = new object[dataForeignKeys.Rows.Count, dataForeignKeys.Columns.Count]; //убрать тип object, оставить DataTable и передавить с таким типом дальше.
+				for (int i = 0; i < dataForeignKeys.Rows.Count; i++)
+				{
+					for (int j = 0; j < dataForeignKeys.Columns.Count; j++)
+					{
+						foreignKeys[i, j] = dataForeignKeys.Rows[i][j];
+					}
+				}
+				dataForeignKeys.Clear();
+
+				DataTable data = new DataTable();
+				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+				{
+					sqlConnection.Open();
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							data.Load(reader);
+						}
+					}
+					sqlConnection.Close();
+				}
+				
+				result = new ColumnsNames[data.Columns.Count];
+				for (int i = 0; i < data.Columns.Count; i++)
+				{
+					result[i].Name = data.Columns[i].ColumnName;
+					result[i].LongName = table + "." + data.Columns[i].ColumnName;
+					if (i == 0)
+					{
+						result[i].Key = ColumnsNames.BDKeys.PK;
+						continue;
+					}
+
+					for (int j = 0; j < foreignKeys.GetLength(0); j++)
+					{
+						if (data.Columns[i].ColumnName == foreignKeys[j, 0].ToString())
+						{
+							result[i].Key = ColumnsNames.BDKeys.FK;
+							result[i].FkParent = foreignKeys[j, 1].ToString();
+						}
+					}
+				}
+				data.Clear();
+
 			//}
 			//catch (Exception ex)
 			//{
@@ -177,26 +190,30 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					SqlDataReader reader = command.ExecuteReader();
-					data.Load(reader);
-					result = new string[data.Rows.Count];
-					for (int i = 0; i < data.Rows.Count; i++)
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
 					{
-						if (flag)
+						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							result[i] = database + "." + strUser + "." + data.Rows[i].ToString();
-						}
-						else
-						{
-							result[i] = data.Rows[i].ToString();
+							data.Load(reader);
 						}
 					}
-					data.Clear();
-
 					sqlConnection.Close();
 				}
+
+				result = new string[data.Rows.Count];
+				for (int i = 0; i < data.Rows.Count; i++)
+				{
+					if (flag)
+					{
+						result[i] = database + "." + strUser + "." + data.Rows[i].ToString();
+					}
+					else
+					{
+						result[i] = data.Rows[i].ToString();
+					}
+				}
+				data.Clear();
+				
 			//}
 			//catch (Exception ex)
 			//{
@@ -221,10 +238,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteScalar().ToString();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteScalar().ToString();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -251,10 +268,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteScalar().ToString();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteScalar().ToString();
+					}
 					sqlConnection.Close();
 				}
 			//}

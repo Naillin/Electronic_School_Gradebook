@@ -39,10 +39,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -69,10 +69,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteScalar();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteScalar();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -100,15 +100,16 @@ namespace DatabaseTools_MSSQL
 				//try
 				//{
 					DataTable data = new DataTable();
-					data.Clear();
 					using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 					{
 						sqlConnection.Open();
-
-						SqlCommand command = new SqlCommand(@sql, sqlConnection);
-						SqlDataReader reader = command.ExecuteReader();
-						data.Load(reader);
-
+						using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								data.Load(reader);
+							}
+						}
 						sqlConnection.Close();
 					}
 
@@ -148,7 +149,6 @@ namespace DatabaseTools_MSSQL
 		public DataTable executeSelectTableDT(string sql)
 		{
 			DataTable result = new DataTable();
-
 			if (sql.TrimStart().ToUpper().StartsWith("SELECT") || sql.TrimStart().ToUpper().StartsWith("EXECUTE"))
 			{
 				//try
@@ -157,11 +157,13 @@ namespace DatabaseTools_MSSQL
 					using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 					{
 						sqlConnection.Open();
-
-						SqlCommand command = new SqlCommand(@sql, sqlConnection);
-						SqlDataReader reader = command.ExecuteReader();
-						result.Load(reader);
-
+						using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								result.Load(reader);
+							}
+						}
 						sqlConnection.Close();
 					}
 				//}
@@ -195,19 +197,15 @@ namespace DatabaseTools_MSSQL
 				string[] tableNamesMassive = tableNames(database, true);
 				SqlDataAdapter[] adapterMass = new SqlDataAdapter[tableNamesMassive.Length];
 				result = new DataSet();
-
-				result.Clear();
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
 					for (int i = 0; i < tableNamesMassive.Length; i++)
 					{
 						string sql = $"SELECT * FROM {tableNamesMassive[i]}";
 						adapterMass[i] = new SqlDataAdapter(@sql, sqlConnection);
 						adapterMass[i].Fill(result, tableNamesMassive[i]);
 					}
-
 					sqlConnection.Close();
 				}
 			//}
@@ -244,10 +242,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -290,10 +288,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -309,7 +307,7 @@ namespace DatabaseTools_MSSQL
 		/// Выполнение запроса UPDATE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
-		/// <param name="value">Принимает массив значений для установки.</param>
+		/// <param name="value">Принимает массив значений для установки.  (Установит новые значения начиная с первого столбца.)</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public int executeUpdate(string table, string[] value, string conditions)
@@ -319,8 +317,8 @@ namespace DatabaseTools_MSSQL
 			//{
 				string strValues = string.Empty;
 				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
-				for (int i = 1; i <= value.Length; i++)
-				{
+				for (int i = 1; i <= value.Length; i++) // i = 1, так как 0 столбек это pk
+			{
 					strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
 				}
 				strValues = strValues.Remove(strValues.Length - 2);
@@ -329,10 +327,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -350,7 +348,7 @@ namespace DatabaseTools_MSSQL
 		/// Выполнение запроса UPDATE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
-		/// <param name="value">Принимает массив значений для установки.</param>
+		/// <param name="value">Принимает массив значений для установки. (Установит новые значения начиная с первого столбца.)</param>
 		/// <returns></returns>
 		public int executeUpdate(string table, string[] value)
 		{
@@ -358,9 +356,8 @@ namespace DatabaseTools_MSSQL
 			//try
 			//{
 				string strValues = string.Empty;
-
 				ColumnsNames[] columnsNamesMassive = columnsNames(table); // имена столбцов
-				for (int i = 1; i <= value.Length; i++)
+				for (int i = 1; i <= value.Length; i++) // i = 1, так как 0 столбек это pk
 				{
 					strValues = strValues + columnsNamesMassive[i].Name + " = " + value[i - 1] + ", ";
 				}
@@ -370,10 +367,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -409,10 +406,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -447,10 +444,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -479,10 +476,10 @@ namespace DatabaseTools_MSSQL
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					result = command.ExecuteNonQuery();
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						result = command.ExecuteNonQuery();
+					}
 					sqlConnection.Close();
 				}
 			//}
@@ -511,20 +508,20 @@ namespace DatabaseTools_MSSQL
 				string sql = $"select top (1) * from {table} where {column} = {value};";
 
 				DataTable data = new DataTable();
-				data.Clear();
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
-
-					SqlCommand command = new SqlCommand(@sql, sqlConnection);
-					SqlDataReader reader = command.ExecuteReader();
-					data.Load(reader);
-
+					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+					{
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							data.Load(reader);
+						}
+					}
 					sqlConnection.Close();
 				}
 
 				result = new object[data.Columns.Count];
-
 				for (int i = 0; i < data.Columns.Count; i++)
 				{
 					result[i] = data.Rows[0][i];

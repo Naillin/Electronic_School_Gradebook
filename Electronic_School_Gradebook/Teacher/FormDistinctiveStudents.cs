@@ -54,14 +54,20 @@ namespace Electronic_School_Gradebook
 			object[,] dataStudentsHigh = dBTools.executeSelectTable($"EXECUTE dbo.PerfectGradeStudents @ID_Class = {ID_Class}, @Сoefficient = 4.5;"); //поиск медалистов
 			string strStudentsHigh = string.Join(", ", dataStudentsHigh.Cast<int>().ToArray());
 			string[] fileds = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student" };
-			studentsHighRowConnect = dBFormsTools.FillDGVWithRowConnect(ref dataGridViewGoldMedalContenders, "Students", fileds, $"where ID_Student in ({strStudentsHigh})");
-
+			if (!string.IsNullOrEmpty(strStudentsHigh))
+			{
+				studentsHighRowConnect = dBFormsTools.FillDGVWithRowConnect(ref dataGridViewGoldMedalContenders, "Students", fileds, $"where ID_Student in ({strStudentsHigh})");
+			}
+			
 			//заполнение двоечниками
 			object[,] dataStudentsLow = dBTools.executeSelectTable($"EXECUTE dbo.LowGradeStudents @ID_Class = {ID_Class}, @ID_Subject = {ID_Subject}, @Coefficient = 3.0;"); //поиск неуспевающих
 			string strStudentsLow = string.Join(", ", dataStudentsLow.Cast<int>().ToArray());
 			//fileds = { "Name_Student", "Surname_Student", "Thirdname_Student", "Number_Student", "Address_Student", "Email_Student" };
-			studentsLowRowConnect = dBFormsTools.FillDGVWithRowConnect(ref dataGridViewPoorStudetns, "Students", fileds, $"where ID_Student in ({strStudentsLow})");
-
+			if (!string.IsNullOrEmpty(strStudentsLow))
+			{
+				studentsLowRowConnect = dBFormsTools.FillDGVWithRowConnect(ref dataGridViewPoorStudetns, "Students", fileds, $"where ID_Student in ({strStudentsLow})");
+			}
+			
 			foreach(DataGridViewRow row in dataGridViewPoorStudetns.Rows)
 			{
 				object[,] dataSubjectsLow = dBTools.executeSelectTable($"EXECUTE dbo.LowAverageGradeSubjects @ID_Student = {studentsLowRowConnect[row.Index].idDataBase}, @Coefficient = 3.0;"); //поиск предметов неуспевающих учеников
