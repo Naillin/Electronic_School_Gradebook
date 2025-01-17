@@ -195,7 +195,6 @@ namespace DatabaseTools_MSSQL
 			//try
 			//{
 				string[] tableNamesMassive = tableNames(database, true);
-				SqlDataAdapter[] adapterMass = new SqlDataAdapter[tableNamesMassive.Length];
 				result = new DataSet();
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
@@ -203,8 +202,10 @@ namespace DatabaseTools_MSSQL
 					for (int i = 0; i < tableNamesMassive.Length; i++)
 					{
 						string sql = $"SELECT * FROM {tableNamesMassive[i]}";
-						adapterMass[i] = new SqlDataAdapter(@sql, sqlConnection);
-						adapterMass[i].Fill(result, tableNamesMassive[i]);
+						using (SqlDataAdapter adapter = new SqlDataAdapter(sql, sqlConnection))
+						{
+							adapter.Fill(result, tableNamesMassive[i]);
+						}
 					}
 					sqlConnection.Close();
 				}
