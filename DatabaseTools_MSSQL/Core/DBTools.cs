@@ -473,7 +473,7 @@ namespace DatabaseTools_MSSQL
 			int result = -1;
 			//try
 			//{
-				string sql = $"delete {table} {conditions};";
+				string sql = $"delete from {table} {conditions};";
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
 				{
 					sqlConnection.Open();
