@@ -237,7 +237,9 @@ namespace DatabaseTools_MSSQL
 				}
 				columns = columns.Remove(columns.Length - 2);
 
-				string strValues = string.Join(", ", value);
+				// Экранируем каждое значение в массиве
+				string[] escapedValues = value.Select(v => "'" + v.Replace("'", "''") + "'").ToArray();
+				string strValues = string.Join(", ", escapedValues);
 				string sql = $"insert into {table} ({columns}) values ({strValues});";
 
 				using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
