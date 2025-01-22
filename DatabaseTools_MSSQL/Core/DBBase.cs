@@ -40,7 +40,8 @@ namespace DatabaseTools_MSSQL
 					sqlConnection.Open();
 					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
 					{
-						count = (int)command.ExecuteScalar();
+						object result = command.ExecuteScalar();
+						count = (result == DBNull.Value) ? 0 : Convert.ToInt32(result);
 					}
 					sqlConnection.Close();
 				}
@@ -72,7 +73,8 @@ namespace DatabaseTools_MSSQL
 					sqlConnection.Open();
 					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
 					{
-						count = (int)command.ExecuteScalar();
+						object result = command.ExecuteScalar();
+						count = (result == DBNull.Value) ? 0 : Convert.ToInt32(result);
 					}
 					sqlConnection.Close();
 				}

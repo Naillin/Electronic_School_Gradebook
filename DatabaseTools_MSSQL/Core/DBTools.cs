@@ -71,7 +71,8 @@ namespace DatabaseTools_MSSQL
 					sqlConnection.Open();
 					using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
 					{
-						result = command.ExecuteScalar();
+						object resultBuffer = command.ExecuteScalar();
+						result = (resultBuffer == DBNull.Value) ? null : resultBuffer;
 					}
 					sqlConnection.Close();
 				}
@@ -119,7 +120,7 @@ namespace DatabaseTools_MSSQL
 					{
 						for (int j = 0; j < data.Columns.Count; j++)
 						{
-							result[i, j] = data.Rows[i][j];
+							result[i, j] = (data.Rows[i][j] == DBNull.Value) ? null : data.Rows[i][j];
 						}
 					}
 					data.Clear();
