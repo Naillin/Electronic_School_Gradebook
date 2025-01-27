@@ -469,6 +469,37 @@ namespace DatabaseTools_MSSQL
 		/// Выполнение запроса DELETE для заданной таблицы с указанными данными.
 		/// </summary>
 		/// <param name="table">Целевая таблица.</param>
+		/// <returns></returns>
+		public int executeDelete(string table)
+		{
+			int result = -1;
+			//try
+			//{
+			string sql = $"delete from {table};";
+			using (SqlConnection sqlConnection = new SqlConnection(connectionStringReceiver))
+			{
+				sqlConnection.Open();
+				using (SqlCommand command = new SqlCommand(@sql, sqlConnection))
+				{
+					result = command.ExecuteNonQuery();
+				}
+				sqlConnection.Close();
+			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	//искуственное исключение
+			//	ConsoleHandler consoleHandler = new ConsoleHandler();
+			//	MessageBox.Show(ex.Message, "Warning!");
+			//}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Выполнение запроса DELETE для заданной таблицы с указанными данными.
+		/// </summary>
+		/// <param name="table">Целевая таблица.</param>
 		/// <param name="conditions">Условия выполнения запроса (обычно начинается с where или join).</param>
 		/// <returns></returns>
 		public int executeDelete(string table, string conditions)
